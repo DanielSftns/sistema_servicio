@@ -5,12 +5,15 @@ import {
   Box
 } from '@chakra-ui/react'
 
-const Header = () => {
+const LandingHeader = () => {
   return (
     <Flex
       py={2}
       justifyContent='space-between'
       alignItems='center'
+      w='100%'
+      maxW={1024}
+      m="auto"
     >
       <Box fontWeight="700" fontSize="2xl">
         <Link to="/">SERVICIO</Link>
@@ -20,11 +23,11 @@ const Header = () => {
           <Link to="/login">Iniciar Sesion</Link>
         </Box>
         <Box>
-          <Link to="registro">Registrarse</Link>
+          <Link to="/registro">Registrarse</Link>
         </Box>
       </Flex>
     </Flex>
   );
 }
  
-export default Header;
+export default LandingHeader;

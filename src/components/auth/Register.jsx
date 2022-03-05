@@ -1,8 +1,9 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
 import Field from '../shared/CustomFieldFormik'
+import FormControl from '../shared/FormControl'
+
 import {
-  FormControl,
   FormLabel,
   Button,
   Flex,
@@ -29,22 +30,36 @@ const Register = () => {
               password: '',
               password2: ''
             }}
+            validate={(values)=>{
+              let errors = {}
+              if(!values.email){
+                errors.email = 'Ingrese un correo'
+              }
+
+              if(!values.password){
+                errors.password = 'Ingrese una contraseña'
+              }else if(values.password !== values.password2){
+                errors.password2 = 'Contraseña no coincide'
+              }
+
+              return errors
+            }}
           >
             <Form>
-              <FormControl>
+              <FormControl errorProp='email'>
                 <FormLabel htmlFor='email'>Correo</FormLabel>
-                <Field name='email' type='email' />
+                <Field name='emails' type='email' />
               </FormControl>
-              <FormControl>
+              <FormControl errorProp='password'>
                 <FormLabel htmlFor='email'>Contraseña</FormLabel>
                 <Field name='password' type='password' />
               </FormControl>
-              <FormControl mb={8}>
+              <FormControl errorProp='password2'>
                 <FormLabel htmlFor='email'>Repetir contraseña</FormLabel>
                 <Field name='password2' type='password' />
               </FormControl>
 
-              <Button w='100%' colorScheme='blue' size='lg' type='submit'>Crear cuenta</Button>
+              <Button w='100%' size='lg' type='submit'>Crear cuenta</Button>
             </Form>
           </Formik>
         </Box>
@@ -52,5 +67,5 @@ const Register = () => {
     </>
   );
 }
- 
+
 export default Register;

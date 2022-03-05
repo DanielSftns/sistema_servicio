@@ -7,25 +7,27 @@ import {
 
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
-import PanelEstudiante from './components/estudiante/PanelEstudiante';
 
-import {
-  Box
-} from '@chakra-ui/react'
+import { Container } from '@chakra-ui/react'
 import LandingScreen from './components/landing/LandingScreen';
+import EstudianteScreen from './components/estudiante/EstudianteScreen';
+import EstudiantePerfil from './components/estudiante/EstudiantePerfil';
 
 
 function App() {
   return (
     <BrowserRouter>
-      <Box maxW={1024} m="auto">
+      <Container maxW='container.xl'>
         <Routes>
           <Route path='/login' element={<Login />} />
           <Route path='/registro' element={<Register />} />
-          <Route path='/estudiante' element={<PanelEstudiante />} />
+          <Route path='/estudiante' element={<EstudianteScreen />}>
+            <Route path='proyecto' element={<h1>Proyecto</h1>} />
+            <Route path='perfil' element={<EstudiantePerfil />} />
+          </Route>
           <Route path='/' element={<LandingScreen /> } />
         </Routes>
-      </Box>
+      </Container>
     </BrowserRouter>
   );
 }

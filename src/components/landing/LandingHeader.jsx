@@ -12,8 +12,6 @@ const LandingHeader = () => {
       justifyContent='space-between'
       alignItems='center'
       w='100%'
-      maxW={1024}
-      m="auto"
     >
       <Box fontWeight="700" fontSize="2xl">
         <Link to="/">SERVICIO</Link>

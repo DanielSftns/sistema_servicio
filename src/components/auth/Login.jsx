@@ -1,10 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../../services/auth.service';
-import { Formik, Form } from 'formik';
+import { Formik, Form  } from 'formik';
 import Field from '../shared/CustomFieldFormik'
+import FormControl from '../shared/FormControl'
+
 import {
-  FormControl,
   FormLabel,
   Button,
   Flex,
@@ -19,7 +20,7 @@ const Login = () => {
   const handleLogin = (values)=>{
     const { email, passsword } = values
     login(email, passsword)
-    navigate('/estudiante')
+    navigate('/estudiante/perfil')
   }
 
   return (
@@ -38,19 +39,27 @@ const Login = () => {
               email: '',
               password: ''
             }}
+            validate={(values)=>{
+              let errors = {}
+              if(!values.email){
+                errors.email = 'Ingrese un correo'
+              }
+
+              return errors
+            }}
             onSubmit={handleLogin}
           >
             <Form>
-              <FormControl>
+              <FormControl errorProp='email'>
                 <FormLabel htmlFor='email'>Correo</FormLabel>
                 <Field name='email' type='email' />
               </FormControl>
-              <FormControl mb={8}>
+              <FormControl>
                 <FormLabel htmlFor='email'>Contraseña</FormLabel>
                 <Field name='password' type='password' />
               </FormControl>
 
-              <Button w='100%' colorScheme='blue' size='lg' type='submit'>Entrar</Button>
+              <Button w='100%' size='lg' type='submit'>Entrar</Button>
             </Form>
           </Formik>
         </Box>

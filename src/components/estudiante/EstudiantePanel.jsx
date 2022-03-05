@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import CompletarRegistro from './CompletarRegistro';
+import EstudianteCompletarRegistro from './EstudianteCompletarRegistro';
 
-const PanelEstudiante = () => {
+const EstudiantePanel = () => {
   const [email, setEmail] = useState()
   const [registroCompleto, setRegistroCompleto] = useState(false)
   const user = JSON.parse(localStorage.getItem('userSer'))
@@ -20,10 +20,10 @@ const PanelEstudiante = () => {
           <h5>{user.nombres}</h5>
           <h5>{user.cedula}</h5>
         </>
-        : <CompletarRegistro setRegistroCompleto={setRegistroCompleto} />
+        : <EstudianteCompletarRegistro setRegistroCompleto={setRegistroCompleto} />
       }
     </>
   );
 }
  
-export default PanelEstudiante;
+export default EstudiantePanel;

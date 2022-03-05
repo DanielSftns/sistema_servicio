@@ -16,13 +16,15 @@ import {
 } from '@chakra-ui/react'
 
 import { AddIcon } from '@chakra-ui/icons'
+import { useNavigate } from 'react-router-dom';
 
 const CompletarRegistro = () => {
   const inputFile = useRef()
-
+  const navigate = useNavigate()
   const handleSave = (data) =>{
     console.log('data', data)
     // completeRegister(data)
+    navigate('/estudiante')
   }
 
   return (

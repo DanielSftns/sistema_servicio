@@ -1,8 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link as ReachLink } from 'react-router-dom';
 import {
   Flex,
-  Box
+  Box,
+  Link
 } from '@chakra-ui/react'
 
 const LandingHeader = () => {
@@ -12,16 +13,17 @@ const LandingHeader = () => {
       justifyContent='space-between'
       alignItems='center'
       w='100%'
+      fontWeight='600'
     >
       <Box fontWeight="700" fontSize="2xl">
         <Link to="/">SERVICIO</Link>
       </Box>
       <Flex gap={2} >
         <Box>
-          <Link to="/login">Iniciar Sesion</Link>
+          <Link as={ReachLink} to="/login">Iniciar Sesion</Link>
         </Box>
         <Box>
-          <Link to="/registro">Registrarse</Link>
+          <Link as={ReachLink} to="/registro">Registrarse</Link>
         </Box>
       </Flex>
     </Flex>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../../services/auth.service';
 import { Formik, Form  } from 'formik';
@@ -10,17 +10,36 @@ import {
   Button,
   Flex,
   Box,
-  Heading
+  Heading,
+  useToast
 } from '@chakra-ui/react'
 import LandingHeader from '../landing/LandingHeader';
 
 const Login = () => {
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(false)
+  const toast = useToast()
+
 
   const handleLogin = (values)=>{
-    const { email, passsword } = values
-    login(email, passsword)
-    navigate('/estudiante/perfil')
+    setLoading(true)
+    login(values)
+    .then((res)=> {
+      console.info(res)
+      navigate('/estudiante/perfil')
+      toast({
+        title: 'Bienvenido',
+        description: res.email,
+        status: 'success',
+        position: 'top-right',
+        duration: 5000,
+        isClosable: true,
+      })
+    }).catch(error => {
+      console.error(error.messaje)
+    }).finally(()=>{
+      setLoading(false)
+    })
   }
 
   return (
@@ -59,7 +78,7 @@ const Login = () => {
                 <Field name='password' type='password' />
               </FormControl>
 
-              <Button w='100%' size='lg' type='submit'>Entrar</Button>
+              <Button disabled={loading} w='100%' size='lg' type='submit'>Entrar</Button>
             </Form>
           </Formik>
         </Box>

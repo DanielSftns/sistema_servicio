@@ -4,16 +4,18 @@ import EstudianteCompletarRegistro from './EstudianteCompletarRegistro';
 import {
   Heading
 } from '@chakra-ui/react'
+import { useAuth } from '../../contexts/AuthContext';
 
 const EstudiantePerfil = () => {
-  const registroCompleto = false
+  const { usuario } = useAuth()
+  const perfil_completo = usuario?.perfil_completo
 
   return (
     <>
       <Heading size='md' mb={8}>Perfil</Heading>
 
       {
-        registroCompleto
+        perfil_completo
         ? <h2>(registro completo) Informacion del perfil</h2>
         : <EstudianteCompletarRegistro />
       }

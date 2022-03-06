@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form } from 'formik';
 import Field from '../shared/CustomFieldFormik'
 import FormControl from '../shared/FormControl'
@@ -8,11 +8,40 @@ import {
   Button,
   Flex,
   Box,
-  Heading
+  Heading,
+  useToast
 } from '@chakra-ui/react'
 import LandingHeader from '../landing/LandingHeader';
+import { register, login } from '../../services/auth.service';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
+  const toast = useToast()
+
+  const handleRegister = (data)=> {  
+    setLoading(true)
+    register(data)
+    .then(async res => {
+      console.info(res)
+      await login(data)
+      navigate('/estudiante/perfil')
+    }).catch(error => {
+      console.error(error.message)
+      toast({
+        title: 'Error',
+        description: error.message,
+        status: 'error',
+        position: 'top-right',
+        duration: 5000,
+        isClosable: true,
+      })
+    }).finally(()=>{
+      setLoading(false)
+    })
+  }
+
   return (
     <>
       <LandingHeader />
@@ -44,11 +73,12 @@ const Register = () => {
 
               return errors
             }}
+            onSubmit={handleRegister}
           >
             <Form>
               <FormControl errorProp='email'>
                 <FormLabel htmlFor='email'>Correo</FormLabel>
-                <Field name='emails' type='email' />
+                <Field name='email' type='email' />
               </FormControl>
               <FormControl errorProp='password'>
                 <FormLabel htmlFor='email'>Contraseña</FormLabel>
@@ -59,7 +89,7 @@ const Register = () => {
                 <Field name='password2' type='password' />
               </FormControl>
 
-              <Button w='100%' size='lg' type='submit'>Crear cuenta</Button>
+              <Button disabled={loading} w='100%' size='lg' type='submit'>Crear cuenta</Button>
             </Form>
           </Formik>
         </Box>

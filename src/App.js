@@ -13,24 +13,28 @@ import LandingScreen from './components/landing/LandingScreen';
 import EstudianteScreen from './components/estudiante/EstudianteScreen';
 import EstudiantePerfil from './components/estudiante/EstudiantePerfil';
 import EstudianteSeccion from './components/estudiante/EstudianteSeccion';
-
+import { AuthProvider } from './contexts/AuthContext'
 
 function App() {
   return (
-    <BrowserRouter>
-      <Container maxW='container.xl'>
-        <Routes>
-          <Route path='/login' element={<Login />} />
-          <Route path='/registro' element={<Register />} />
-          <Route path='/estudiante' element={<EstudianteScreen />}>
-            <Route path='proyecto' element={<h1>Proyecto</h1>} />
-            <Route path='perfil' element={<EstudiantePerfil />} />
-            <Route index element={<EstudianteSeccion />} />
-          </Route>
-          <Route path='/' element={<LandingScreen /> } />
-        </Routes>
-      </Container>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Container maxW='container.xl'>
+          <Routes>
+            <Route path='/' element={<LandingScreen /> } />
+            <Route path='/login' element={<Login />} />
+            <Route path='/registro' element={<Register />} />
+            
+              <Route path='/estudiante' element={<EstudianteScreen />}>
+                <Route path='proyecto' element={<h1>Proyecto</h1>} />
+                <Route path='perfil' element={<EstudiantePerfil />} />
+                <Route index element={<EstudianteSeccion />} />
+              </Route>
+
+          </Routes>
+        </Container>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

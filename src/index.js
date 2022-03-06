@@ -12,6 +12,9 @@ const customTheme = extendTheme({
         ':nth-last-of-type(1)': {
           mb: 12
         }
+      },
+      '#chakra-toast-manager-top-right': {
+        transform: 'translateY(60px)'
       }
     }
   },

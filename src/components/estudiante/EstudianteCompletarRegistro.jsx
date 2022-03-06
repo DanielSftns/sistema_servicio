@@ -1,8 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Formik, Form  } from 'formik';
 import Field from '../shared/CustomFieldFormik'
 import FormControl from '../shared/FormControl'
-// import { completeRegister } from '../../services/estudiante.service';
+import { editProfile } from '../../services/estudiante.service';
 
 import {
   Heading,
@@ -12,7 +12,8 @@ import {
   RadioGroup,
   Stack,
   Radio,
-  Grid
+  Grid,
+  useToast
 } from '@chakra-ui/react'
 
 import { AddIcon } from '@chakra-ui/icons'
@@ -21,10 +22,33 @@ import { useNavigate } from 'react-router-dom';
 const CompletarRegistro = () => {
   const inputFile = useRef()
   const navigate = useNavigate()
+  const [loading, setLoading] = useState()
+  const toast = useToast()
+
   const handleSave = (data) =>{
     console.log('data', data)
-    // completeRegister(data)
-    navigate('/estudiante')
+    setLoading(true)
+    const reader = new FileReader()
+    reader.readAsDataURL(data.foto)
+    reader.onload = () => {
+      const foto = reader.result
+      editProfile({...data, foto})
+      .then(res => {
+        console.info('Perfil completado', res)
+        navigate('/estudiante')
+      }).catch(error => {
+        toast({
+          title: 'Error',
+          description: error.message,
+          status: 'error',
+          position: 'top-right',
+          duration: 5000,
+          isClosable: true,
+        })
+      }).finally(()=> {
+        setLoading(false)
+      })
+    }
   }
 
   return (
@@ -111,7 +135,7 @@ const CompletarRegistro = () => {
               <Field name='telefono' type="text" />
             </FormControl>
 
-            <Button w='100%' size='lg' type='submit'>Guardar</Button>
+            <Button disabled={loading} w='100%' size='lg' type='submit'>Guardar</Button>
           </Form>
         )}
       </Formik>

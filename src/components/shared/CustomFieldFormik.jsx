@@ -26,7 +26,7 @@ const Field = (props) => {
     const newProps = {...props, type: show? 'text' : 'password'}
     return <Box position='relative'>
       <Input boxShadow='sm' {...newProps} {...field} />
-      <button className='input-button-show-password' type='button' onClick={()=> setShow(!show)}>
+      <button tabIndex="-1" className='input-button-show-password' type='button' onClick={()=> setShow(!show)}>
         {
           show
           ? <ViewOffIcon />

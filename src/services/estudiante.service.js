@@ -7,10 +7,7 @@ const editProfile = async (data) => {
     if(res.data.error){
       throw new Error(res.data.message)
     }
-    const user = JSON.parse(localStorage.getItem('usuario'))
-    user.perfil_completo = true
-  
-    localStorage.setItem('usuario', JSON.stringify(user))
+    
     return res.data
   } catch (error) {
     console.error(error)

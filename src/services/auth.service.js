@@ -1,5 +1,5 @@
 import API from './API'
-// import authHeader from './auth-header'
+import authHeader from './auth-header'
 
 const login = async ({email, password}) => {
   try {
@@ -15,7 +15,14 @@ const login = async ({email, password}) => {
     return res.data
   } catch (error) {
     console.error(error)
-    throw new Error(error.message)
+    let message = 'Error iniciando sesión'
+    if (error.response && error.response.status === 400) {
+      message = error.response.data.message || error.response.data
+    } else if (!error.response) {
+      message = error.message
+    }
+
+    throw new Error(message)
   }
 }
 
@@ -65,8 +72,24 @@ const getUser = async () => {
   // }
 }
 
+const logout = async ()=> {
+  try {
+    const res = await API.post('logout', {}, { headers: authHeader() })
+
+    if(res.data.error){
+      throw new Error(res.data.message)
+    }
+  
+    localStorage.removeItem('usuario')
+    return res.data
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 export {
   login,
   register,
-  getUser
+  getUser,
+  logout
 }

@@ -14,32 +14,39 @@ const EstudianteSeccion = () => {
   const [loading, setLoading] = useState(true)
 
   useEffect(()=>{
-    setTimeout(()=>{
-      // setSeccion(null)
-      // return
-      setSeccion({
-        number: 6,
-        facilitador: 'Prof Perez',
-        estudiantes: ['Pepe Perez', 'Juan Perez', 'Maria Perez', 'Jose Perez'],
-        horario: {
-          lunes: '8am - 10am',
-          jueves: '9am - 9:45am'
-        },
-        recursos: [
-          {
-            title: 'Guia 1',
-            type: 'file',
-            recurso: 'FILE'
+    let timer
+    const get =()=> {
+      timer = setTimeout(()=>{
+        // setSeccion(null)
+        // return
+        setSeccion({
+          number: 6,
+          facilitador: 'Prof Perez',
+          estudiantes: ['Pepe Perez', 'Juan Perez', 'Maria Perez', 'Jose Perez'],
+          horario: {
+            lunes: '8am - 10am',
+            jueves: '9am - 9:45am'
           },
-          {
-            title: 'Forma 2',
-            type: 'link',
-            recurso: 'url/file'
-          }
-        ]
-      })
-      setLoading(false)
-    }, 1000)
+          recursos: [
+            {
+              title: 'Guia 1',
+              type: 'file',
+              recurso: 'FILE'
+            },
+            {
+              title: 'Forma 2',
+              type: 'link',
+              recurso: 'url/file'
+            }
+          ]
+        })
+        setLoading(false)
+      }, 1000)
+    }
+
+    get()
+
+    return ()=> clearTimeout(timer)
   }, [])
 
   if(loading) return <p>Loading</p>

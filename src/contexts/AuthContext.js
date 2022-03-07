@@ -10,7 +10,11 @@ const AuthProvider = ({children}) => {
     const [usuario, setUsuario] = useState()
     const [loading, setLoading] = useState(true)
     
-    const usuarioLocal = localStorage.getItem('usuario')
+    useEffect(()=>{
+        if(usuario?.token){
+            localStorage.setItem('usuario', JSON.stringify(usuario))
+        }
+    }, [usuario])
 
     useEffect(()=> {
         const fetchGetUser = async ()=> {
@@ -20,10 +24,10 @@ const AuthProvider = ({children}) => {
         }
 
         fetchGetUser()
-    },[usuarioLocal])
+    },[])
 
     return (
-        <AuthContext.Provider value={{usuario: usuario}}>
+        <AuthContext.Provider value={{usuario, setUsuario}}>
             {!loading && children}
         </AuthContext.Provider>
     );

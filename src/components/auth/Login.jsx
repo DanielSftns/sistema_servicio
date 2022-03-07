@@ -26,7 +26,17 @@ const Login = () => {
     login(values)
     .then((res)=> {
       console.info(res)
-      navigate('/estudiante/perfil')
+      let nextPage
+      switch(res.rol_name){
+        case 'estudiante': {
+          nextPage = res.perfil_completo ? '/estudiante' : '/estudiante/perfil'
+          break
+        }
+
+        default: {
+          nextPage = '/estudiante'
+        }
+      }
       toast({
         title: 'Bienvenido',
         description: res.email,
@@ -35,8 +45,18 @@ const Login = () => {
         duration: 5000,
         isClosable: true,
       })
+      
+      navigate(nextPage)
     }).catch(error => {
-      console.error(error.messaje)
+      console.error(error.message)
+      toast({
+        title: 'Error',
+        description: error.message,
+        status: 'error',
+        position: 'top-right',
+        duration: 5000,
+        isClosable: true,
+      })
     }).finally(()=>{
       setLoading(false)
     })
@@ -63,6 +83,9 @@ const Login = () => {
               if(!values.email){
                 errors.email = 'Ingrese un correo'
               }
+              if(!values.password){
+                errors.password = 'Ingrese su contraseña'
+              }
 
               return errors
             }}
@@ -73,8 +96,8 @@ const Login = () => {
                 <FormLabel htmlFor='email'>Correo</FormLabel>
                 <Field name='email' type='email' />
               </FormControl>
-              <FormControl>
-                <FormLabel htmlFor='email'>Contraseña</FormLabel>
+              <FormControl errorProp='password'>
+                <FormLabel htmlFor='password'>Contraseña</FormLabel>
                 <Field name='password' type='password' />
               </FormControl>
 

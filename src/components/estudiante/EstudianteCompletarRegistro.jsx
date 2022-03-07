@@ -18,37 +18,46 @@ import {
 
 import { AddIcon } from '@chakra-ui/icons'
 import { useNavigate } from 'react-router-dom';
+import getBase64 from '../../functions/getBase64';
+import { useAuth } from '../../contexts/AuthContext';
 
 const CompletarRegistro = () => {
   const inputFile = useRef()
   const navigate = useNavigate()
   const [loading, setLoading] = useState()
   const toast = useToast()
+  const { usuario, setUsuario } = useAuth()
 
-  const handleSave = (data) =>{
+  const handleSave = async (data) =>{
     console.log('data', data)
     setLoading(true)
-    const reader = new FileReader()
-    reader.readAsDataURL(data.foto)
-    reader.onload = () => {
-      const foto = reader.result
-      editProfile({...data, foto})
-      .then(res => {
-        console.info('Perfil completado', res)
-        navigate('/estudiante')
-      }).catch(error => {
-        toast({
-          title: 'Error',
-          description: error.message,
-          status: 'error',
-          position: 'top-right',
-          duration: 5000,
-          isClosable: true,
-        })
-      }).finally(()=> {
-        setLoading(false)
+    const fotoBase64 = await getBase64(data.foto)
+    
+    editProfile({...data, foto: fotoBase64})
+    .then(res => {
+      console.info('Perfil completado', res)
+      setUsuario({...usuario, perfil_completo: true})
+      toast({
+        title: 'Exito',
+        description: 'Registro completado',
+        status: 'success',
+        position: 'top-right',
+        duration: 5000,
+        isClosable: true,
       })
-    }
+      navigate('/estudiante')
+    }).catch(error => {
+      toast({
+        title: 'Error',
+        description: error.message,
+        status: 'error',
+        position: 'top-right',
+        duration: 5000,
+        isClosable: true,
+      })
+    }).finally(()=> {
+      setLoading(false)
+    })
   }
 
   return (

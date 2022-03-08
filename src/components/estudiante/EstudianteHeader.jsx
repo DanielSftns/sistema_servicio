@@ -23,7 +23,7 @@ const EstudianteHeader = () => {
       duration: 5000,
       isClosable: true,
     })
-    navigate('/')
+    navigate('/login')
   }
 
   return (

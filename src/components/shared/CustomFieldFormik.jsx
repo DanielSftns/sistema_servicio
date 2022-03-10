@@ -14,7 +14,7 @@ const Field = (props) => {
   const [show, setShow] = useState(false)
   if (props.component === 'select'){
     return (
-      <Select boxShadow='sm' {...props} {...field} >
+      <Select textTransform='capitalize' boxShadow='sm' {...props} {...field} >
         {props.children}
       </Select>
     )

@@ -55,7 +55,6 @@ const CompletarRegistro = () => {
         duration: 5000,
         isClosable: true,
       })
-    }).finally(()=> {
       setLoading(false)
     })
   }
@@ -68,7 +67,7 @@ const CompletarRegistro = () => {
           nombres: '',
           apellidos: '',
           cedula: '',
-          especialidad: '',
+          especialidad: 'E8',
           telefono: '',
           sexo: '',
           direccion: '',
@@ -133,7 +132,16 @@ const CompletarRegistro = () => {
             </FormControl>
             <FormControl>
               <FormLabel htmlFor='especialidad'>Especialidad</FormLabel>
-              <Field name='especialidad' type="text" />
+              <Field name='especialidad' component='select'>
+                <option value='E8'>ingeniería de sistemas</option>
+                <option value='E7'>ingeniería de petróleo</option>
+                <option value='E6'>licenciado en gerencia de recursos humanos</option>
+                <option value='E5'>licenciado en administración</option>
+                <option value='E4'>licenciado en contaduría pública</option>
+                <option value='E3'>ingeniería de producción animal</option>
+                <option value='E2'>ingeniería agronómica</option>
+                <option value='E1'>licenciado en tecnología de los alimentos</option>
+              </Field>
             </FormControl>
             <FormControl>
               <FormLabel htmlFor='direccion'>Direccion</FormLabel>

@@ -21,6 +21,27 @@ const editProfile = async (data) => {
   }
 }
 
+const getProfile = async () => {
+  try {
+    const res = await API.get('perfil', { headers: authHeader() })
+    if(res.data.error){
+      throw new Error(res.data.message)
+    }
+    
+    return res.data.data
+  } catch (error) {
+    console.error(error)
+    let message = 'No se ha podido obtener el perfil'
+    if (error.response && error.response.status === 400) {
+      message = error.response.data.message || error.response.data
+    } else if (!error.response) {
+      message = error.message
+    }
+    throw new Error(message)
+  }
+}
+
 export {
-  editProfile
+  editProfile,
+  getProfile
 }

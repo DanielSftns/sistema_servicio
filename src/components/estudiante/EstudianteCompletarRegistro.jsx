@@ -147,7 +147,7 @@ const CompletarRegistro = () => {
               <FormLabel htmlFor='direccion'>Direccion</FormLabel>
               <Field name='direccion' type="text" />
             </FormControl>
-            <FormControl mb={12}>
+            <FormControl>
               <FormLabel htmlFor='telefono'>Telefono</FormLabel>
               <Field name='telefono' type="text" />
             </FormControl>

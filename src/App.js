@@ -19,7 +19,7 @@ function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <Container maxW='container.xl'>
+        <Container maxW='container.xl' pb={12}>
           <Routes>
             <Route path='/' element={<LandingScreen /> } />
             <Route path='/login' element={<Login />} />

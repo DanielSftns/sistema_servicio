@@ -14,6 +14,8 @@ import EstudianteScreen from './components/estudiante/EstudianteScreen';
 import EstudiantePerfil from './components/estudiante/EstudiantePerfil';
 import EstudianteSeccion from './components/estudiante/EstudianteSeccion';
 import { AuthProvider } from './contexts/AuthContext'
+import FacilitadorScreen from './components/facilitador/FacilitadorScreen';
+import FacilitadorSeccion from './components/facilitador/FacilitadorSeccion';
 
 function App() {
   return (
@@ -29,6 +31,10 @@ function App() {
                 <Route path='proyecto' element={<h1>Proyecto</h1>} />
                 <Route path='perfil' element={<EstudiantePerfil />} />
                 <Route index element={<EstudianteSeccion />} />
+              </Route>
+
+              <Route path='/facilitador' element={<FacilitadorScreen />}>
+                <Route index element={<FacilitadorSeccion />} />
               </Route>
 
           </Routes>

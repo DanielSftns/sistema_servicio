@@ -17,6 +17,7 @@ import { Formik, Form  } from 'formik';
 import Field from '../shared/CustomFieldFormik'
 import FormControl from '../shared/FormControl'
 import getBase64 from '../../functions/getBase64';
+import { errorToast, successToast } from '../../functions/toast';
 
 const EstudiantePerfil = () => {
   const { usuario } = useAuth()
@@ -48,22 +49,12 @@ const EstudiantePerfil = () => {
     
     editProfile(data)
     .then(() => {
-      toast({
-        title: 'Exito',
+      successToast({
         description: 'Perfil actualizado',
-        status: 'success',
-        position: 'top-right',
-        duration: 5000,
-        isClosable: true,
       })
     }).catch(error => {
-      toast({
-        title: 'Error',
+      errorToast({
         description: error.message,
-        status: 'error',
-        position: 'top-right',
-        duration: 5000,
-        isClosable: true,
       })
     }).finally(()=>{
       setLoading(false)

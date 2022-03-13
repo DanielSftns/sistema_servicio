@@ -10,16 +10,14 @@ import {
   Button,
   Flex,
   Box,
-  Heading,
-  useToast
+  Heading
 } from '@chakra-ui/react'
 import LandingHeader from '../landing/LandingHeader';
+import { errorToast, successToast } from '../../functions/toast';
 
 const Login = () => {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
-  const toast = useToast()
-
 
   const handleLogin = (values)=>{
     setLoading(true)
@@ -37,25 +35,16 @@ const Login = () => {
           nextPage = '/estudiante'
         }
       }
-      toast({
+      successToast({
         title: 'Bienvenido',
-        description: res.email,
-        status: 'success',
-        position: 'top-right',
-        duration: 5000,
-        isClosable: true,
+        description: res.email
       })
       
       navigate(nextPage)
     }).catch(error => {
       console.error(error.message)
-      toast({
-        title: 'Error',
+      errorToast({
         description: error.message,
-        status: 'error',
-        position: 'top-right',
-        duration: 5000,
-        isClosable: true,
       })
     }).finally(()=>{
       setLoading(false)
@@ -92,11 +81,11 @@ const Login = () => {
             onSubmit={handleLogin}
           >
             <Form>
-              <FormControl errorProp='email'>
+              <FormControl errorprop='email'>
                 <FormLabel htmlFor='email'>Correo</FormLabel>
                 <Field name='email' type='email' />
               </FormControl>
-              <FormControl errorProp='password'>
+              <FormControl errorprop='password'>
                 <FormLabel htmlFor='password'>Contraseña</FormLabel>
                 <Field name='password' type='password' />
               </FormControl>

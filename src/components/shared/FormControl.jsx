@@ -6,9 +6,9 @@ const FormControl = (props)=>{
   const { errors, touched } = useFormikContext()
 
   return (
-    <ChakraFormControl isInvalid={errors[props.errorProp] && touched[props.errorProp]} {...props}>
+    <ChakraFormControl isInvalid={errors[props.errorprop] && touched[props.errorprop]} {...props}>
       {props.children}
-      <ErrorMessage name={props.errorProp} component={FormErrorMessage} />
+      <ErrorMessage name={props.errorprop} component={FormErrorMessage} />
     </ChakraFormControl>
   )
 }

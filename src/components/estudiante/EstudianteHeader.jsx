@@ -5,23 +5,18 @@ import {
   Box,
   Button,
   Link,
-  useToast,
 } from '@chakra-ui/react'
 import { ArrowForwardIcon, BellIcon } from '@chakra-ui/icons'
 import { logout } from '../../services/auth.service';
+import { successToast } from '../../functions/toast';
 
 const EstudianteHeader = () => {
   const navigate = useNavigate()
-  const toast = useToast()
 
   const handleLogout = ()=> {
     logout()
-    toast({
-      title: 'Sesión cerrada',
-      status: 'success',
-      position: 'top-right',
-      duration: 5000,
-      isClosable: true,
+    successToast({
+      title: 'Sesión cerrada'
     })
     navigate('/login')
   }

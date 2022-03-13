@@ -13,19 +13,18 @@ import {
   Stack,
   Radio,
   Grid,
-  useToast
 } from '@chakra-ui/react'
 
 import { AddIcon } from '@chakra-ui/icons'
 import { useNavigate } from 'react-router-dom';
 import getBase64 from '../../functions/getBase64';
 import { useAuth } from '../../contexts/AuthContext';
+import { errorToast, successToast } from '../../functions/toast';
 
 const CompletarRegistro = () => {
   const inputFile = useRef()
   const navigate = useNavigate()
   const [loading, setLoading] = useState()
-  const toast = useToast()
   const { usuario, setUsuario } = useAuth()
 
   const handleSave = async (data) =>{
@@ -37,23 +36,14 @@ const CompletarRegistro = () => {
     .then(res => {
       console.info('Perfil completado', res)
       setUsuario({...usuario, perfil_completo: true})
-      toast({
-        title: 'Exito',
-        description: 'Registro completado',
-        status: 'success',
-        position: 'top-right',
-        duration: 5000,
-        isClosable: true,
+      successToast({
+        description: 'Registro completado'
       })
+
       navigate('/estudiante')
     }).catch(error => {
-      toast({
-        title: 'Error',
+      errorToast({
         description: error.message,
-        status: 'error',
-        position: 'top-right',
-        duration: 5000,
-        isClosable: true,
       })
       setLoading(false)
     })
@@ -93,7 +83,7 @@ const CompletarRegistro = () => {
         {({ values, setFieldValue })=>(
           <Form>
             <Grid templateColumns='repeat(2, 1fr)' gap={6}>
-              <FormControl errorProp='foto'>
+              <FormControl errorprop='foto'>
                 <FormLabel htmlFor='foto'>Foto</FormLabel>
                 <Button onClick={()=> inputFile.current.click()} size='sm' rightIcon={<AddIcon />} variant='outline'>Subir foto</Button>
                 <span style={{'marginLeft': '1rem'}}>{values.foto.name || ''}</span>
@@ -103,7 +93,7 @@ const CompletarRegistro = () => {
                 }}/>
               </FormControl>
 
-              <FormControl errorProp='sexo'>
+              <FormControl errorprop='sexo'>
                 <FormLabel>Sexo</FormLabel>
 
                 <RadioGroup onChange={(value)=> setFieldValue('sexo', value)}>

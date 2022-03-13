@@ -8,17 +8,16 @@ import {
   Button,
   Flex,
   Box,
-  Heading,
-  useToast
+  Heading
 } from '@chakra-ui/react'
 import LandingHeader from '../landing/LandingHeader';
 import { register, login } from '../../services/auth.service';
 import { useNavigate } from 'react-router-dom';
+import { errorToast } from '../../functions/toast';
 
 const Register = () => {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
-  const toast = useToast()
 
   const handleRegister = (data)=> {  
     setLoading(true)
@@ -29,13 +28,8 @@ const Register = () => {
       navigate('/estudiante/perfil')
     }).catch(error => {
       console.error(error.message)
-      toast({
-        title: 'Error',
+      errorToast({
         description: error.message,
-        status: 'error',
-        position: 'top-right',
-        duration: 5000,
-        isClosable: true,
       })
     }).finally(()=>{
       setLoading(false)
@@ -76,15 +70,15 @@ const Register = () => {
             onSubmit={handleRegister}
           >
             <Form>
-              <FormControl errorProp='email'>
+              <FormControl errorprop='email'>
                 <FormLabel htmlFor='email'>Correo</FormLabel>
                 <Field name='email' type='email' />
               </FormControl>
-              <FormControl errorProp='password'>
+              <FormControl errorprop='password'>
                 <FormLabel htmlFor='email'>Contraseña</FormLabel>
                 <Field name='password' type='password' />
               </FormControl>
-              <FormControl errorProp='password2'>
+              <FormControl errorprop='password2'>
                 <FormLabel htmlFor='email'>Repetir contraseña</FormLabel>
                 <Field name='password2' type='password' />
               </FormControl>

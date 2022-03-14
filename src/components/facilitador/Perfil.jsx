@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import EstudianteCompletarRegistro from './EstudianteCompletarRegistro';
+import CompletarRegistro from './CompletarRegistro';
 
 import {
   Heading,
@@ -18,7 +18,7 @@ import FormControl from '../shared/FormControl'
 import getBase64 from '../../functions/getBase64';
 import { errorToast, successToast } from '../../functions/toast';
 
-const EstudiantePerfil = () => {
+const Perfil = () => {
   const { usuario } = useAuth()
   const perfil_completo = usuario?.perfil_completo
 
@@ -131,10 +131,10 @@ const EstudiantePerfil = () => {
           </Formik>
 
         </Box>
-        : <EstudianteCompletarRegistro />
+        : <CompletarRegistro />
       }
     </>
   );
 }
  
-export default EstudiantePerfil;
+export default Perfil;

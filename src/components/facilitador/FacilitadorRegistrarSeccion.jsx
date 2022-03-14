@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik, Form, useFormikContext  } from 'formik';
 import Field from '../shared/CustomFieldFormik'
 import FormControl from '../shared/FormControl'
@@ -22,99 +22,44 @@ import {
 
 import { SearchIcon } from '@chakra-ui/icons'
 import { errorToast, successToast } from '../../functions/toast';
+import { getHorarios } from '../../services/horario.service';
+import { getEstudiantesSinSeccion } from '../../services/estudiante.service';
+import { useAuth } from '../../contexts/AuthContext'
 
 const FacilitadorRegistrarSeccion = () => {
-  const [loading, setLoading] = useState()
+  const [loading, setLoading] = useState(true)
   const [seleccionados, setseleccionados] = useState([])
+  const [horarios, setHorarios] = useState([])
+  const [estudiantes, setEstudiantes] = useState([])
   const [search, setSearch] = useState('')
   const { getRootProps, getRadioProps } = useRadioGroup({ name: 'horario' })
   const group = getRootProps()
   const formSubmitRef = React.useRef({})
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const { usuario } = useAuth()
 
-  const [estudiantes, setEstudiantes] = useState(
-  [
-    {
-      cedula: '2651das6492',
-      nombre: 'Daniel Sifontes'
-    },
-    {
-      cedula: '265dsad16492',
-      nombre: 'Daniel Sifontes'
-    },
-    {
-      cedula: '265dfasf16492',
-      nombre: 'Daniel Sifontes'
-    },
-    {
-      cedula: '26516f1d492',
-      nombre: 'Daniel Sifontes'
-    },
-    {
-      cedula: '26516212492',
-      nombre: 'Daniel Sifontes'
-    },
-    {
-      cedula: '31313e',
-      nombre: 'Daniel Sifontes'
-    },
-    {
-      cedula: '265144246492',
-      nombre: 'Daniel Sifontes'
-    },
-    {
-      cedula: '26516545492',
-      nombre: 'Daniel Sifontes'
-    },
-    {
-      cedula: '663223',
-      nombre: 'Daniel Sifontes'
-    },
-    {
-      cedula: '13sdaads',
-      nombre: 'Daniel Sifontes'
-    },
-    {
-      cedula: '2651dasd116492',
-      nombre: 'Daniel Sifontes'
-    },
-    {
-      cedula: '2651faf6492',
-      nombre: 'Daniel Sifontes'
-    },
-    {
-      cedula: '2651dasf116492',
-      nombre: 'Daniel Sifontes'
-    },
-    {
-      cedula: '265fasfx1316492',
-      nombre: 'Daniel Sifontes'
+  useEffect(()=>{
+    const getInfo = async ()=> {
+      try {
+        const horarios = await getHorarios()
+        const estudiantes = await getEstudiantesSinSeccion()
+        setEstudiantes(estudiantes)
+        setHorarios(horarios.map(horario => {
+          const { codigo, aula, lunes, martes, miercoles, jueves, viernes } = horario
+          return {
+            codigo, aula, lunes, martes, miercoles, jueves, viernes
+          }
+        }))
+        setLoading(false)
+      } catch (error) {
+        errorToast({
+          description: error.message
+        })
+      }
     }
-  ]
-  )
 
-  const horarios = [
-    {
-      "especialidad": "E2",
-      "codigo": "H3",
-      "aula": "A2",
-      "lunes": "4 pm - 4 pm",
-      "martes": "",
-      "miercoles": "12 am - 4 pm",
-      "jueves": "",
-      "viernes": "12 am - 4 pm"
-    },
-    {
-      "especialidad": "E2",
-      "codigo": "H4",
-      "aula": "A3",
-      "lunes": "",
-      "martes": "4 pm - 4 pm",
-      "miercoles": "12 am - 4 pm",
-      "jueves": "",
-      "viernes": ""
-    }
-  ]
+    getInfo()
+  }, [])
 
   const handleSelect = (cedula) => {
     const [ estudiante ] = estudiantes.concat(seleccionados).filter(student => student.cedula === cedula) 
@@ -210,17 +155,20 @@ const FacilitadorRegistrarSeccion = () => {
               <FormLabel htmlFor=''>Nombre</FormLabel>
               <Field name='nombre' type='text' />
             </FormControl>
-            <FormControl errorprop='tutor'>
-              <FormLabel htmlFor='tutor'>Tutor</FormLabel>
-              <Field name='tutor' component='select'>
-                <option value='1'>tutor 1</option>
-                <option value='2'>tutor 2</option>
-                <option value='3'>tutor 3</option>
-              </Field>
-            </FormControl>
-            <FormControl errorprop='horario'>
+            {
+              usuario.rol_name !== 'facilitador' &&
+              <FormControl errorprop='tutor'>
+                <FormLabel htmlFor='tutor'>Tutor</FormLabel>
+                <Field name='tutor' component='select'>
+                  <option value='1'>tutor 1</option>
+                  <option value='2'>tutor 2</option>
+                  <option value='3'>tutor 3</option>
+                </Field>
+              </FormControl>
+            }
+            <FormControl overflow='hidden' errorprop='horario'>
               <FormLabel htmlFor='horario'>Horario</FormLabel>
-              <HStack {...group} alignItems='start'>
+              <HStack pb={5} w='100%' overflow='auto' {...group} alignItems='start'>
                 {horarios.map((horario) => {
                   const radio = getRadioProps({ value: horario.codigo })
                   return (
@@ -230,6 +178,7 @@ const FacilitadorRegistrarSeccion = () => {
                           Object.entries(horario).map(dia => (
                             <Text 
                               display={dia[1]? 'block': 'none'}
+                              whiteSpace='nowrap'
                               fontSize='sm' 
                               key={dia[0]}
                             >
@@ -274,7 +223,7 @@ const FacilitadorRegistrarSeccion = () => {
                         >
                           <p>{estudiante.cedula}</p>
                           <p> - </p>
-                          <p>{estudiante.nombre}</p>
+                          <p>{estudiante.nombres} {estudiante.apellidos}</p>
                         </Stack>
                       ))
                     }
@@ -300,7 +249,7 @@ const FacilitadorRegistrarSeccion = () => {
                         >
                           <p>{estudiante.cedula}</p>
                           <p> - </p>
-                          <p>{estudiante.nombre}</p>
+                          <p>{estudiante.nombres} {estudiante.apellidos}</p>
                         </Stack>
                       ))
                     }

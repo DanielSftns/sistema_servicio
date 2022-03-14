@@ -41,7 +41,28 @@ const getProfile = async () => {
   }
 }
 
+const getEstudiantesSinSeccion = async () => {
+  try {
+    const res = await API.get('estudiantes', { headers: authHeader() })
+    if(res.data.error){
+      throw new Error(res.data.message)
+    }
+    
+    return res.data
+  } catch (error) {
+    console.error(error)
+    let message = 'Error obteniendo estudiantes'
+    if (error.response && error.response.status === 400) {
+      message = error.response.data.message || error.response.data
+    } else if (!error.response) {
+      message = error.message
+    }
+    throw new Error(message)
+  }
+}
+
 export {
   editProfile,
-  getProfile
+  getProfile,
+  getEstudiantesSinSeccion
 }

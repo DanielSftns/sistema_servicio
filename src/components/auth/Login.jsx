@@ -30,6 +30,10 @@ const Login = () => {
           nextPage = res.perfil_completo ? '/estudiante' : '/estudiante/perfil'
           break
         }
+        case 'facilitador': {
+          nextPage = '/facilitador'
+          break
+        }
 
         default: {
           nextPage = '/estudiante'

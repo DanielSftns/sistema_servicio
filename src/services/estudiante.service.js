@@ -43,7 +43,7 @@ const getProfile = async () => {
 
 const getEstudiantesSinSeccion = async () => {
   try {
-    const res = await API.get('estudiantes', { headers: authHeader() })
+    const res = await API.get('estudiantes/sinseccion', { headers: authHeader() })
     if(res.data.error){
       throw new Error(res.data.message)
     }

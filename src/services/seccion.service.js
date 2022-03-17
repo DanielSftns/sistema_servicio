@@ -3,7 +3,7 @@ import authHeader from './auth-header'
 
 const registerSeccion = async (data) => {
   try {
-    const res = await API.post('secciones', data, { headers: authHeader() })
+    const res = await API.post('facilitador/seccion', data, { headers: authHeader() })
     if(res.data.error){
       throw new Error(res.data.message)
     }

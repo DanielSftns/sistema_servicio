@@ -17,7 +17,9 @@ import {
   useRadioGroup,
   HStack,
   Text,
-  useDisclosure
+  useDisclosure,
+  Checkbox,
+  useCheckboxGroup
 } from '@chakra-ui/react'
 
 import { SearchIcon } from '@chakra-ui/icons'
@@ -25,15 +27,18 @@ import { errorToast, successToast } from '../../functions/toast';
 import { getHorarios } from '../../services/horario.service';
 import { getEstudiantesSinSeccion } from '../../services/estudiante.service';
 import { useAuth } from '../../contexts/AuthContext'
+import { getFacilitadores } from '../../services/facilitador.service';
 
 const FacilitadorRegistrarSeccion = () => {
   const [loading, setLoading] = useState(true)
-  const [seleccionados, setseleccionados] = useState([])
-  const [horarios, setHorarios] = useState([])
-  const [estudiantes, setEstudiantes] = useState([])
+  const [seleccionados, setSeleccionados] = useState([])
+  const [horarios, setHorarios] = useState()
+  const [estudiantes, setEstudiantes] = useState()
+  const [facilitadores, setFacilitadores] = useState()
   const [search, setSearch] = useState('')
   const { getRootProps, getRadioProps } = useRadioGroup({ name: 'horario' })
   const group = getRootProps()
+  const { value: facilitadoresSeleccionados, getCheckboxProps } = useCheckboxGroup()
   const formSubmitRef = React.useRef({})
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { usuario } = useAuth()
@@ -43,13 +48,15 @@ const FacilitadorRegistrarSeccion = () => {
       try {
         const horarios = await getHorarios()
         const estudiantes = await getEstudiantesSinSeccion()
-        setEstudiantes(estudiantes)
+        const facilitadores = await getFacilitadores()
         setHorarios(horarios.map(horario => {
           const { codigo, aula, lunes, martes, miercoles, jueves, viernes } = horario
           return {
             codigo, aula, lunes, martes, miercoles, jueves, viernes
           }
         }))
+        setEstudiantes(estudiantes)
+        setFacilitadores(facilitadores)
         setLoading(false)
       } catch (error) {
         errorToast({
@@ -59,7 +66,7 @@ const FacilitadorRegistrarSeccion = () => {
     }
 
     getInfo()
-  }, [])
+  }, [usuario])
 
   const handleSelect = (cedula) => {
     const [ estudiante ] = estudiantes.concat(seleccionados).filter(student => student.cedula === cedula) 
@@ -81,26 +88,38 @@ const FacilitadorRegistrarSeccion = () => {
       newSeleccionados.push(estudiante)
     }
 
-    setseleccionados(newSeleccionados)
+    setSeleccionados(newSeleccionados)
     setEstudiantes(newEstudiantes)
   }
 
   const onSaveAttempt = (values) => {
+    console.log({values})
     formSubmitRef.current = { values }
     onOpen()
   }
 
   const handleSave = () => {
-    if(seleccionados.length === 0){
+    // if(seleccionados.length === 0){
+    //   errorToast({
+    //     description: 'No se puede registrar sin estudiantes'
+    //   })
+    //   return
+    // }
+    if(facilitadoresSeleccionados.length === 0 && usuario.rol_name !== 'facilitador'){
       errorToast({
-        description: 'No se puede registrar sin estudiantes'
+        description: 'No se puede registrar sin facilitadores'
       })
       return
     }
     const { values } = formSubmitRef.current
+    const estudiantesID = seleccionados.map(estudiante => estudiante.id)
     setLoading(true)
-    const data = {...values, estudiantes: seleccionados}
+    const data = {...values, estudiantes: estudiantesID}
+    if(usuario.rol_name !== 'facilitador'){
+      data.facilitadores = facilitadoresSeleccionados
+    }
     console.log(data)
+
     registerSeccion(data)
     .then(()=> {
       successToast({
@@ -115,6 +134,10 @@ const FacilitadorRegistrarSeccion = () => {
     })
   }
 
+  if(!horarios || !estudiantes || !facilitadores){
+    return <p>loading</p>
+  }
+
   return (
     <>
       <Box maxW={800} m='auto'>
@@ -123,7 +146,6 @@ const FacilitadorRegistrarSeccion = () => {
           initialValues={{
             codigo: '',
             nombre: '',
-            tutor: '',
             horario: ''
           }}
           validate={(values)=> {
@@ -134,9 +156,6 @@ const FacilitadorRegistrarSeccion = () => {
             }
             if(!values.nombre){
               errors.nombre = 'Esto es requerido'
-            }
-            if(!values.tutor){
-              errors.tutor = 'Esto es requerido'
             }
             if(!values.horario){
               errors.horario = 'Esto es requerido'
@@ -157,13 +176,20 @@ const FacilitadorRegistrarSeccion = () => {
             </FormControl>
             {
               usuario.rol_name !== 'facilitador' &&
-              <FormControl errorprop='tutor'>
-                <FormLabel htmlFor='tutor'>Tutor</FormLabel>
-                <Field name='tutor' component='select'>
-                  <option value='1'>tutor 1</option>
-                  <option value='2'>tutor 2</option>
-                  <option value='3'>tutor 3</option>
-                </Field>
+              <FormControl>
+                <FormLabel>facilitadores</FormLabel>
+                <Stack spacing={5} direction='row'>
+                  {
+                    facilitadores.map(facilitador => {
+                      const checkbox = getCheckboxProps({ value: facilitador.id })
+                      return (
+                        <Checkbox key={facilitador.id} {...checkbox}>
+                          {facilitador.nombres} {facilitador.apellidos}
+                        </Checkbox>
+                      )
+                    })
+                  }
+                </Stack>
               </FormControl>
             }
             <FormControl overflow='hidden' errorprop='horario'>

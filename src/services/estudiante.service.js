@@ -48,7 +48,7 @@ const getEstudiantesSinSeccion = async () => {
       throw new Error(res.data.message)
     }
     
-    return res.data
+    return res.data.data
   } catch (error) {
     console.error(error)
     let message = 'Error obteniendo estudiantes'

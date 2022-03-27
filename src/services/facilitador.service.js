@@ -48,7 +48,7 @@ const getSecciones = async () => {
       throw new Error(res.data.message)
     }
     
-    return res.data.secciones
+    return res.data.data
   } catch (error) {
     let message = 'No se ha podido obtener secciones'
     if (error.response && error.response.status === 400) {

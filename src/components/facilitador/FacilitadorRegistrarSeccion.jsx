@@ -28,6 +28,7 @@ import { getHorarios } from '../../services/horario.service';
 import { getEstudiantesSinSeccion } from '../../services/estudiante.service';
 import { useAuth } from '../../contexts/AuthContext'
 import { getFacilitadores } from '../../services/facilitador.service';
+import { useNavigate } from 'react-router-dom';
 
 const FacilitadorRegistrarSeccion = () => {
   const [loading, setLoading] = useState(true)
@@ -42,6 +43,7 @@ const FacilitadorRegistrarSeccion = () => {
   const formSubmitRef = React.useRef({})
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { usuario } = useAuth()
+  const navigate = useNavigate()
 
   useEffect(()=>{
     const getInfo = async ()=> {
@@ -99,12 +101,12 @@ const FacilitadorRegistrarSeccion = () => {
   }
 
   const handleSave = () => {
-    // if(seleccionados.length === 0){
-    //   errorToast({
-    //     description: 'No se puede registrar sin estudiantes'
-    //   })
-    //   return
-    // }
+    if(seleccionados.length === 0){
+      errorToast({
+        description: 'No se puede registrar sin estudiantes'
+      })
+      return
+    }
     if(facilitadoresSeleccionados.length === 0 && usuario.rol_name !== 'facilitador'){
       errorToast({
         description: 'No se puede registrar sin facilitadores'
@@ -125,11 +127,11 @@ const FacilitadorRegistrarSeccion = () => {
       successToast({
         title: `Seccion ${values.codigo} creada`,
       })
+      navigate('/facilitador')
     }).catch(error =>{
       errorToast({
         description: error.message,
       })
-    }).finally(()=>{
       setLoading(false)
     })
   }

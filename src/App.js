@@ -18,6 +18,7 @@ import FacilitadorScreen from './components/facilitador/FacilitadorScreen';
 import FacilitadorSeccion from './components/facilitador/FacilitadorSeccion';
 import FacilitadorRegistrarSeccion from './components/facilitador/FacilitadorRegistrarSeccion';
 import Perfil from './components/facilitador/Perfil';
+import FacilitadorAsignaciones from './components/facilitador/FacilitadorAsignaciones';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
               </Route>
 
               <Route path='/facilitador' element={<FacilitadorScreen />}>
+                <Route path='asignaciones' element={<FacilitadorAsignaciones />} />
                 <Route path='registrar-seccion' element={<FacilitadorRegistrarSeccion />} />
                 <Route path='perfil' element={<Perfil />} />
                 <Route index element={<FacilitadorSeccion />} />

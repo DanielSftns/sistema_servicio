@@ -25,7 +25,7 @@ const CompletarRegistro = () => {
   const inputFile = useRef()
   const navigate = useNavigate()
   const [loading, setLoading] = useState()
-  const { usuario, setUsuario } = useAuth()
+  const {updateUsuario } = useAuth()
 
   const handleSave = async (data) =>{
     console.log('data', data)
@@ -35,7 +35,7 @@ const CompletarRegistro = () => {
     editProfile({...data, foto: fotoBase64})
     .then(res => {
       console.info('Perfil completado', res)
-      setUsuario({...usuario, perfil_completo: true})
+      updateUsuario({ perfil_completo: true })
       successToast({
         description: 'Registro completado'
       })

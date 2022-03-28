@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link as ReachLink } from 'react-router-dom';
 
-import { getSecciones } from '../../services/facilitador.service';
+import { getSecsByFacilitador } from '../../services/seccion.service';
 
 import {
   Button,
@@ -11,23 +11,27 @@ import {
   Link
 } from '@chakra-ui/react'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
+import { useAuth } from '../../contexts/AuthContext'
 
 const FacilitadorSeccion = () => {
   const [loading, setLoading] = useState(true)
   const [secciones, setSecciones] = useState()
   const [seccion, setSeccion] = useState()
+  const { updateUsuario } = useAuth()
 
   useEffect(()=>{
     const get = async ()=> {
-      const secciones = await getSecciones()
-      console.log(secciones)
+      const secciones = await getSecsByFacilitador()
+      console.log({secciones})
       setSecciones(secciones)
-      setSeccion(secciones)
+      const seccion = secciones
+      setSeccion(seccion)
+      updateUsuario({secciones: [seccion.codigo, "S0", "S00"]})
       setLoading(false)
     }
 
     get()
-  }, [])
+  }, [updateUsuario])
 
   if((loading && !secciones )|| !seccion){
     return <p>loading</p>

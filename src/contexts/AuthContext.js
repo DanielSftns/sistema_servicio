@@ -7,30 +7,36 @@ const AuthContext = React.createContext()
 const useAuth = () => useContext(AuthContext)
 
 const AuthProvider = ({children}) => {
-    const [usuario, setUsuario] = useState()
-    const [loading, setLoading] = useState(true)
-    
-    useEffect(()=>{
-        if(usuario?.token){
-            localStorage.setItem('usuario', JSON.stringify(usuario))
-        }
-    }, [usuario])
+	const [usuario, setUsuario] = useState()
+	const [loading, setLoading] = useState(true)
 
-    useEffect(()=> {
-        const fetchGetUser = async ()=> {
-            const user = await getUser()
-            setUsuario(user)
-            setLoading(false)
-        }
+	useEffect(()=>{
+		if(usuario?.token){
+			localStorage.setItem('usuario', JSON.stringify(usuario))
+		}
+	}, [usuario])
 
-        fetchGetUser()
-    },[])
+	useEffect(()=> {
+		const fetchGetUser = async ()=> {
+			const user = await getUser()
+			setUsuario(user)
+			setLoading(false)
+		}
 
-    return (
-        <AuthContext.Provider value={{usuario, setUsuario}}>
-            {!loading && children}
-        </AuthContext.Provider>
-    );
+		fetchGetUser()
+	},[])
+
+	const updateUsuario = React.useCallback((data)=> {
+		setUsuario(user => {
+			return {...user, ...data}
+		})
+	}, [])
+
+	return (
+		<AuthContext.Provider value={{usuario, updateUsuario}}>
+			{!loading && children}
+		</AuthContext.Provider>
+	);
 }
  
 export {AuthProvider, AuthContext, useAuth};

@@ -13,6 +13,7 @@ import {
   Stack,
   Radio,
   Grid,
+  Container
 } from '@chakra-ui/react'
 
 import { AddIcon } from '@chakra-ui/icons'
@@ -50,7 +51,7 @@ const CompletarRegistro = () => {
   }
 
   return (
-    <Box maxW={800} m='auto'>
+    <Container>
       <Heading mb={8}>Completa el registro</Heading>
       <Formik
         initialValues={{
@@ -146,7 +147,7 @@ const CompletarRegistro = () => {
           </Form>
         )}
       </Formik>
-    </Box>
+    </Container>
   );
 }
  

@@ -19,6 +19,7 @@ import FacilitadorSeccion from './components/facilitador/FacilitadorSeccion';
 import FacilitadorRegistrarSeccion from './components/facilitador/FacilitadorRegistrarSeccion';
 import Perfil from './components/facilitador/Perfil';
 import FacilitadorAsignaciones from './components/facilitador/FacilitadorAsignaciones';
+import EstudianteAsignaciones from './components/estudiante/EstudianteAsignaciones';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route path='/registro' element={<Register />} />
             
               <Route path='/estudiante' element={<EstudianteScreen />}>
+                <Route path='asignaciones' element={<EstudianteAsignaciones />} />
                 <Route path='proyecto' element={<h1>Proyecto</h1>} />
                 <Route path='perfil' element={<EstudiantePerfil />} />
                 <Route index element={<EstudianteSeccion />} />

@@ -7,7 +7,8 @@ import {
   Image,
   FormLabel,
   Button,
-  Input
+  Input,
+  Container
 } from '@chakra-ui/react'
 import { useAuth } from '../../contexts/AuthContext';
 import { getProfile, editProfile } from '../../services/estudiante.service';
@@ -69,7 +70,7 @@ const Perfil = () => {
 
       {
         perfil_completo
-        ? <Box maxW={800} m='auto'>
+        ? <Container>
           <Formik
             initialValues={{
               telefono: userData.telefono,
@@ -130,7 +131,7 @@ const Perfil = () => {
             )}
           </Formik>
 
-        </Box>
+        </Container>
         : <CompletarRegistro />
       }
     </>

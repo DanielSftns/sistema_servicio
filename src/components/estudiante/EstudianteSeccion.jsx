@@ -8,45 +8,21 @@ import {
 } from '@chakra-ui/react'
 
 import { ExternalLinkIcon } from '@chakra-ui/icons'
+import { getSecsByEstudiante } from '../../services/seccion.service';
 
 const EstudianteSeccion = () => {
   const [seccion, setSeccion] = useState()
   const [loading, setLoading] = useState(true)
 
   useEffect(()=>{
-    let timer
-    const get =()=> {
-      timer = setTimeout(()=>{
-        // setSeccion(null)
-        // return
-        setSeccion({
-          number: 6,
-          facilitador: 'Prof Perez',
-          estudiantes: ['Pepe Perez', 'Juan Perez', 'Maria Perez', 'Jose Perez'],
-          horario: {
-            lunes: '8am - 10am',
-            jueves: '9am - 9:45am'
-          },
-          recursos: [
-            {
-              title: 'Guia 1',
-              type: 'file',
-              recurso: 'FILE'
-            },
-            {
-              title: 'Forma 2',
-              type: 'link',
-              recurso: 'url/file'
-            }
-          ]
-        })
-        setLoading(false)
-      }, 1000)
+    const get = async ()=> {
+      const seccion = await getSecsByEstudiante()
+      console.log({seccion})
+      setSeccion(seccion)
+      setLoading(false)
     }
 
     get()
-
-    return ()=> clearTimeout(timer)
   }, [])
 
   if(loading) return <p>Loading</p>
@@ -58,8 +34,16 @@ const EstudianteSeccion = () => {
 
   return (
     <>
-    <Heading mb={2}>Seccion {seccion.number}</Heading>
-    <p>Facilitador <b>{seccion.facilitador}</b></p>
+    <Heading mb={2}>{seccion.nombre} - {seccion.codigo}</Heading>
+    {
+      seccion.facilitadores.length >= 2 && seccion.facilitadores.map((facilitador, i) => (
+        <p key={facilitador.cedula}>Facilitador {i+1}) <b>{facilitador.nombres} {facilitador.apellidos}</b> - {facilitador.email}</p>
+      ))
+    }
+    {
+      seccion.facilitadores.length === 1 &&
+      <p>Facilitador <b>{seccion.facilitadores[0].nombres} {seccion.facilitadores[0].apellidos}</b> - {seccion.facilitadores[0].email}</p>
+    }
     <Box mb={8}>
       {
         Object.entries(seccion.horario).map(dia => (
@@ -70,7 +54,7 @@ const EstudianteSeccion = () => {
 
     <Box mb={4}>
       <Heading mb={4}>Recursos</Heading>
-      {
+      {/* {
         seccion.recursos.map(recurso => (
           <Box key={recurso.title}>
             <Link href='https://chakra-ui.com' target='_blank' isExternal>
@@ -78,18 +62,18 @@ const EstudianteSeccion = () => {
             </Link>
           </Box>
         ))
-      }
+      } */}
     </Box>
 
     <Box>
       <Heading mb={4}>Integrantes</Heading>
-      {
-        seccion.estudiantes.map((estudiante, i) => (
-          <Box key={i}>
-            <Text>{estudiante}</Text>
-          </Box>
-        ))
-      }
+        {
+          seccion.estudiantes.map((estudiante, i) => (
+            <Box key={i}>
+              <Text>{estudiante.nombres} {estudiante.apellidos}</Text>
+            </Box>
+          ))
+        }
     </Box>
     </>
   );

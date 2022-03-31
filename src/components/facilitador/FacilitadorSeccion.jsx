@@ -81,7 +81,7 @@ const FacilitadorSeccion = () => {
         {
           seccion.estudiantes.map((estudiante, i) => (
             <Box key={i}>
-              <Text>{estudiante.nombres} {estudiante.apellidos}</Text>
+              <Text>{estudiante.nombres} {estudiante.apellidos} - {estudiante.cedula}</Text>
             </Box>
           ))
         }

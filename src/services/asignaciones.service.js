@@ -54,7 +54,57 @@ const activarAsignacion = async (seccion, modelo) => {
   }
 }
 
+const getMyAsignaciones = async () => {
+  try {
+    console.log('consultando mis asignaciones')
+    const res = await API.get('asignaciones/mias', { headers: authHeader() })
+    if(res.data.error){
+      throw new Error(res.data.message)
+    }
+    
+    return res.data.asignaciones
+  } catch (error) {
+    let message = 'No se ha podido obtener asignaciones'
+    if (error.response && error.response.status === 400) {
+      message = error.response.data.message || error.response.data
+    } else if (!error.response) {
+      message = error.message
+    }
+    console.error(message)
+    if(message === 'sin asignaciones'){
+      return []
+    }else {
+      throw new Error(message)
+    }
+  }
+}
+
+const entregarAsignacion = async (asignacionID, archivo) => {
+  try {
+    const res = await API.post('asignaciones/subir', {
+      archivo,
+      asignacion_id: asignacionID
+    }, { headers: authHeader() })
+    if(res.data.error){
+      throw new Error(res.data.message)
+    }
+    
+    return res.data
+  } catch (error) {
+    let message = 'Error entregando asignacion'
+    if (error.response && error.response.status === 400) {
+      message = error.response.data.message || error.response.data
+    } else if (!error.response) {
+      message = error.message
+    }
+    throw new Error(message)
+  }
+}
+
+
 export {
   getAsigsBySeccion,
-  activarAsignacion
+  activarAsignacion,
+  getMyAsignaciones,
+  entregarAsignacion
 }

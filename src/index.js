@@ -18,7 +18,15 @@ const customTheme = extendTheme({
       }
     }
   },
-}, withDefaultColorScheme({ colorScheme: 'blue' }),)
+  components: {
+    Container: {
+      baseStyle: {
+        maxW:'container.md'
+      }
+    }
+  }
+},
+withDefaultColorScheme({ colorScheme: 'blue' }))
 
 ReactDOM.render(
   <ChakraProvider theme={customTheme}>

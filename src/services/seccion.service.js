@@ -45,7 +45,28 @@ const getSecsByFacilitador = async () => {
   }
 }
 
+const getSecsByEstudiante = async () => {
+  try {
+    const res = await API.get('estudiantes/seccion', { headers: authHeader() })
+    if(res.data.error){
+      throw new Error(res.data.message)
+    }
+    
+    return res.data.data
+  } catch (error) {
+    let message = 'No se ha podido obtener seccion'
+    if (error.response && error.response.status === 400) {
+      message = error.response.data.message || error.response.data
+    } else if (!error.response) {
+      message = error.message
+    }
+    console.error(message)
+    throw new Error(message)
+  }
+}
+
 export {
   registerSeccion,
-  getSecsByFacilitador
+  getSecsByFacilitador,
+  getSecsByEstudiante
 }

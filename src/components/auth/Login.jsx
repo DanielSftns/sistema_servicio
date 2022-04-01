@@ -14,16 +14,18 @@ import {
 } from '@chakra-ui/react'
 import LandingHeader from '../landing/LandingHeader';
 import { errorToast, successToast } from '../../functions/toast';
+import { useAuth } from '../../contexts/AuthContext';
 
 const Login = () => {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
-
+  const { clearUsuario } = useAuth()
   const handleLogin = (values)=>{
     setLoading(true)
     login(values)
     .then((res)=> {
       console.info(res)
+      clearUsuario(res)
       let nextPage
       switch(res.rol_name){
         case 'estudiante': {

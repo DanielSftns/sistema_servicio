@@ -13,7 +13,7 @@ import {
   Text,
   Icon
 } from '@chakra-ui/react'
-import { ExternalLinkIcon, LinkIcon, CheckIcon, TimeIcon } from '@chakra-ui/icons'
+import { ExternalLinkIcon, LinkIcon, CheckIcon, TimeIcon, CloseIcon } from '@chakra-ui/icons'
 
 import { getMyAsignaciones, entregarAsignacion } from '../../services/asignaciones.service';
 
@@ -40,7 +40,7 @@ const EstudianteAsignaciones = () => {
     console.log(asignacion, file)
     setLoading(true)
     const archivoBase64 = await getBase64(file)
-    entregarAsignacion(asignacion, archivoBase64)
+    entregarAsignacion(asignacion, archivoBase64, file.name)
     .then((res)=> {
       console.info(res)
       successToast({
@@ -74,8 +74,15 @@ const EstudianteAsignaciones = () => {
                         asignacion.estado === 'por entregar' && 
                         <Icon as={TimeIcon} mr={8} />
                       }
-                      {/* <Icon as={CheckIcon} mr={8} /> */}
-                      <p display='inline-block'>{asignacion.nombre}</p>
+                      {
+                        (asignacion.estado === 'entregado' || asignacion.estado === 'aprobado') && 
+                        <Icon as={CheckIcon} mr={8} />
+                      }
+                      {
+                        asignacion.estado === 'reprobado' && 
+                        <Icon as={CloseIcon} mr={8} />
+                      }
+                      <Text display='inline-block'>{asignacion.nombre}</Text>
                     </Box>
                     <AccordionIcon />
                   </AccordionButton>
@@ -84,7 +91,7 @@ const EstudianteAsignaciones = () => {
                   <Heading mb={8}>Asignación {asignacion.estado}</Heading>
                   <Text mb={4}>Abajo se abjuntan los archivos necesarios para la entrega</Text>
                   <Box mb={12}>
-                    <Link fontWeight='bold' href={asignacion.archivo} target='_blank' isExternal>
+                    <Link fontWeight='bold' href={asignacion.archivo} target='_blank' download={true} isExternal>
                       {asignacion.nombre_archivo} <ExternalLinkIcon mx='2px' />
                     </Link>
                   </Box>

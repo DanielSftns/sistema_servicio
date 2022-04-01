@@ -32,8 +32,12 @@ const AuthProvider = ({children}) => {
 		})
 	}, [])
 
+	const clearUsuario = React.useCallback((data)=> {
+		setUsuario(data)
+	}, [])
+
 	return (
-		<AuthContext.Provider value={{usuario, updateUsuario}}>
+		<AuthContext.Provider value={{usuario, updateUsuario, clearUsuario}}>
 			{!loading && children}
 		</AuthContext.Provider>
 	);

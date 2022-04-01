@@ -22,18 +22,19 @@ const FacilitadorSeccion = () => {
   useEffect(()=>{
     const get = async ()=> {
       const secciones = await getSecsByFacilitador()
-      console.log({secciones})
       setSecciones(secciones)
-      const seccion = secciones
-      setSeccion(seccion)
-      updateUsuario({secciones: [seccion.codigo, "S0", "S00"]})
+      if(secciones.length >= 1){
+        const seccion = secciones[0]
+        setSeccion(seccion)
+        updateUsuario({secciones: [seccion.codigo]})
+      }
       setLoading(false)
     }
 
     get()
   }, [updateUsuario])
 
-  if((loading && !secciones )|| !seccion){
+  if(loading){
     return <p>loading</p>
   }
 

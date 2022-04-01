@@ -16,10 +16,14 @@ const EstudianteSeccion = () => {
 
   useEffect(()=>{
     const get = async ()=> {
-      const seccion = await getSecsByEstudiante()
-      console.log({seccion})
-      setSeccion(seccion)
-      setLoading(false)
+      getSecsByEstudiante()
+      .then((seccion)=>{
+        console.log({seccion})
+        setSeccion(seccion)
+      })
+      .finally(()=>{
+        setLoading(false)
+      })
     }
 
     get()

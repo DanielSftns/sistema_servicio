@@ -103,7 +103,7 @@ const getMyAsignaciones = async () => {
       throw new Error(res.data.message)
     }
     
-    return res.data.asignaciones
+    return res.data.data
   } catch (error) {
     let message = 'No se ha podido obtener asignaciones'
     if (error.response && error.response.status === 400) {

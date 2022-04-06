@@ -20,6 +20,7 @@ import FacilitadorRegistrarSeccion from './components/facilitador/FacilitadorReg
 import Perfil from './components/facilitador/Perfil';
 import FacilitadorAsignaciones from './components/facilitador/FacilitadorAsignaciones';
 import EstudianteAsignaciones from './components/estudiante/EstudianteAsignaciones';
+import FacilitadorAprobarFaseFormativa from './components/facilitador/FacilitadorAprobarFaseFormativa';
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
                 <Route path='asignaciones' element={<FacilitadorAsignaciones />} />
                 <Route path='registrar-seccion' element={<FacilitadorRegistrarSeccion />} />
                 <Route path='perfil' element={<Perfil />} />
+                <Route path='aprobar-fase-formativa' element={<FacilitadorAprobarFaseFormativa />} />
                 <Route index element={<FacilitadorSeccion />} />
               </Route>
 

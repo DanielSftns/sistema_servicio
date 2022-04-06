@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getAsigsBySeccion, activarAsignacion, aprobarAsignacion, reprobarAsignacion } from '../../services/asignaciones.service';
 import { getSecsByFacilitador } from '../../services/seccion.service';
 
@@ -10,7 +10,6 @@ import {
   HStack,
   useRadio,
   Button,
-  useDisclosure,
   Accordion,
   AccordionItem,
   AccordionButton,
@@ -24,19 +23,13 @@ import {
 import { UnlockIcon, TimeIcon, CheckIcon, ExternalLinkIcon, CalendarIcon, CloseIcon } from '@chakra-ui/icons'
 
 import { errorToast, successToast } from '../../functions/toast';
-import ConfirmModal from '../shared/ConfirmModal';
+import { SwalModal } from '../../functions/sweetAlertCommon';
 
 const FacilitadorAsignaciones = () => {
   const [loading, setLoading] = useState(true)
   const [secciones, setSecciones] = useState([])
   const [seccion, setSeccion] = useState()
   const [asignaciones, setAsignaciones] = useState([])
-  const { isOpen: isOpenM1, onOpen: onOpenM1, onClose: onCloseM1 } = useDisclosure()
-  const { isOpen: isOpenM2, onOpen: onOpenM2, onClose: onCloseM2 } = useDisclosure()
-  const { isOpen: isOpenM3, onOpen: onOpenM3, onClose: onCloseM3 } = useDisclosure()
-  const modeloRef = useRef()
-  const asignacionRef = useRef()
-
 
   const { getRootProps, getRadioProps, setValue } = useRadioGroup({ 
     name: 'seccion',
@@ -85,58 +78,66 @@ const FacilitadorAsignaciones = () => {
     })
   }
 
-  const onSaveAttemptActivar = (modelo) => {
-    modeloRef.current = { modelo }
-    onOpenM1()
-  }
-  const onSaveAttemptAprobar = (asignacionID) => {
-    asignacionRef.current = { asignacionID }
-    onOpenM2()
-  }
-  const onSaveAttemptReprobar = (asignacionID) => {
-    asignacionRef.current = { asignacionID }
-    onOpenM3()
-  }
-
-  const handleActivate = () =>{
-    const { modelo } = modeloRef.current
-    activarAsignacion(seccion.codigo, modelo)
-    .then(()=>{
-      successToast({
-        title: 'Asignación activada'
-      })
-    }).catch((error)=>{
-      errorToast({
-        description: error.message
-      })
+  const handleActivate = (modelo) =>{
+    SwalModal.fire({
+      title:'Confirmar activación',
+      text:'Esto no es reversible',
+      confirmButtonText: 'Activar asignación',
+    }).then(result => {
+      if(result.isConfirmed){
+        activarAsignacion(seccion.codigo, modelo)
+        .then(()=>{
+          successToast({
+            title: 'Asignación activada'
+          })
+        }).catch((error)=>{
+          errorToast({
+            description: error.message
+          })
+        })
+      }
     })
   }
 
-  const handleAprobar = () => {
-    const { asignacionID } = asignacionRef.current
-    aprobarAsignacion(asignacionID)
-    .then(()=>{
-      successToast({
-        title: 'Asignación aprobada'
-      })
-    }).catch((error)=>{
-      errorToast({
-        description: error.message
-      })
+  const handleAprobar = (asignacionID) => {
+    SwalModal.fire({
+      title:'Confirmar aprobar asignación',
+      text:'Esto no es reversible',
+      confirmButtonText: 'Aprobar asignación',
+    }).then(result => {
+      if(result.isConfirmed){
+        aprobarAsignacion(asignacionID)
+        .then(()=>{
+          successToast({
+            title: 'Asignación aprobada'
+          })
+        }).catch((error)=>{
+          errorToast({
+            description: error.message
+          })
+        })
+      }
     })
   }
 
-  const handleReprobar = () => {
-    const { asignacionID } = asignacionRef.current
-    reprobarAsignacion(asignacionID)
-    .then(()=>{
-      successToast({
-        title: 'Asignación reprobada'
-      })
-    }).catch((error)=>{
-      errorToast({
-        description: error.message
-      })
+  const handleReprobar = (asignacionID) => {
+    SwalModal.fire({
+      title:'Confirmar reprobar asignación',
+      text:'Esto no es reversible',
+      confirmButtonText: 'Reprobar asignación',
+    }).then(result => {
+      if(result.isConfirmed){
+        reprobarAsignacion(asignacionID)
+        .then(()=>{
+          successToast({
+            title: 'Asignación reprobada'
+          })
+        }).catch((error)=>{
+          errorToast({
+            description: error.message
+          })
+        })
+      }
     })
   }
 
@@ -202,8 +203,8 @@ const FacilitadorAsignaciones = () => {
                   </Box>
                     
                   <ButtonGroup isDisabled={asignacion.estado !== 'entregado'}>
-                    <Button onClick={() => onSaveAttemptAprobar(asignacion.id)} colorScheme='teal'>Aprobar asignación</Button>
-                    <Button onClick={() => onSaveAttemptReprobar(asignacion.id)} colorScheme='red'>Reprobar asignación</Button>
+                    <Button onClick={() => handleAprobar(asignacion.id)} colorScheme='teal'>Aprobar asignación</Button>
+                    <Button onClick={() => handleReprobar(asignacion.id)} colorScheme='red'>Reprobar asignación</Button>
                   </ButtonGroup>
                 </AccordionPanel>
               </AccordionItem>
@@ -216,7 +217,7 @@ const FacilitadorAsignaciones = () => {
           {
             seccion && seccion.archivos.map(modelo => {
               return (
-                <Button key={modelo.id} rightIcon={<UnlockIcon />} p={6} colorScheme='orange' onClick={() => onSaveAttemptActivar(modelo.id)}>
+                <Button key={modelo.id} rightIcon={<UnlockIcon />} p={6} colorScheme='orange' onClick={() => handleActivate(modelo.id)}>
                   {modelo.tipo_archivo}
                 </Button>
               )
@@ -224,43 +225,6 @@ const FacilitadorAsignaciones = () => {
           }
         </HStack>
       </Container>
-
-      <ConfirmModal
-        isOpen={isOpenM1}
-        title='Confirmar activación'
-        description='Esto no es reversible'
-        confirmText='Activar asignación'
-        callBack={(result)=>{
-          onCloseM1()
-          if(result.isConfirmed){
-            handleActivate()
-          }
-        }}
-      />
-      <ConfirmModal
-        isOpen={isOpenM2}
-        title='Confirmar aprobar asignación'
-        description='Esto no es reversible'
-        confirmText='Aprobar asignación'
-        callBack={(result)=>{
-          onCloseM2()
-          if(result.isConfirmed){
-            handleAprobar()
-          }
-        }}
-      />
-      <ConfirmModal
-        isOpen={isOpenM3}
-        title='Confirmar reprobar asignación'
-        description='Esto no es reversible'
-        confirmText='Reprobar asignación'
-        callBack={(result)=>{
-          onCloseM3()
-          if(result.isConfirmed){
-            handleReprobar()
-          }
-        }}
-      />
     </>
   );
 }

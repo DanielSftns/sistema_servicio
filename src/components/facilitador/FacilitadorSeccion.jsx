@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link as ReachLink } from 'react-router-dom';
+import { Link as ReactLink } from 'react-router-dom';
 
 import { getSecsByFacilitador } from '../../services/seccion.service';
 
@@ -42,14 +42,15 @@ const FacilitadorSeccion = () => {
     return (
       <Box textAlign='center'>
         <Text mb={8}>No tienes secciones a cargo</Text>
-        <Button as={ReachLink} to="registrar-seccion">Registrar seccion</Button>
+        <Button as={ReactLink} to="registrar-seccion">Registrar seccion</Button>
       </Box>
     )
   }
 
   return (
     <>
-      <Button as={ReachLink} to="registrar-seccion">Registrar seccion</Button>
+      <Button as={ReactLink} to="registrar-seccion">Registrar seccion</Button>
+      <Button as={ReactLink} to='aprobar-fase-formativa' ml={8}>Aprobar fase formativa</Button>
       <Heading mb={2}>{seccion.nombre} - {seccion.codigo}</Heading>
       {
         seccion.facilitadores.map((facilitador, i) => (

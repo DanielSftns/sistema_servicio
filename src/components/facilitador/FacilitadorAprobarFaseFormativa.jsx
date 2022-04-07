@@ -13,7 +13,6 @@ import {
   AccordionPanel,
   AccordionIcon,
   Container,
-  Link,
   Icon,
   ButtonGroup,
   Flex,
@@ -22,7 +21,7 @@ import {
   InputLeftElement,
   Input,
 } from '@chakra-ui/react'
-import { TimeIcon, CheckIcon, ExternalLinkIcon, CloseIcon, SearchIcon } from '@chakra-ui/icons'
+import { TimeIcon, CheckIcon, CloseIcon, SearchIcon } from '@chakra-ui/icons'
 
 import { errorToast, successToast } from '../../functions/toast';
 import { SwalModal } from '../../functions/sweetAlertCommon';
@@ -230,7 +229,7 @@ const FacilitadorAprobarFaseFormativa = () => {
           })}
         </ButtonGroup>
 
-        <Stack direction='row' spacing='24px'>
+        <Stack mb={12} direction='row' spacing='24px'>
           <Box w='100%'>
             <InputGroup mb={8} maxW={300}>
               <InputLeftElement
@@ -262,7 +261,7 @@ const FacilitadorAprobarFaseFormativa = () => {
                           <Box width='100%' onClick={()=> handleSelect(estudiante.cedula)}>
                             <Text display='inline-block'>{estudiante.nombres} {estudiante.apellidos} - {estudiante.cedula}</Text>
                           </Box>
-                          <AccordionButton width='auto'>
+                          <AccordionButton title='ver asignaciones' width='auto'>
                             <AccordionIcon />
                           </AccordionButton>
                         </Flex>
@@ -325,7 +324,7 @@ const FacilitadorAprobarFaseFormativa = () => {
                           <Box width='100%' onClick={()=> handleSelect(estudiante.cedula)}>
                             <Text display='inline-block'>{estudiante.nombres} {estudiante.apellidos} - {estudiante.cedula}</Text>
                           </Box>
-                          <AccordionButton width='auto'>
+                          <AccordionButton title='ver asignaciones' width='auto'>
                             <AccordionIcon />
                           </AccordionButton>
                         </Flex>

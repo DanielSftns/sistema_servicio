@@ -50,7 +50,33 @@ const FacilitadorAsignaciones = () => {
         const seccion = secciones[0]
         setValue(seccion.codigo)
         setSeccion(seccion)
-        const asigs = await getAsigsBySeccion(seccion.codigo)
+        const allAsigs = await getAsigsBySeccion(seccion.codigo)
+        const asigs = allAsigs.reduce((prev, current) => {
+          if(!prev.some(asig => asig.nombre === current.nombre)){
+            const asigs = prev
+            asigs.push({
+              nombre: current.nombre,
+              asignaciones: [current]
+            })
+            
+            return asigs
+          }else {
+            const asigs = prev.map(asig => {
+              if(asig.nombre === current.nombre){
+                const asigns = asig.asignaciones
+                asigns.push(current)
+                return {
+                  ...asig,
+                  asignaciones: asigns
+                }
+              }else {
+                return asig
+              }
+            })
+
+            return asigs
+          }
+        }, [])
         console.log(asigs)
         setAsignaciones(asigs)
         setLoading(false)
@@ -166,58 +192,66 @@ const FacilitadorAsignaciones = () => {
           asignaciones.length === 0 &&
           <p>Sin asignaciones</p> 
         }
-        <Accordion allowToggle>
-          {
-            asignaciones.length >= 1 && asignaciones.map(asignacion => (
-              <AccordionItem key={asignacion.id}>
-                <h2>
-                  <AccordionButton>
-                    <Box flex='1' textAlign='left'>
-                      {
-                        asignacion.estado === 'por entregar' && 
-                        <Icon as={CalendarIcon} mr={8} />
-                      }
-                      {
-                        asignacion.estado === 'entregado' && 
-                        <Icon as={TimeIcon} mr={8} />
-                      }
-                      {
-                        asignacion.estado === 'aprobado' && 
-                        <Icon as={CheckIcon} mr={8} />
-                      }
-                      {
-                        asignacion.estado === 'reprobado' && 
-                        <Icon as={CloseIcon} mr={8} />
-                      }
-                      <Text display='inline-block'>{asignacion.nombres_estudiante} {asignacion.apellidos_estudiante} - {asignacion.cedula_estudiante}</Text>
-                    </Box>
-                    <AccordionIcon />
-                  </AccordionButton>
-                </h2>
-                <AccordionPanel pb={4}>
-                  <Text mb={4}>Abajo se abjunta el contenido</Text>
-                  <Box mb={12}>
-                    <Link fontWeight='bold' href={asignacion.archivo} target='_blank' download={true} isExternal>
-                      {asignacion.nombre_archivo} <ExternalLinkIcon mx='2px' />
-                    </Link>
-                  </Box>
-                    
-                  <ButtonGroup isDisabled={asignacion.estado !== 'entregado'}>
-                    <Button onClick={() => handleAprobar(asignacion.id)} colorScheme='teal'>Aprobar asignación</Button>
-                    <Button onClick={() => handleReprobar(asignacion.id)} colorScheme='red'>Reprobar asignación</Button>
-                  </ButtonGroup>
-                </AccordionPanel>
-              </AccordionItem>
-            ))
-          }
-        </Accordion>
+        {
+          asignaciones.length >= 1 && asignaciones.map(grupoAsignaciones => (
+            <Box key={grupoAsignaciones.nombre} mb={12}>
+              <Heading mb={8}>{grupoAsignaciones.nombre}</Heading>
+
+              <Accordion allowToggle>
+                {
+                  grupoAsignaciones.asignaciones.map(asignacion => (
+                    <AccordionItem key={asignacion.id}>
+                      <h2>
+                        <AccordionButton>
+                          <Box flex='1' textAlign='left'>
+                            {
+                              asignacion.estado === 'por entregar' && 
+                              <Icon as={CalendarIcon} mr={8} />
+                            }
+                            {
+                              asignacion.estado === 'entregado' && 
+                              <Icon as={TimeIcon} mr={8} />
+                            }
+                            {
+                              asignacion.estado === 'aprobado' && 
+                              <Icon as={CheckIcon} mr={8} />
+                            }
+                            {
+                              asignacion.estado === 'reprobado' && 
+                              <Icon as={CloseIcon} mr={8} />
+                            }
+                            <Text display='inline-block'>{asignacion.nombres_estudiante} {asignacion.apellidos_estudiante} - {asignacion.cedula_estudiante}</Text>
+                          </Box>
+                          <AccordionIcon />
+                        </AccordionButton>
+                      </h2>
+                      <AccordionPanel pb={4}>
+                        <Text mb={4}>Abajo se abjunta el contenido</Text>
+                        <Box mb={12}>
+                          <Link fontWeight='bold' href={asignacion.archivo} target='_blank' download={true} isExternal>
+                            {asignacion.nombre_archivo} <ExternalLinkIcon mx='2px' />
+                          </Link>
+                        </Box>
+                          
+                        <ButtonGroup isDisabled={asignacion.estado !== 'entregado'}>
+                          <Button onClick={() => handleAprobar(asignacion.id)} colorScheme='teal'>Aprobar asignación</Button>
+                          <Button onClick={() => handleReprobar(asignacion.id)} colorScheme='red'>Reprobar asignación</Button>
+                        </ButtonGroup>
+                      </AccordionPanel>
+                    </AccordionItem>
+                  ))
+                }
+              </Accordion>
+            </Box>
+          ))
+        }
 
         <Heading size='sm' mb={8} mt={8}>Activar Asignaciones</Heading>
         <HStack spacing={4}>
           {
             seccion && seccion.archivos.map(modelo => {
               return (
-                <Button key={modelo.id} rightIcon={<UnlockIcon />} p={6} colorScheme='orange' onClick={() => handleActivate(modelo.id)}>
+                <Button key={modelo.id} disabled={modelo.estado_activo} rightIcon={<UnlockIcon />} p={6} colorScheme='orange' onClick={() => handleActivate(modelo.id)}>
                   {modelo.tipo_archivo}
                 </Button>
               )

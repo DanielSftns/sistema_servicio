@@ -21,6 +21,10 @@ import Perfil from './components/facilitador/Perfil';
 import FacilitadorAsignaciones from './components/facilitador/FacilitadorAsignaciones';
 import EstudianteAsignaciones from './components/estudiante/EstudianteAsignaciones';
 import FacilitadorAprobarFaseFormativa from './components/facilitador/FacilitadorAprobarFaseFormativa';
+import EstudianteSolicitud from './components/estudiante/EstudianteSolicitud';
+import EstudianteProyecto from './components/estudiante/EstudianteProyecto';
+import CumplimientoSolicitudes from './components/cumplimiento/solicitudes/CumplimientoSolicitudes';
+import CumplimientoScreen from './components/cumplimiento/CumplimientoScreen';
 
 function App() {
   return (
@@ -34,7 +38,8 @@ function App() {
             
               <Route path='/estudiante' element={<EstudianteScreen />}>
                 <Route path='asignaciones' element={<EstudianteAsignaciones />} />
-                <Route path='proyecto' element={<h1>Proyecto</h1>} />
+                <Route path='proyecto' element={<EstudianteProyecto />} />
+                <Route path='solicitud' element={<EstudianteSolicitud />} />
                 <Route path='perfil' element={<EstudiantePerfil />} />
                 <Route index element={<EstudianteSeccion />} />
               </Route>
@@ -47,6 +52,7 @@ function App() {
                 <Route index element={<FacilitadorSeccion />} />
               </Route>
 
+              <Route path='/solicitudes' element={<CumplimientoSolicitudes />} />
           </Routes>
         </Container>
       </BrowserRouter>

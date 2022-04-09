@@ -26,6 +26,7 @@ import { TimeIcon, CheckIcon, CloseIcon, SearchIcon } from '@chakra-ui/icons'
 import { errorToast, successToast } from '../../functions/toast';
 import { SwalModal } from '../../functions/sweetAlertCommon';
 import { aprobarFaseFormativa } from './../../services/estudiante.service'
+import { useNavigate } from 'react-router-dom';
 
 const FacilitadorAprobarFaseFormativa = () => {
   const [loading, setLoading] = useState(true)
@@ -35,6 +36,7 @@ const FacilitadorAprobarFaseFormativa = () => {
   // const [asignaciones, setAsignaciones] = useState([])
   const [search, setSearch] = useState('')
   const [seleccionados, setSeleccionados] = useState([])
+  const navigate = useNavigate()
 
   useEffect(()=> {
     const get = async ()=> {
@@ -43,10 +45,7 @@ const FacilitadorAprobarFaseFormativa = () => {
         setSecciones(secciones)
 
         if(secciones.length === 0){
-          errorToast({
-            description: 'Sin secciones'
-          })
-          return
+          throw new Error('Sin secciones')
         }
 
         const seccion = secciones[0]
@@ -88,14 +87,15 @@ const FacilitadorAprobarFaseFormativa = () => {
         setLoading(false)
       } catch (error) {
         errorToast({
-          description: error.message
+          description: 'Algo ha salido mal'
         })
-        setLoading(false)
+        navigate(-1)
+        // setLoading(false)
       }
     }
 
     get()
-  }, [])
+  }, [navigate])
 
   const getAsignaciones = (codigo)=> {
     const [seccion] = secciones.filter(secc => secc.codigo === codigo)

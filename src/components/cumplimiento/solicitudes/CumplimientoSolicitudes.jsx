@@ -17,8 +17,10 @@ import {
   Icon,
   ButtonGroup
 } from '@chakra-ui/react'
-import { TimeIcon, CheckIcon, ExternalLinkIcon, CalendarIcon, CloseIcon } from '@chakra-ui/icons'
-
+import { TimeIcon, CheckIcon, ExternalLinkIcon, CloseIcon } from '@chakra-ui/icons'
+import { accionEnSolicitud } from '../../../services/solicitudes.service';
+import { errorToast, successToast } from '../../../functions/toast';
+import { SwalModal } from '../../../functions/sweetAlertCommon';
 
 const CumplimientoSolicitudes = () => {
   const [solicitudes, setSolicitudes] = useState()
@@ -37,6 +39,55 @@ const CumplimientoSolicitudes = () => {
 
     get()
   }, [])
+
+  const handleAprobar = (solicitud_id) => {
+    SwalModal.fire({
+      title:'Confirmar aprobar solicitud',
+      text:'Esto no es reversible',
+      confirmButtonText: 'Aprobar solicitud',
+    }).then(result => {
+      if(result.isConfirmed){
+        accionEnSolicitud({solicitud_id, accion: 'aprobado'})
+        .then(()=>{
+          successToast({
+            title: 'Solicitud aprobada'
+          })
+        }).catch((error)=>{
+          errorToast({
+            description: error.message
+          })
+        })
+      }
+    })
+  }
+
+  const handleRechazar = (solicitud_id) => {
+    SwalModal.fire({
+      title:'Confirmar rechazar solicitud',
+      text:'Esto no es reversible',
+      confirmButtonText: 'Rechazar solicitud',
+      input: 'text',
+      inputAttributes: {
+        placeholder: 'Motivo de rechazo'
+      },
+      preConfirm: (descripcion)=>{
+        return {descripcion}
+      }
+    }).then(result => {
+      if(result.isConfirmed){
+        accionEnSolicitud({solicitud_id, accion: 'rechazado', descripcion: result.value.descripcion})
+        .then(()=>{
+          successToast({
+            title: 'Solicitud rechazada'
+          })
+        }).catch((error)=>{
+          errorToast({
+            description: error.message
+          })
+        })
+      }
+    })
+  }
 
   if(loading){
     return <p>Loading...</p>
@@ -85,8 +136,8 @@ const CumplimientoSolicitudes = () => {
                     </Box>
                       
                     <ButtonGroup isDisabled={solicitud.estado !== 'por aprobar'}>
-                      <Button colorScheme='teal'>Aprobar</Button>
-                      <Button colorScheme='red'>Reprobar</Button>
+                      <Button onClick={()=> handleAprobar(solicitud.id)} colorScheme='teal'>Aprobar</Button>
+                      <Button onClick={()=> handleRechazar(solicitud.id)} colorScheme='red'>Reprobar</Button>
                     </ButtonGroup>
                   </AccordionPanel>
                 </AccordionItem>

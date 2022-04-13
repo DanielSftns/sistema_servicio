@@ -1,5 +1,4 @@
 import API from './API'
-import authHeader from './auth-header'
 
 const login = async ({email, password}) => {
   try {
@@ -31,7 +30,7 @@ const register = async ({email, password}) => {
     const res = await API.post('registrar',{
       email, password
     })
-    // }, { headers: authHeader() })
+    // })
     if(res.data.error){
       throw new Error(res.data.message)
     }
@@ -54,7 +53,7 @@ const getUser = async () => {
   return usuario
   
   // try {
-  //   const res = await API.get('registrar', { headers: authHeader() })
+  //   const res = await API.get('registrar')
   //   if(res.data.error){
   //     throw new Error(res.data.message)
   //   }
@@ -74,7 +73,7 @@ const getUser = async () => {
 
 const logout = async ()=> {
   try {
-    const res = await API.post('logout', {}, { headers: authHeader() })
+    const res = await API.post('logout', {})
 
     if(res.data.error){
       throw new Error(res.data.message)

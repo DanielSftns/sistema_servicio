@@ -1,9 +1,8 @@
 import API from './API'
-import authHeader from './auth-header'
 
 const registerFacilitador = async (data) => {
   try {
-    const res = await API.post('crear_facilitador', data, { headers: authHeader() })
+    const res = await API.post('crear_facilitador', data)
     if(res.data.error){
       throw new Error(res.data.message)
     }
@@ -23,7 +22,7 @@ const registerFacilitador = async (data) => {
 
 const getFacilitadores = async () => {
   try {
-    const res = await API.get('facilitadores', { headers: authHeader() })
+    const res = await API.get('facilitadores')
     if(res.data.error){
       throw new Error(res.data.message)
     }

@@ -1,9 +1,8 @@
 import API from './API'
-import authHeader from './auth-header'
 
 const getHorarios = async () => {
   try {
-    const res = await API.get('horarios', { headers: authHeader() })
+    const res = await API.get('horarios')
     if(res.data.error){
       throw new Error(res.data.message)
     }

@@ -1,9 +1,8 @@
 import API from './API'
-import authHeader from './auth-header'
 
 const editProfile = async (data) => {
   try {
-    const res = await API.post('perfil', data, { headers: authHeader() })
+    const res = await API.post('perfil', data)
     if(res.data.error){
       throw new Error(res.data.message)
     }
@@ -23,7 +22,7 @@ const editProfile = async (data) => {
 
 const getProfile = async () => {
   try {
-    const res = await API.get('perfil', { headers: authHeader() })
+    const res = await API.get('perfil')
     if(res.data.error){
       throw new Error(res.data.message)
     }
@@ -43,7 +42,7 @@ const getProfile = async () => {
 
 const getEstudiantesSinSeccion = async () => {
   try {
-    const res = await API.get('estudiantes/sinseccion', { headers: authHeader() })
+    const res = await API.get('estudiantes/sinseccion')
     if(res.data.error){
       throw new Error(res.data.message)
     }
@@ -63,7 +62,7 @@ const getEstudiantesSinSeccion = async () => {
 
 const aprobarFaseFormativa = async (estudiantes) => {
   try {
-    const res = await API.post('estudiantes/fase/formativa/aprobar', {estudiantes}, { headers: authHeader() })
+    const res = await API.post('estudiantes/fase/formativa/aprobar', {estudiantes})
     if(res.data.error){
       throw new Error(res.data.message)
     }

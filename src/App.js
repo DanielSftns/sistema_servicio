@@ -1,10 +1,11 @@
+import React from 'react';
 import './App.css';
 import {
-  BrowserRouter,
+  Router,
   Routes,
   Route
 } from "react-router-dom";
-
+import { history } from "./history";
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 
@@ -26,10 +27,28 @@ import EstudianteProyecto from './components/estudiante/EstudianteProyecto';
 import CumplimientoSolicitudes from './components/cumplimiento/solicitudes/CumplimientoSolicitudes';
 import CumplimientoScreen from './components/cumplimiento/CumplimientoScreen';
 
+const CustomRouter = ({ history, ...props }) => {
+  const [state, setState] = React.useState({
+    action: history.action,
+    location: history.location
+  });
+
+  React.useLayoutEffect(() => history.listen(setState), [history]);
+
+  return (
+    <Router
+      {...props}
+      location={state.location}
+      navigationType={state.action}
+      navigator={history}
+    />
+  );
+};
+
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
+      <CustomRouter history={history}>
         <Container maxW='container.xl' pb={12}>
           <Routes>
             <Route path='/' element={<LandingScreen /> } />
@@ -55,7 +74,7 @@ function App() {
               <Route path='/solicitudes' element={<CumplimientoSolicitudes />} />
           </Routes>
         </Container>
-      </BrowserRouter>
+      </CustomRouter>
     </AuthProvider>
   );
 }

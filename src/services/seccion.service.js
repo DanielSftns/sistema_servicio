@@ -1,9 +1,8 @@
 import API from './API'
-import authHeader from './auth-header'
 
 const registerSeccion = async (data) => {
   try {
-    const res = await API.post('facilitador/seccion', data, { headers: authHeader() })
+    const res = await API.post('facilitador/seccion', data)
     if(res.data.error){
       throw new Error(res.data.message)
     }
@@ -23,7 +22,7 @@ const registerSeccion = async (data) => {
 
 const getSecsByFacilitador = async () => {
   try {
-    const res = await API.get('facilitador/secciones', { headers: authHeader() })
+    const res = await API.get('facilitador/secciones')
     if(res.data.error){
       throw new Error(res.data.message)
     }
@@ -37,17 +36,13 @@ const getSecsByFacilitador = async () => {
       message = error.message
     }
     console.error(message)
-    if(message === 'sin secciones'){
-      return []
-    }else {
-      throw new Error(message)
-    }
+    throw new Error(message)
   }
 }
 
 const getSecsByEstudiante = async () => {
   try {
-    const res = await API.get('estudiantes/seccion', { headers: authHeader() })
+    const res = await API.get('estudiantes/seccion')
     if(res.data.error){
       throw new Error(res.data.message)
     }

@@ -51,6 +51,10 @@ const FacilitadorAsignaciones = () => {
         setValue(seccion.codigo)
         setSeccion(seccion)
         const allAsigs = await getAsigsBySeccion(seccion.codigo)
+        if(allAsigs.length === 0){
+          throw new Error("Sin asignaciones")
+        }
+        
         const asigs = allAsigs.reduce((prev, current) => {
           if(!prev.some(asig => asig.nombre === current.nombre)){
             const asigs = prev

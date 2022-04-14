@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
+import CustomRouter from './CustomRouter';
 import {
-  Router,
   Routes,
   Route
 } from "react-router-dom";
@@ -26,24 +26,8 @@ import EstudianteSolicitud from './components/estudiante/EstudianteSolicitud';
 import EstudianteProyecto from './components/estudiante/EstudianteProyecto';
 import CumplimientoSolicitudes from './components/cumplimiento/solicitudes/CumplimientoSolicitudes';
 import CumplimientoScreen from './components/cumplimiento/CumplimientoScreen';
-
-const CustomRouter = ({ history, ...props }) => {
-  const [state, setState] = React.useState({
-    action: history.action,
-    location: history.location
-  });
-
-  React.useLayoutEffect(() => history.listen(setState), [history]);
-
-  return (
-    <Router
-      {...props}
-      location={state.location}
-      navigationType={state.action}
-      navigator={history}
-    />
-  );
-};
+import CumplimientoProyectos from './components/cumplimiento/proyectos/CumplimientoProyectos';
+import CumplimientoRegistrarProyecto from './components/cumplimiento/proyectos/CumplimientoRegistrarProyecto';
 
 function App() {
   return (
@@ -72,6 +56,11 @@ function App() {
               </Route>
 
               <Route path='/solicitudes' element={<CumplimientoSolicitudes />} />
+              
+              <Route path='/proyectos' element={<CumplimientoScreen />} >
+                <Route path='registrar' element={<CumplimientoRegistrarProyecto />} />
+                <Route index element={<CumplimientoProyectos />} />
+              </Route>
           </Routes>
         </Container>
       </CustomRouter>

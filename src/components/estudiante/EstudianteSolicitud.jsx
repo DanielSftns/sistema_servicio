@@ -28,8 +28,8 @@ const EstudianteSolicitud = () => {
   useEffect(()=>{
     const get = async ()=> {
       obtenerMiSolicitud()
-      .then((solicitud)=>{
-        console.log({solicitud})
+      .then((solicitudes)=>{
+        const solicitud = solicitudes.filter(solicitud => solicitud.estado === 'por aprobar' || solicitud.estado === 'aprobado')[0]
         setSolicitud(solicitud)
       }).finally(()=>{
         setLoading(false)
@@ -138,7 +138,14 @@ const EstudianteSolicitud = () => {
         }
         {
           solicitud && <Box>
-            <Text mb={4}>Tienes una solicitud creada, espera por su revisión</Text>
+            <Box mb={4}>
+              {
+                solicitud.estado === 'aprobado' && <Text>Tu solicitud fue aprobada</Text>
+              }
+              {
+                solicitud.estado === 'por aprobar' && <Text>Tu solicitud esta siendo revisada</Text>
+              }
+            </Box>
 
             <Heading size='sm'>{solicitud.tipo}</Heading>
             <Text>Estatus: {solicitud.estado}</Text>

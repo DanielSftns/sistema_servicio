@@ -97,7 +97,7 @@ const CumplimientoSolicitudes = () => {
     <>
       <CumplimientoHeader />
       <div style={{'paddingTop': '2rem'}}>
-        <Heading mb={8}>Solicitudes de macroproyecto</Heading>
+        <Heading mb={8}>Solicitudes de proyecto</Heading>
         <Container>
           <Accordion allowToggle>
             {
@@ -115,7 +115,7 @@ const CumplimientoSolicitudes = () => {
                           <Icon as={CheckIcon} mr={8} />
                         }
                         {
-                          solicitud.estado === 'reprobado' && 
+                          solicitud.estado === 'rechazado' && 
                           <Icon as={CloseIcon} mr={8} />
                         }
                         <Text display='inline-block'>{solicitud.nombres_estudiante} {solicitud.apellidos_estudiante} - {solicitud.cedula_estudiante}</Text>

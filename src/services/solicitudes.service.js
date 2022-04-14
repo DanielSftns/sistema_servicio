@@ -7,7 +7,7 @@ const obtenerMiSolicitud = async () => {
       throw new Error(res.data.message)
     }
     
-    return res.data.data[0]
+    return res.data.data
   } catch (error) {
     let message = 'No se ha podido obtener solicitud'
     if (error.response && error.response.status === 400) {

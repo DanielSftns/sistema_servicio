@@ -36,6 +36,10 @@ const Login = () => {
           nextPage = '/facilitador'
           break
         }
+        case 'tutor etapa cumplimiento': {
+          nextPage = '/proyectos'
+          break
+        }
 
         default: {
           nextPage = '/estudiante'
@@ -49,11 +53,10 @@ const Login = () => {
       navigate(nextPage)
     }).catch(error => {
       console.error(error.message)
+      setLoading(false)
       errorToast({
         description: error.message,
       })
-    }).finally(()=>{
-      setLoading(false)
     })
   }
 

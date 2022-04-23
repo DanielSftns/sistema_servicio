@@ -22,7 +22,7 @@ import {
 } from '@chakra-ui/react'
 import { UnlockIcon, TimeIcon, CheckIcon, ExternalLinkIcon, CalendarIcon, CloseIcon } from '@chakra-ui/icons'
 
-import { errorToast, successToast } from '../../functions/toast';
+import { errorToast, successToast, infoToast } from '../../functions/toast';
 import { SwalModal } from '../../functions/sweetAlertCommon';
 
 const FacilitadorAsignaciones = () => {
@@ -85,9 +85,15 @@ const FacilitadorAsignaciones = () => {
         setAsignaciones(asigs)
         setLoading(false)
       } catch (error) {
-        errorToast({
-          description: error.message
-        })
+        if(error.message === "Sin asignaciones"){
+          infoToast({
+            description: error.message
+          })
+        } else {
+          errorToast({
+            description: error.message
+          })
+        }
         setLoading(false)
       }
     }

@@ -62,10 +62,10 @@ const obtenerSolicitudes = async () => {
   }
 }
 
-const accionEnSolicitud = async ({solicitud_id, accion, descripcion}) => {
+const rechazarSolicitud = async ({solicitud_id, descripcion}) => {
   try {
-    const res = await API.post('solicitudes/proyectos/accion', {
-      solicitud_id, accion, descripcion
+    const res = await API.post('solicitudes/proyectos/rechazar', {
+      solicitud_id, descripcion
     })
     if(res.data.error){
       throw new Error(res.data.message)
@@ -73,7 +73,7 @@ const accionEnSolicitud = async ({solicitud_id, accion, descripcion}) => {
     
     return res.data.data
   } catch (error) {
-    let message = `Error al ${accion} solicitud`
+    let message = 'No se ha podido rechazar solicitud'
     if (error.response && error.response.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
@@ -83,10 +83,38 @@ const accionEnSolicitud = async ({solicitud_id, accion, descripcion}) => {
     throw new Error(message)
   }
 }
+
+const aprobarSolicitudRegisterProyecto = async ({solicitud_id, descripcion, estudiantes, titulo, codigo, especialidad}) => {
+  try {
+    const res = await API.post('solicitudes/proyectos/aprobar', {
+      solicitud_id,
+      descripcion,
+      estudiantes,
+      titulo,
+      codigo,
+      especialidad
+    })
+    if(res.data.error){
+      throw new Error(res.data.message)
+    }
+    
+    return res.data.data
+  } catch (error) {
+    console.error(error)
+    let message = 'No se ha podido registrar proyecto'
+    if (error.response && error.response.status === 400) {
+      message = error.response.data.message || error.response.data
+    } else if (!error.response) {
+      message = error.message
+    }
+    throw new Error(message)
+  }
+}
  
 export {
   obtenerMiSolicitud,
   crearSolicitud,
   obtenerSolicitudes,
-  accionEnSolicitud
+  rechazarSolicitud,
+  aprobarSolicitudRegisterProyecto
 }

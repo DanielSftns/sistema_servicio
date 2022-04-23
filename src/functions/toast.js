@@ -27,5 +27,13 @@ const errorToast = ({title = 'Error', description}) => {
     description
   })
 }
+
+const infoToast = ({title = 'Info', description}) => {
+  Toast({
+    status: 'info',
+    title,
+    description
+  })
+}
  
-export { successToast, errorToast }
+export { successToast, errorToast, infoToast }

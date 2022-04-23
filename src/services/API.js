@@ -36,6 +36,7 @@ instance.interceptors.response.use(
       })
       return Promise.reject('Sesion caducada')
     }
+    return Promise.reject(err)
   }
 )
 

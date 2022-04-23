@@ -41,7 +41,7 @@ const CumplimientoProyectos = () => {
     <>
       <Heading mb={8}>Proyectos</Heading>
       <Container>
-      <Button as={ReactLink} to="registrar">Registrar proyecto</Button>
+      <Button mb={8} as={ReactLink} to="registrar">Registrar proyecto</Button>
 
         <Accordion allowToggle>
           {
@@ -50,15 +50,38 @@ const CumplimientoProyectos = () => {
                 <h2>
                   <AccordionButton>
                     <Box flex='1' textAlign='left'>
-                      <Text display='inline-block'>{proyecto.codigo} {proyecto.titulo}</Text>
+                      <Heading size='sm'>{proyecto.codigo} {proyecto.titulo}</Heading>
                     </Box>
                     <AccordionIcon />
                   </AccordionButton>
                 </h2>
                 <AccordionPanel pb={4}>
-                  <Text mb={4}>Abajo se abjunta el contenido</Text>
+                  <Box mb={4}>
+                    <Heading size='sm'>Estado</Heading>
+                    <Text>{proyecto.estado}</Text>
 
-                
+                    <Heading mt={2} size='sm'>Escuela</Heading>
+                    <Text>{proyecto.nombre_escuela}</Text>
+
+                    <Heading mt={2} size='sm'>Especialidad</Heading>
+                    <Text>{proyecto.nombre_especialidad}</Text>
+
+                    <Heading mt={2} size='sm'>Estudiantes</Heading>
+                    <Text>
+                      {
+                        proyecto.estudiantes.map(estudiante => estudiante.nombres + ' ' + estudiante.apellidos).join(', ')
+                      }
+                    </Text>
+
+                    <Heading mt={2} size='sm'>Entregables</Heading>
+                    {
+                      proyecto.archivos.map((archivo, i) => (
+                        <Text key={i}><b>{archivo.tipo_archivo}:</b> {archivo.estado}</Text>
+                      ))
+                    }
+                  </Box>
+
+                  <Button size='sm' colorScheme='teal' as={ReactLink} to={proyecto.codigo}>Detalles</Button>
                 </AccordionPanel>
               </AccordionItem>
             ))

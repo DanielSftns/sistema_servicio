@@ -5,6 +5,7 @@ import FormControl from '../../shared/FormControl'
 import { successToast, errorToast } from '../../../functions/toast';
 import { SwalModal } from '../../../functions/sweetAlertCommon';
 import { registerProyecto } from '../../../services/proyectos.service';
+import { getEstudiantesFaseFormativaAprobada } from '../../../services/estudiante.service';
 import { useNavigate } from 'react-router-dom';
 
 import {
@@ -30,20 +31,7 @@ const CumplimientoRegistrarProyecto = () => {
   useEffect(()=>{
     const getInfo = async ()=> {
       try {
-        const estudiantes = [
-          {
-            "cedula": "19131304",
-            "nombres": "Bilie",
-            "apellidos": "Ashly",
-            "email": "estudiante1@test.com"
-          },
-          {
-            "cedula": "19171304",
-            "nombres": "Carlas",
-            "apellidos": "Mujica",
-            "email": "estudiante2@test.com"
-          }
-        ]
+        const estudiantes = await getEstudiantesFaseFormativaAprobada()
         setEstudiantes(estudiantes)
         setLoading(false)
       } catch (error) {
@@ -81,6 +69,8 @@ const CumplimientoRegistrarProyecto = () => {
   }
 
   const handleSave = (values) => {
+    console.log(values)
+
     if(seleccionados.length === 0){
       errorToast({
         description: 'No se puede registrar sin estudiantes'
@@ -125,7 +115,8 @@ const CumplimientoRegistrarProyecto = () => {
       <Formik
         initialValues={{
           codigo: '',
-          titulo: ''
+          titulo: '',
+          especialidad: ''
         }}
         validate={(values)=> {
           let errors = {}
@@ -135,6 +126,9 @@ const CumplimientoRegistrarProyecto = () => {
           }
           if(!values.titulo){
             errors.titulo = 'Esto es requerido'
+          }
+          if(!values.especialidad){
+            errors.especialidad = 'Esto es requerido'
           }
 
           return errors
@@ -149,6 +143,20 @@ const CumplimientoRegistrarProyecto = () => {
           <FormControl errorprop='titulo'>
             <FormLabel htmlFor=''>Titutlo</FormLabel>
             <Field name='titulo' type='text' />
+          </FormControl>
+          <FormControl errorprop='especialidad'>
+            <FormLabel htmlFor='especialidad'>Especialidad</FormLabel>
+            <Field name='especialidad' component='select'>
+              <option value=''>Seleccionar</option>
+              <option value='E8'>ingeniería de sistemas</option>
+              <option value='E7'>ingeniería de petróleo</option>
+              <option value='E6'>licenciado en gerencia de recursos humanos</option>
+              <option value='E5'>licenciado en administración</option>
+              <option value='E4'>licenciado en contaduría pública</option>
+              <option value='E3'>ingeniería de producción animal</option>
+              <option value='E2'>ingeniería agronómica</option>
+              <option value='E1'>licenciado en tecnología de los alimentos</option>
+            </Field>
           </FormControl>
           <FormControl>
             <FormLabel htmlFor='tutor'>Estudiantes</FormLabel>

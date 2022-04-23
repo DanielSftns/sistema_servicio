@@ -28,6 +28,7 @@ import CumplimientoSolicitudes from './components/cumplimiento/solicitudes/Cumpl
 import CumplimientoScreen from './components/cumplimiento/CumplimientoScreen';
 import CumplimientoProyectos from './components/cumplimiento/proyectos/CumplimientoProyectos';
 import CumplimientoRegistrarProyecto from './components/cumplimiento/proyectos/CumplimientoRegistrarProyecto';
+import CumplimientoProyectoDetalles from './components/cumplimiento/proyectos/CumplimientoProyectoDetalles';
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
               <Route path='/solicitudes' element={<CumplimientoSolicitudes />} />
               
               <Route path='/proyectos' element={<CumplimientoScreen />} >
+                <Route path=":proyectoID" element={<CumplimientoProyectoDetalles />} />
                 <Route path='registrar' element={<CumplimientoRegistrarProyecto />} />
                 <Route index element={<CumplimientoProyectos />} />
               </Route>

@@ -56,11 +56,13 @@ function App() {
                 <Route index element={<FacilitadorSeccion />} />
               </Route>
 
-              <Route path='/solicitudes' element={<CumplimientoSolicitudes />} />
               
-              <Route path='/proyectos' element={<CumplimientoScreen />} >
-                <Route path=":proyectoID" element={<CumplimientoProyectoDetalles />} />
+              <Route path='/tutor' element={<CumplimientoScreen />} >
+                <Route path='solicitudes' element={<CumplimientoSolicitudes />} />
+                <Route path='proyectos' element={<CumplimientoProyectos />} />
+                <Route path="proyectos/:proyectoID" element={<CumplimientoProyectoDetalles />} />
                 <Route path='registrar' element={<CumplimientoRegistrarProyecto />} />
+                <Route path='perfil' element={<Perfil />} />
                 <Route index element={<CumplimientoProyectos />} />
               </Route>
           </Routes>

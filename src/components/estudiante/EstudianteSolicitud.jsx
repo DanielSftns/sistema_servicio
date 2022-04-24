@@ -40,20 +40,25 @@ const EstudianteSolicitud = () => {
   }, [])
 
   const handleSubmit = async (values)=> {
-    const archivos = []
-    do {
-      const archivo = values.archivos[archivos.length]
-      const fileBase64 = await getBase64(archivo)
-      archivos.push({
-        archivo: fileBase64,
-        nombre_archivo: archivo.name
-      })
-    } while (archivos.length < values.archivos.length);
-    
-    console.log(archivos)
+    let data
+    if(values.archivos){
+      const archivos = []
+      do {
+        const archivo = values.archivos[archivos.length]
+        const fileBase64 = await getBase64(archivo)
+        archivos.push({
+          archivo: fileBase64,
+          nombre_archivo: archivo.name
+        })
+      } while (archivos.length < values.archivos.length);
+      console.log(archivos)
+      data = {archivos, tipo: values.tipo}
+    }else {
+      data = {tipo: values.tipo}
+    }
     try {
       setLoading(true)
-      await crearSolicitud({archivos, tipo: values.tipo})
+      await crearSolicitud(data)
       successToast({
         description: 'Solicitud creada',
       })

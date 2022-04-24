@@ -126,11 +126,34 @@ const corregirArchivoProyecto = async ({nombre, tipo_archivo, archivo, proyecto,
   }
 }
 
+const aprobarArchivoProyecto = async ({tipo_archivo, proyecto, comentario}) => {
+  try {
+    const res = await API.post('proyectos/archivos/aprobar', {
+     archivos: [{tipo_archivo, proyecto, comentario}]
+    })
+    if(res.data.error){
+      throw new Error(res.data.message)
+    }
+    
+    return res.data.data
+  } catch (error) {
+    console.error(error)
+    let message = 'Error al aprobar archivo'
+    if (error.response && error.response.status === 400) {
+      message = error.response.data.message || error.response.data
+    } else if (!error.response) {
+      message = error.message
+    }
+    throw new Error(message)
+  }
+}
+
 export {
   registerProyecto,
   getProyectos,
   getMyProyecto,
   getProyecto,
   subirArchivoAlProyecto,
-  corregirArchivoProyecto
+  corregirArchivoProyecto,
+  aprobarArchivoProyecto
 }

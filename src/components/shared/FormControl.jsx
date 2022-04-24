@@ -8,7 +8,7 @@ const FormControl = (props)=>{
   return (
     <ChakraFormControl isInvalid={errors[props.errorprop] && touched[props.errorprop]} {...props}>
       {props.children}
-      <ErrorMessage name={props.errorprop} component={FormErrorMessage} />
+      {!props.notmessage && <ErrorMessage name={props.errorprop} component={FormErrorMessage} />}
     </ChakraFormControl>
   )
 }

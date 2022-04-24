@@ -31,9 +31,9 @@ const CumplimientoHeader = () => {
     >
       <Link fontWeight="700" fontSize="2xl" as={ReachLink} to="/">SERVICIO</Link>
       <Flex gap={2}>
-        <Link as={ReachLink} to="/proyectos">Proyectos</Link>
-        <Link as={ReachLink} to="/solicitudes">Solicitudes</Link>
-        <Link as={ReachLink} to="perfil">Mi Perfil</Link>
+        <Link as={ReachLink} to="/tutor/proyectos">Proyectos</Link>
+        <Link as={ReachLink} to="/tutor/solicitudes">Solicitudes</Link>
+        <Link as={ReachLink} to="/tutor/perfil">Mi Perfil</Link>
         <Button title='notificaciones' variant='link'>
           <BellIcon />
           <Box w={2} h={2} rounded='full' bg='red'></Box>

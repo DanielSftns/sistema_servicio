@@ -1,5 +1,4 @@
 import React, { useEffect,useState } from 'react';
-import CumplimientoHeader from '../CumplimientoHeader';
 import { obtenerSolicitudes } from '../../../services/solicitudes.service';
 import { Formik, Form  } from 'formik';
 import Field from '../../shared/CustomFieldFormik'
@@ -125,69 +124,66 @@ const CumplimientoSolicitudes = () => {
 
   return (
     <>
-      <CumplimientoHeader />
-      <div style={{'paddingTop': '2rem'}}>
-        <Heading mb={8}>Solicitudes de proyecto</Heading>
-        <Container>
-          <Accordion allowToggle>
-            {
-              solicitudes.map(solicitud => (
-                <AccordionItem key={solicitud.id}>
-                  <h2>
-                    <AccordionButton>
-                      <Box flex='1' textAlign='left'>
-                        {
-                          solicitud.estado === 'por aprobar' && 
-                          <Icon as={TimeIcon} mr={8} />
-                        }
-                        {
-                          solicitud.estado === 'aprobado' && 
-                          <Icon as={CheckIcon} mr={8} />
-                        }
-                        {
-                          solicitud.estado === 'rechazado' && 
-                          <Icon as={CloseIcon} mr={8} />
-                        }
-                        <Text display='inline-block'>{solicitud.nombres_estudiante} {solicitud.apellidos_estudiante} - {solicitud.cedula_estudiante}</Text>
-                      </Box>
-                      <AccordionIcon />
-                    </AccordionButton>
-                  </h2>
-                  <AccordionPanel pb={4}>
-                    <Text mb={4}>Abajo se abjunta el contenido</Text>
-                    <Box mb={12}>
+      <Heading mb={8}>Solicitudes de proyecto</Heading>
+      <Container>
+        <Accordion allowToggle>
+          {
+            solicitudes.map(solicitud => (
+              <AccordionItem key={solicitud.id}>
+                <h2>
+                  <AccordionButton>
+                    <Box flex='1' textAlign='left'>
                       {
-                        solicitud.archivos && solicitud.archivos.map((archivo, i) => (
-                          <Link key={i} display='block' fontWeight='bold' href={archivo.archivo} target='_blank' download={true} isExternal>
-                            {archivo.nombre} <ExternalLinkIcon mx='2px' />
-                          </Link>
-                        ))
+                        solicitud.estado === 'por aprobar' && 
+                        <Icon as={TimeIcon} mr={8} />
                       }
+                      {
+                        solicitud.estado === 'aprobado' && 
+                        <Icon as={CheckIcon} mr={8} />
+                      }
+                      {
+                        solicitud.estado === 'rechazado' && 
+                        <Icon as={CloseIcon} mr={8} />
+                      }
+                      <Text display='inline-block'>{solicitud.nombres_estudiante} {solicitud.apellidos_estudiante} - {solicitud.cedula_estudiante}</Text>
                     </Box>
-                    
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel pb={4}>
+                  <Text mb={4}>Abajo se abjunta el contenido</Text>
+                  <Box mb={12}>
+                    {
+                      solicitud.archivos && solicitud.archivos.map((archivo, i) => (
+                        <Link key={i} display='block' fontWeight='bold' href={archivo.archivo} target='_blank' download={true} isExternal>
+                          {archivo.nombre} <ExternalLinkIcon mx='2px' />
+                        </Link>
+                      ))
+                    }
+                  </Box>
+                  
+                  {
+                    handleAprobar === solicitud.id &&
+                      <SolicitudForm solicitud={solicitud} estudiantesData={estudiantes} handleAprobarSubmit={handleAprobarSubmit} />
+                  }
+
+                  <ButtonGroup isDisabled={solicitud.estado !== 'por aprobar'}>
+                    {
+                      handleAprobar !== solicitud.id &&
+                        <Button onClick={()=> handleShowForm(solicitud.id)} colorScheme='gray'>Aprobar</Button>
+                    }
                     {
                       handleAprobar === solicitud.id &&
-                        <SolicitudForm solicitud={solicitud} estudiantesData={estudiantes} handleAprobarSubmit={handleAprobarSubmit} />
+                        <Button form={`form-solicitud-${solicitud.id}`} type='submit' colorScheme='teal'>Aprobar</Button>
                     }
-
-                    <ButtonGroup isDisabled={solicitud.estado !== 'por aprobar'}>
-                      {
-                        handleAprobar !== solicitud.id &&
-                          <Button onClick={()=> handleShowForm(solicitud.id)} colorScheme='gray'>Aprobar</Button>
-                      }
-                      {
-                        handleAprobar === solicitud.id &&
-                          <Button form={`form-solicitud-${solicitud.id}`} type='submit' colorScheme='teal'>Aprobar</Button>
-                      }
-                      <Button onClick={()=> handleRechazar(solicitud.id)} colorScheme='red'>Reprobar</Button>
-                    </ButtonGroup>
-                  </AccordionPanel>
-                </AccordionItem>
-              ))
-            }
-          </Accordion>
-        </Container>
-      </div>
+                    <Button onClick={()=> handleRechazar(solicitud.id)} colorScheme='red'>Reprobar</Button>
+                  </ButtonGroup>
+                </AccordionPanel>
+              </AccordionItem>
+            ))
+          }
+        </Accordion>
+      </Container>
     </>
   );
 }

@@ -79,10 +79,11 @@ const logout = async ()=> {
       throw new Error(res.data.message)
     }
   
-    localStorage.removeItem('usuario')
     return res.data
   } catch (error) {
     console.error(error)
+  } finally {
+    localStorage.removeItem('usuario')
   }
 }
 

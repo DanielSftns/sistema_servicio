@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getProyecto, corregirArchivoProyecto, aprobarArchivoProyecto, avalarProyecto } from '../../../services/proyectos.service';
+import { getGrupoMacroProyecto, corregirArchivoGrupo, aprobarArchivoGrupo, avalarGrupo, subirArchivoAsignacion } from '../../../services/macroproyectos.service';
 import { useParams } from 'react-router-dom';
 import getBase64 from '../../../functions/getBase64';
 import { errorToast, successToast } from '../../../functions/toast';
@@ -33,9 +33,9 @@ import {
 import { ExternalLinkIcon, CheckIcon, TimeIcon } from '@chakra-ui/icons';
 import ModalHorasCumplidas from '../ModalHorasCumplidas';
 
-const CumplimientoProyectoDetalles = () => {
+const CumplimientoGrupoDetalles = () => {
   const paramns = useParams()
-  const codigo = paramns.proyectoID
+  const grupoID = paramns.grupoID
   const [proyecto, setProyecto] = useState()
   const [loading, setLoading] = useState(true)
   const [comentario, setComentario] = useState('')
@@ -43,7 +43,7 @@ const CumplimientoProyectoDetalles = () => {
 
   useEffect(()=>{
     const get = async ()=> {
-      getProyecto(codigo)
+      getGrupoMacroProyecto(grupoID)
       .then((proyecto)=>{
         console.log(proyecto)
         setProyecto(proyecto)
@@ -59,7 +59,7 @@ const CumplimientoProyectoDetalles = () => {
     }
 
     get()
-  }, [codigo])
+  }, [grupoID])
 
   const handleSelectArchivo = (event)=>{
     getBase64(event.target.files[0])
@@ -76,9 +76,23 @@ const CumplimientoProyectoDetalles = () => {
     })
   }
 
+  const handleSelectArchivoAgregarAsignacion = (event)=>{
+    getBase64(event.target.files[0])
+    .then((fileBase64)=>{
+      handleAgregarAsignacion({
+        archivo: fileBase64,
+        nombre_archivo: event.target.files[0].name
+      }) 
+    }).catch((error)=>{ 
+      errorToast({
+        description: error.message
+      })
+    })
+  }
+
   const handleCorregirArchivo = (dataArchivo) => {
     setLoading(true)
-    corregirArchivoProyecto({...dataArchivo, proyecto: codigo, comentario})
+    corregirArchivoGrupo({...dataArchivo, macro_grupo: grupoID, comentario})
     .then(()=>{
       successToast({
         description: 'Correción subida'
@@ -96,7 +110,7 @@ const CumplimientoProyectoDetalles = () => {
 
   const handleAceptarArchivo = (tipo_archivo) => {
     setLoading(true)
-    aprobarArchivoProyecto({tipo_archivo, proyecto: codigo})
+    aprobarArchivoGrupo({tipo_archivo, macro_grupo: grupoID})
     .then(()=>{
       successToast({
         description: 'Archivo aceptado'
@@ -114,10 +128,28 @@ const CumplimientoProyectoDetalles = () => {
 
   const handleAvalarProyecto = () => {
     setLoading(true)
-    avalarProyecto(codigo)
+    avalarGrupo(grupoID)
     .then(()=>{
       successToast({
-        description: 'Proyecto avalado'
+        description: 'Grupo avalado'
+      })
+    })
+    .catch((error)=>{
+      errorToast({
+        description: error.message
+      })
+    })
+    .finally(()=>{
+      setLoading(false)
+    })
+  }
+
+  const handleAgregarAsignacion = (dataArchivo) => {
+    setLoading(true)
+    subirArchivoAsignacion({...dataArchivo, macro_grupo: grupoID})
+    .then(()=>{
+      successToast({
+        description: 'Archivo subido'
       })
     })
     .catch((error)=>{
@@ -137,7 +169,7 @@ const CumplimientoProyectoDetalles = () => {
   return (
   <>
     <Heading mb={8}>
-      {codigo} - {proyecto.titulo}
+      {proyecto.titulo}
       {
         proyecto.estado === 'avalado' &&  
         <Badge ml='1' fontSize='0.5em' colorScheme='green' variant='solid'>
@@ -161,6 +193,12 @@ const CumplimientoProyectoDetalles = () => {
     </Box>
     <Box mb={8}>
       <Heading mb={4}>Entregables</Heading>
+      <Button
+        colorScheme='teal'
+        onClick={()=> document.querySelector(`[data-tipo="grupo-agregar-asignacion"]`).click()}
+      >Agregar asignación</Button>
+      <input type="file" data-tipo='grupo-agregar-asignacion' hidden onChange={handleSelectArchivoAgregarAsignacion} />
+
       <Accordion maxWidth={1000} allowToggle>
         {
           proyecto.archivos.map((archivo, i) => (
@@ -262,4 +300,4 @@ const CumplimientoProyectoDetalles = () => {
   );
 }
  
-export default CumplimientoProyectoDetalles;
+export default CumplimientoGrupoDetalles;

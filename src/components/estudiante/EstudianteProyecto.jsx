@@ -23,7 +23,8 @@ import {
   Td,
   Link,
   Button,
-  Icon
+  Icon,
+  Badge
 } from '@chakra-ui/react';
 
 import { ExternalLinkIcon, CheckIcon, TimeIcon } from '@chakra-ui/icons';
@@ -89,7 +90,15 @@ const EstudianteProyecto = () => {
   
   return (
     <>
-      <Heading mb={8}>{proyecto.codigo} - {proyecto.titulo}</Heading>
+      <Heading mb={8}>
+        {proyecto.codigo? `${proyecto.codigo} - ${proyecto.titulo}`: `${proyecto.titulo}`}
+        {
+          proyecto.estado === 'avalado' &&  
+          <Badge ml='1' fontSize='0.5em' colorScheme='green' variant='solid'>
+            Avalado
+          </Badge>
+        }
+      </Heading>
       <Box mb={8}>
         <Heading mb={4}>Integrantes</Heading>
         {
@@ -100,6 +109,19 @@ const EstudianteProyecto = () => {
           ))
         }
       </Box>
+      {
+        proyecto.tutores && 
+          <Box mb={8}>
+            <Heading mb={4}>Tutores</Heading>
+            {
+              proyecto.tutores.map((tutor, i) => (
+                <Box key={i}>
+                  <Text>{tutor.nombres} {tutor.apellidos}</Text>
+                </Box>
+              ))
+            }
+          </Box>
+      }
       <Box mb={8}>
         <Heading mb={4}>Entregables</Heading>
         <Accordion allowToggle maxWidth={1000}>

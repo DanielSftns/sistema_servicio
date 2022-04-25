@@ -1,9 +1,49 @@
 import API from './API'
 
-const registerProyecto = async ({estudiantes, titulo, codigo, especialidad}) => {
+const getMacroProyectos = async () => {
   try {
-    const res = await API.post('proyectos/crear', {
-      estudiantes, titulo, codigo, especialidad
+    const res = await API.get('macroproyectos')
+    if(res.data.error){
+      throw new Error(res.data.message)
+    }
+    
+    return res.data.data
+  } catch (error) {
+    console.error(error)
+    let message = 'No se ha podido obtener macroproyectos'
+    if (error.response && error.response.status === 400) {
+      message = error.response.data.message || error.response.data
+    } else if (!error.response) {
+      message = error.message
+    }
+    throw new Error(message)
+  }
+}
+
+const getMacroProyecto = async (codigo) => {
+  try {
+    const res = await API.get('macroproyecto/' + codigo)
+    if(res.data.error){
+      throw new Error(res.data.message)
+    }
+    
+    return res.data.data
+  } catch (error) {
+    console.error(error)
+    let message = 'No se ha podido obtener macroproyecto'
+    if (error.response && error.response.status === 400) {
+      message = error.response.data.message || error.response.data
+    } else if (!error.response) {
+      message = error.message
+    }
+    throw new Error(message)
+  }
+}
+
+const registerMacroProyecto = async ({ titulo, codigo }) => {
+  try {
+    const res = await API.post('macroproyecto/crear', {
+      titulo, codigo
     })
     if(res.data.error){
       throw new Error(res.data.message)
@@ -12,7 +52,7 @@ const registerProyecto = async ({estudiantes, titulo, codigo, especialidad}) => 
     return res.data.data
   } catch (error) {
     console.error(error)
-    let message = 'No se ha podido registrar proyecto'
+    let message = 'No se ha podido registrar macroproyecto'
     if (error.response && error.response.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
@@ -22,9 +62,11 @@ const registerProyecto = async ({estudiantes, titulo, codigo, especialidad}) => 
   }
 }
 
-const getProyectos = async () => {
+const registerGrupoMacroProyecto = async ({ titulo, codigo }) => {
   try {
-    const res = await API.get('proyectos')
+    const res = await API.post('macroproyecto/crear', {
+      titulo, codigo
+    })
     if(res.data.error){
       throw new Error(res.data.message)
     }
@@ -32,7 +74,7 @@ const getProyectos = async () => {
     return res.data.data
   } catch (error) {
     console.error(error)
-    let message = 'No se ha podido obtener proyectos'
+    let message = 'No se ha podido registrar macroproyecto'
     if (error.response && error.response.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
@@ -42,9 +84,9 @@ const getProyectos = async () => {
   }
 }
 
-const getMyProyecto = async () => {
+const getGrupoMacroProyecto = async (codigo) => {
   try {
-    const res = await API.get('proyecto')
+    const res = await API.get('macroproyecto/grupos/' + codigo)
     if(res.data.error){
       throw new Error(res.data.message)
     }
@@ -52,7 +94,7 @@ const getMyProyecto = async () => {
     return res.data.data
   } catch (error) {
     console.error(error)
-    let message = 'No se ha podido obtener proyecto'
+    let message = 'No se ha podido obtener grupo de macroproyecto'
     if (error.response && error.response.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
@@ -62,27 +104,7 @@ const getMyProyecto = async () => {
   }
 }
 
-const getProyecto = async (codigo) => {
-  try {
-    const res = await API.get('proyectos/' + codigo)
-    if(res.data.error){
-      throw new Error(res.data.message)
-    }
-    
-    return res.data.data
-  } catch (error) {
-    console.error(error)
-    let message = 'No se ha podido obtener proyecto'
-    if (error.response && error.response.status === 400) {
-      message = error.response.data.message || error.response.data
-    } else if (!error.response) {
-      message = error.message
-    }
-    throw new Error(message)
-  }
-}
-
-const subirArchivoAlProyecto = async ({nombre, tipo_archivo, archivo}) => {
+const subirArchivoAlGrupo = async ({nombre, tipo_archivo, archivo}) => {
   try {
     const res = await API.post('proyectos/subir/archivos', {
       nombre, tipo_archivo, archivo
@@ -104,10 +126,10 @@ const subirArchivoAlProyecto = async ({nombre, tipo_archivo, archivo}) => {
   }
 }
 
-const corregirArchivoProyecto = async ({nombre, tipo_archivo, archivo, proyecto, comentario}) => {
+const corregirArchivoGrupo = async ({nombre, tipo_archivo, archivo, macro_grupo, comentario}) => {
   try {
-    const res = await API.post('proyectos/corregir', {
-      nombre, tipo_archivo, archivo, proyecto, comentario
+    const res = await API.post('macroproyecto/archivo/corregir', {
+      nombre, tipo_archivo, archivo, macro_grupo, comentario
     })
     if(res.data.error){
       throw new Error(res.data.message)
@@ -126,10 +148,10 @@ const corregirArchivoProyecto = async ({nombre, tipo_archivo, archivo, proyecto,
   }
 }
 
-const aprobarArchivoProyecto = async ({tipo_archivo, proyecto, comentario}) => {
+const aprobarArchivoGrupo = async ({tipo_archivo, macro_grupo}) => {
   try {
-    const res = await API.post('proyectos/archivos/aprobar', {
-     archivos: [{tipo_archivo, proyecto, comentario}]
+    const res = await API.post('macroproyecto/archivo/aprobar', {
+      tipo_archivo, macro_grupo
     })
     if(res.data.error){
       throw new Error(res.data.message)
@@ -148,10 +170,10 @@ const aprobarArchivoProyecto = async ({tipo_archivo, proyecto, comentario}) => {
   }
 }
 
-const avalarProyecto = async (codigo) => {
+const avalarGrupo = async (codigo) => {
   try {
-    const res = await API.post('proyectos/avalar', {
-      codigo
+    const res = await API.post('macroproyecto/grupo/avalar', {
+      macro_grupo: codigo
     })
     if(res.data.error){
       throw new Error(res.data.message)
@@ -170,13 +192,37 @@ const avalarProyecto = async (codigo) => {
   }
 }
 
+const subirArchivoAsignacion = async ({nombre_archivo, macro_grupo, archivo}) => {
+  try {
+    const res = await API.post('macroproyecto/archivo/crear', {
+      nombre_archivo, macro_grupo, archivo
+    })
+    if(res.data.error){
+      throw new Error(res.data.message)
+    }
+    
+    return res.data.data
+  } catch (error) {
+    console.error(error)
+    let message = 'Error subiendo archivo'
+    if (error.response && error.response.status === 400) {
+      message = error.response.data.message || error.response.data
+    } else if (!error.response) {
+      message = error.message
+    }
+    throw new Error(message)
+  }
+}
+
 export {
-  registerProyecto,
-  getProyectos,
-  getMyProyecto,
-  getProyecto,
-  subirArchivoAlProyecto,
-  corregirArchivoProyecto,
-  aprobarArchivoProyecto,
-  avalarProyecto
+  getMacroProyectos,
+  getMacroProyecto,
+  registerMacroProyecto,
+  registerGrupoMacroProyecto,
+  getGrupoMacroProyecto,
+  subirArchivoAlGrupo,
+  corregirArchivoGrupo,
+  aprobarArchivoGrupo,
+  avalarGrupo,
+  subirArchivoAsignacion
 }

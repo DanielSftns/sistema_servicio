@@ -37,7 +37,7 @@ const Login = () => {
           break
         }
         case 'tutor etapa cumplimiento': {
-          nextPage = 'tutor/proyectos'
+          nextPage = '/tutor/proyectos'
           break
         }
 

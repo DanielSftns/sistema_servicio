@@ -2,7 +2,7 @@
   "name": "sistema_servicio",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://DanielSftns.github.io/sistema_servicio",
+  "homepage": "https://danielsftns.github.io/sistema_servicio",
   "dependencies": {
     "@chakra-ui/icons": "^1.1.7",
     "@chakra-ui/react": "^1.8.6",

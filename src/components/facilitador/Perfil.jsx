@@ -11,7 +11,7 @@ import {
   Container
 } from '@chakra-ui/react'
 import { useAuth } from '../../contexts/AuthContext';
-import { getProfile, editProfile } from '../../services/estudiante.service';
+import { getProfile, editProfile } from '../../services/auth.service';
 
 import { Formik, Form  } from 'formik';
 import Field from '../shared/CustomFieldFormik'

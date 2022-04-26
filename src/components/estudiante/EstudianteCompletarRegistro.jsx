@@ -2,13 +2,12 @@ import React, { useRef, useState } from 'react';
 import { Formik, Form  } from 'formik';
 import Field from '../shared/CustomFieldFormik'
 import FormControl from '../shared/FormControl'
-import { editProfile } from '../../services/estudiante.service';
+import { editProfile } from '../../services/auth.service';
 
 import {
   Heading,
   Button,
   FormLabel,
-  Box,
   RadioGroup,
   Stack,
   Radio,
@@ -71,9 +70,34 @@ const CompletarRegistro = () => {
           if(!values.foto){
             errors.foto = 'Debe subir una foto tipo carnet'
           }
-
           if(!values.sexo){
             errors.sexo = 'Ingrese su sexo'
+          }
+          if(!values.direccion){
+            errors.direccion = 'Ingrese su dirección'
+          }
+          if(!values.telefono){
+            errors.telefono = 'Ingrese su teléfono'
+          } else if(!/^\d+$/.test(values.telefono)){
+            errors.telefono = 'El teléfono debe ser un número'
+          } else if(values.telefono.length !== 11){
+            errors.telefono = 'El teléfono debe tener 11 dígitos'
+          }
+
+          if(!values.cedula){
+            errors.cedula = 'Ingrese su cédula'
+          }else if(values.cedula.length <= 5){
+            errors.cedula = 'Cédula debe tener al menos 6 dígitos'
+          } else if(!/^[0-9]+$/.test(values.cedula)){
+            errors.cedula = 'Cédula debe ser solo números'
+          } else if(values.cedula.length >= 11){
+            errors.cedula = 'Cédula debe tener máximo 10 dígitos'
+          }
+          if(!values.apellidos){
+            errors.apellidos = 'Ingrese sus apellidos'
+          }
+          if(!values.nombres){
+            errors.nombres = 'Ingrese sus nombres'
           }
 
           return errors
@@ -90,7 +114,9 @@ const CompletarRegistro = () => {
                 <span style={{'marginLeft': '1rem'}}>{values.foto.name || ''}</span>
 
                 <input ref={inputFile} hidden name='foto' type="file" onChange={({currentTarget}) => {
-                  setFieldValue("foto", currentTarget.files[0]);
+                  if(currentTarget.files && currentTarget.files[0]){
+                    setFieldValue('foto', currentTarget.files[0])
+                  }
                 }}/>
               </FormControl>
 
@@ -109,15 +135,15 @@ const CompletarRegistro = () => {
                 </RadioGroup>
               </FormControl>
             </Grid>
-            <FormControl>
+            <FormControl errorprop='nombres'>
               <FormLabel htmlFor='nombres'>Nombres</FormLabel>
               <Field name="nombres" type="text" />
             </FormControl>
-            <FormControl>
+            <FormControl errorprop='apellidos'>
               <FormLabel htmlFor='apellidos'>Apellidos</FormLabel>
               <Field name='apellidos' type="text" />
             </FormControl>
-            <FormControl>
+            <FormControl errorprop='cedula'>
               <FormLabel htmlFor='cedula'>Cedula</FormLabel>
               <Field name='cedula' type="text" />
             </FormControl>
@@ -134,11 +160,11 @@ const CompletarRegistro = () => {
                 <option value='E1'>licenciado en tecnología de los alimentos</option>
               </Field>
             </FormControl>
-            <FormControl>
+            <FormControl errorprop='direccion'>
               <FormLabel htmlFor='direccion'>Direccion</FormLabel>
               <Field name='direccion' type="text" />
             </FormControl>
-            <FormControl>
+            <FormControl errorprop='telefono'>
               <FormLabel htmlFor='telefono'>Telefono</FormLabel>
               <Field name='telefono' type="text" />
             </FormControl>

@@ -2,13 +2,12 @@ import React, { useRef, useState } from 'react';
 import { Formik, Form  } from 'formik';
 import Field from '../shared/CustomFieldFormik'
 import FormControl from '../shared/FormControl'
-import { editProfile } from '../../services/estudiante.service';
+import { editProfile } from '../../services/auth.service';
 
 import {
   Heading,
   Button,
   FormLabel,
-  Box,
   RadioGroup,
   Stack,
   Radio,

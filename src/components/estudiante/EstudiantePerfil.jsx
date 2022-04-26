@@ -11,7 +11,7 @@ import {
   Container
 } from '@chakra-ui/react'
 import { useAuth } from '../../contexts/AuthContext';
-import { getProfile, editProfile } from '../../services/estudiante.service';
+import { getProfile, editProfile } from '../../services/auth.service';
 
 import { Formik, Form  } from 'formik';
 import Field from '../shared/CustomFieldFormik'
@@ -20,10 +20,8 @@ import getBase64 from '../../functions/getBase64';
 import { errorToast, successToast } from '../../functions/toast';
 
 const EstudiantePerfil = () => {
-  const { usuario } = useAuth()
-  const perfil_completo = usuario?.perfil_completo
-
-  const [loading, setLoading] = useState(perfil_completo)
+  const { updateUsuario } = useAuth()
+  const [loading, setLoading] = useState(true)
   const [userData, setUserData] = useState()
 
   useEffect(()=>{
@@ -31,11 +29,12 @@ const EstudiantePerfil = () => {
       const resUserData = await getProfile()
       setUserData(resUserData)
       console.log(resUserData)
+      updateUsuario(resUserData)
       setLoading(false)
     }
 
     get()
-  }, [])
+  }, [updateUsuario])
 
   const handleSave = async (values) =>{
     console.log('data', values)
@@ -69,7 +68,7 @@ const EstudiantePerfil = () => {
       <Heading size='md' mb={8}>Perfil</Heading>
 
       {
-        perfil_completo
+        userData.perfil_completo
         ? <Container>
           <Formik
             initialValues={{
@@ -115,7 +114,7 @@ const EstudiantePerfil = () => {
                 </FormControl>
                 <FormControl isReadOnly>
                   <FormLabel htmlFor='especialidad'>Especialidad</FormLabel>
-                  <Input variant='flushed' value={userData.especialidades_nombre} type='text' />
+                  <Input variant='flushed' value={userData.especialidad_nombre} type='text' />
                 </FormControl>
                 <FormControl>
                   <FormLabel htmlFor='direccion'>Direccion</FormLabel>

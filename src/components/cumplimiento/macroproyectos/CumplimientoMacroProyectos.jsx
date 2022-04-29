@@ -41,7 +41,7 @@ const CumplimientoMacroProyectos = () => {
     <>
       <Heading mb={8}>Macroproyectos</Heading>
       <Container>
-      <Button mb={8} as={ReactLink} to="/tutor/registrar">Registrar proyecto</Button>
+      <Button mb={8} as={ReactLink} to="registrar">Registrar proyecto</Button>
 
         <Accordion allowToggle>
           {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getMacroProyecto } from '../../../services/macroproyectos.service';
 import { useParams } from 'react-router-dom';
-import { Link as ReactLink } from 'react-router-dom';
+import { Link as ReactLink, Navigate } from 'react-router-dom';
 import { errorToast } from '../../../functions/toast';
 import {
   Heading,
@@ -47,6 +47,10 @@ const CumplimientoMacroProyectoDetalles = () => {
     return <p>loading...</p>
   }
 
+  if (proyecto.macro_grupos.length === 0) {
+    return <Navigate to="crear" />
+  }
+
   return (
   <>
     <Heading mb={8}>
@@ -55,6 +59,7 @@ const CumplimientoMacroProyectoDetalles = () => {
 
     <Box mb={8}>
       <Heading mb={4}>Grupos</Heading>
+      <Button mb={8} as={ReactLink} to="crear">Crear grupo</Button>
       <Accordion maxWidth={1000} allowToggle>
         {
           proyecto.macro_grupos.map((grupo, i) => (

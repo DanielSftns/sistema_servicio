@@ -62,10 +62,10 @@ const registerMacroProyecto = async ({ titulo, codigo }) => {
   }
 }
 
-const registerGrupoMacroProyecto = async ({ titulo, codigo }) => {
+const registerGrupoMacroProyecto = async ({ titulo, escuela, estudiantes, tutores, macro_proyecto }) => {
   try {
     const res = await API.post('macroproyecto/crear', {
-      titulo, codigo
+      titulo, escuela, estudiantes, tutores, macro_proyecto
     })
     if(res.data.error){
       throw new Error(res.data.message)
@@ -74,7 +74,7 @@ const registerGrupoMacroProyecto = async ({ titulo, codigo }) => {
     return res.data.data
   } catch (error) {
     console.error(error)
-    let message = 'No se ha podido registrar macroproyecto'
+    let message = 'No se ha podido registrar grupo'
     if (error.response && error.response.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {

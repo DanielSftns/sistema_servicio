@@ -34,6 +34,8 @@ import CumplimientoMacroProyectoDetalles from './components/cumplimiento/macropr
 import CumplimientoGrupoDetalles from './components/cumplimiento/macroproyectos/CumplimientoGrupoDetalles';
 import PerfilCompletoRequerido from './guards/PerfilCompletoRequerido'
 import RequireAuth from './guards/RequireAuth';
+import CumplimientoRegistrarMacroProyecto from './components/cumplimiento/macroproyectos/CumplimientoRegistrarMacroProyecto';
+import CumplimientoRegistrarGrupo from './components/cumplimiento/macroproyectos/CumplimientoRegistrarGrupo';
 
 function App() {
   return (
@@ -84,15 +86,20 @@ function App() {
                   <CumplimientoScreen />
                 </RequireAuth>
               }>
+                <Route path='proyectos'>
+                  <Route path='registrar' element={<CumplimientoRegistrarProyecto />} />
+                  <Route path=':proyectoID' element={<CumplimientoProyectoDetalles />} />
+                  <Route index element={<CumplimientoProyectos />} />
+                </Route>
+                <Route path='macroproyectos' >
+                  <Route path=':proyectoID' element={<CumplimientoMacroProyectoDetalles />} />
+                  <Route path=':proyectoID/crear' element={<CumplimientoRegistrarGrupo />} />
+                  <Route path=':proyectoID/:grupoID' element={<CumplimientoGrupoDetalles />} />
+                  <Route path='registrar' element={<CumplimientoRegistrarMacroProyecto />} />
+                  <Route index element={<CumplimientoMacroProyectos />} />
+                </Route>
                 <Route path='solicitudes' element={<CumplimientoSolicitudes />} />
-                <Route path='proyectos' element={<CumplimientoProyectos />} />
-                <Route path="proyectos/:proyectoID" element={<CumplimientoProyectoDetalles />} />
-                <Route path='macroproyectos' element={<CumplimientoMacroProyectos />} />
-                <Route path='macroproyectos/:proyectoID' element={<CumplimientoMacroProyectoDetalles />} />
-                <Route path='macroproyectos/:proyectoID/:grupoID' element={<CumplimientoGrupoDetalles />} />
-                <Route path='registrar' element={<CumplimientoRegistrarProyecto />} />
                 <Route path='perfil' element={<Perfil />} />
-                <Route index element={<CumplimientoProyectos />} />
               </Route>
           </Routes>
         </Container>

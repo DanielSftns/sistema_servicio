@@ -24,7 +24,7 @@ import {
   InputGroup,
   InputLeftElement,
   Stack,
-  Spinner,
+  Spinner
 } from '@chakra-ui/react'
 import { TimeIcon, CheckIcon, ExternalLinkIcon, CloseIcon, SearchIcon } from '@chakra-ui/icons'
 
@@ -38,7 +38,6 @@ const CumplimientoSolicitudes = () => {
   const [handleAprobar, setHandleAprobar] = useState()
   const [estudiantes, setEstudiantes] = useState()
 
-
   useEffect(()=>{
     const get = async ()=> {
       obtenerSolicitudes()
@@ -51,6 +50,17 @@ const CumplimientoSolicitudes = () => {
     }
 
     get()
+    .finally(()=>{
+      getEstudiantesFaseFormativaAprobada()
+      .then((estudiantes)=>{
+        setEstudiantes(estudiantes)
+      })
+      .catch((error)=>{
+        errorToast({
+          description: error.message
+        })
+      })
+    })
   }, [])
 
   const handleAprobarSubmit = (data) => {
@@ -100,23 +110,6 @@ const CumplimientoSolicitudes = () => {
         })
       }
     })
-  }
-
-  const handleShowForm = (solicitud_id) => {
-    setHandleAprobar(solicitud_id)
-    if(estudiantes) return
-    
-    setLoading(true)
-    getEstudiantesFaseFormativaAprobada()
-    .then((estudiantes)=>{
-      setEstudiantes(estudiantes)
-    })
-    .catch((error)=>{
-      errorToast({
-        description: error.message
-      })
-    })
-    .finally(()=>{ setLoading(false) })
   }
 
   if(loading){
@@ -171,7 +164,7 @@ const CumplimientoSolicitudes = () => {
                   <ButtonGroup isDisabled={solicitud.estado !== 'por aprobar'}>
                     {
                       handleAprobar !== solicitud.id &&
-                        <Button onClick={()=> handleShowForm(solicitud.id)} colorScheme='gray'>Aprobar</Button>
+                        <Button onClick={()=> setHandleAprobar(solicitud.id)} colorScheme='gray'>Aprobar</Button>
                     }
                     {
                       handleAprobar === solicitud.id &&
@@ -218,6 +211,13 @@ const SolicitudForm = ({solicitud, handleAprobarSubmit, estudiantesData}) => {
 
     setSeleccionados(newSeleccionados)
     setEstudiantes(newEstudiantes)
+  }
+
+  if(!estudiantesData || estudiantesData.length === 0){
+    errorToast({
+      description: 'No hay estudiantes disponibles'
+    })
+    return null
   }
 
   return(

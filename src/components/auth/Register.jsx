@@ -25,7 +25,7 @@ const Register = () => {
     .then(async res => {
       console.info(res)
       await login(data)
-      navigate('/estudiante/perfil')
+      navigate('/perfil')
     }).catch(error => {
       console.error(error.message)
       errorToast({

@@ -47,7 +47,7 @@ const EstudianteProyecto = () => {
       errorToast({
         description: error.message
       })
-      navigate('/estudiante/solicitud')
+      navigate('/solicitud')
     })
 
   }, [navigate])

@@ -66,7 +66,7 @@ const EstudianteAsignaciones = () => {
 
   if(asignaciones.length === 0){
     return(
-      <Navigate to='/estudiante/seccion' />
+      <Navigate to='/seccion' />
     )
   }
   return (

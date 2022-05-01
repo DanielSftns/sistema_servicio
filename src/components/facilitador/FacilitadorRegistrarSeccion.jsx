@@ -125,7 +125,7 @@ const FacilitadorRegistrarSeccion = () => {
           successToast({
             title: `Seccion ${values.codigo} creada`,
           })
-          navigate('/facilitador')
+          navigate('/profesor/seccion')
         }).catch(error =>{
           errorToast({
             description: error.message,

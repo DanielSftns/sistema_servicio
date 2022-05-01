@@ -8,7 +8,8 @@ import {
   FormLabel,
   Button,
   Input,
-  Container
+  Container,
+  Spinner
 } from '@chakra-ui/react'
 import { useAuth } from '../../contexts/AuthContext';
 import { getProfile, editProfile } from '../../services/auth.service';
@@ -69,7 +70,7 @@ const EstudiantePerfil = () => {
   }
 
   if(loading){
-    return <p>Loading</p>
+    return <Spinner />
   }
 
   return (

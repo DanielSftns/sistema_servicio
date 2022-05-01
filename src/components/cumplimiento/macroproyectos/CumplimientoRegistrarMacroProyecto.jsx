@@ -10,7 +10,8 @@ import {
   Heading,
   FormLabel,
   Button,
-  Container
+  Container,
+  Spinner
 } from '@chakra-ui/react'
 
 const CumplimientoRegistrarMacroProyecto = () => {
@@ -44,7 +45,7 @@ const CumplimientoRegistrarMacroProyecto = () => {
   }
 
   if(loading){
-    return <p>loading...</p>
+    return <Spinner />
   }
 
   return (

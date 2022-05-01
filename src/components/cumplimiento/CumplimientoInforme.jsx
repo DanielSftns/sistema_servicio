@@ -6,7 +6,8 @@ import {
   Link,
   Select,
   FormLabel,
-  Box
+  Box,
+  Spinner
 } from '@chakra-ui/react'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 
@@ -62,7 +63,7 @@ const CumplimientoInforme = () => {
   }
 
   if(loading) {
-    return <p>loading...</p>
+    return <Spinner />
   }
 
   return (

@@ -24,7 +24,8 @@ import {
   Link,
   Button,
   Icon,
-  Badge
+  Badge,
+  Spinner
 } from '@chakra-ui/react';
 
 import { ExternalLinkIcon, CheckIcon, TimeIcon } from '@chakra-ui/icons';
@@ -86,7 +87,7 @@ const EstudianteProyecto = () => {
   }
 
   if(loading){
-    return <p>loading...</p>
+    return <Spinner />
   }
   
   return (

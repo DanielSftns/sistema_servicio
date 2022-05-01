@@ -20,6 +20,7 @@ import {
   InputGroup,
   InputLeftElement,
   Input,
+  Spinner,
 } from '@chakra-ui/react'
 import { TimeIcon, CheckIcon, CloseIcon, SearchIcon } from '@chakra-ui/icons'
 
@@ -196,7 +197,7 @@ const FacilitadorAprobarFaseFormativa = () => {
   }
 
   if(loading){
-    return <p>loading</p>
+    return <Spinner />
   }
 
   return (

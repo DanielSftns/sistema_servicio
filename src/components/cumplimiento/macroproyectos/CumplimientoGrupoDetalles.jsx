@@ -28,7 +28,8 @@ import {
   Icon,
   useDisclosure,
   ButtonGroup,
-  Badge
+  Badge,
+  Spinner
 } from '@chakra-ui/react'
 import { ExternalLinkIcon, CheckIcon, TimeIcon } from '@chakra-ui/icons';
 import ModalHorasCumplidas from '../ModalHorasCumplidas';
@@ -167,7 +168,7 @@ const CumplimientoGrupoDetalles = () => {
   }
 
   if(loading){
-    return <p>loading...</p>
+    return <Spinner />
   }
 
   return (

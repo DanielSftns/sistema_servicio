@@ -3,7 +3,8 @@ import {
   Heading,
   Container,
   Link,
-  Box
+  Box,
+  Spinner
 } from '@chakra-ui/react'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 
@@ -33,7 +34,7 @@ const CoordinadorInformes = () => {
   }, [])
 
   if(loading) {
-    return <p>loading...</p>
+    return <Spinner />
   }
 
   return (

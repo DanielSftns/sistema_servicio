@@ -17,7 +17,8 @@ import {
   InputGroup,
   InputLeftElement,
   Stack,
-  Container
+  Container,
+  Spinner
 } from '@chakra-ui/react'
 import { SearchIcon } from '@chakra-ui/icons'
 import { useParams } from 'react-router-dom';
@@ -144,7 +145,7 @@ const CumplimientoRegistrarGrupo = () => {
   }
 
   if(loading){
-    return <p>loading...</p>
+    return <Spinner />
   }
 
   return (

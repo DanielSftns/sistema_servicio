@@ -8,7 +8,8 @@ import {
   Text,
   Box,
   Heading,
-  Link
+  Link,
+  Spinner
 } from '@chakra-ui/react'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { useAuth } from '../../contexts/AuthContext'
@@ -35,7 +36,9 @@ const FacilitadorSeccion = () => {
   }, [updateUsuario])
 
   if(loading){
-    return <p>loading</p>
+    return (
+      <Spinner />
+    )
   }
 
   if(secciones.length === 0){

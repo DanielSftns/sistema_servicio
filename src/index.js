@@ -23,6 +23,18 @@ const customTheme = extendTheme({
       baseStyle: {
         maxW:'container.md'
       }
+    },
+    Spinner: {
+      baseStyle: {
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        color: 'blue.500',
+      },
+      defaultProps: {
+        size: 'xl',
+      }
     }
   }
 },

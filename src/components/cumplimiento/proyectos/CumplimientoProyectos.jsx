@@ -12,7 +12,8 @@ import {
   AccordionButton,
   AccordionPanel,
   AccordionIcon,
-  Container
+  Container,
+  Spinner
 } from '@chakra-ui/react'
 
 const CumplimientoProyectos = () => {
@@ -34,7 +35,7 @@ const CumplimientoProyectos = () => {
   }, [])
 
   if(loading){
-    return <p>loading...</p>
+    return <Spinner />
   }
 
   return (

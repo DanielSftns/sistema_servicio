@@ -14,6 +14,7 @@ import {
   AccordionIcon,
   AccordionPanel,
   Icon,
+  Spinner,
 } from '@chakra-ui/react'
 import { CheckIcon, TimeIcon } from '@chakra-ui/icons';
 
@@ -44,7 +45,7 @@ const CumplimientoMacroProyectoDetalles = () => {
   }, [codigo])
 
   if(loading){
-    return <p>loading...</p>
+    return <Spinner />
   }
 
   if (proyecto.macro_grupos.length === 0) {

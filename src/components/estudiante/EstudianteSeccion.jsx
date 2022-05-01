@@ -4,7 +4,8 @@ import {
   Box,
   Heading,
   Text,
-  Link
+  Link,
+  Spinner
 } from '@chakra-ui/react'
 
 import { ExternalLinkIcon } from '@chakra-ui/icons'
@@ -29,7 +30,7 @@ const EstudianteSeccion = () => {
     get()
   }, [])
 
-  if(loading) return <p>Loading</p>
+  if(loading) return <Spinner />
 
   if(!seccion) {
     return <Text fontSize='2xl' align='center'>Aun no estas en una seccion, espera a ser asigando a una</Text>

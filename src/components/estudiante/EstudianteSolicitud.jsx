@@ -12,7 +12,8 @@ import {
   FormLabel,
   RadioGroup,
   Stack,
-  Radio
+  Radio,
+  Spinner
 } from '@chakra-ui/react'
 
 import { AddIcon } from '@chakra-ui/icons'
@@ -73,7 +74,7 @@ const EstudianteSolicitud = () => {
   }
 
   if(loading){
-    return <p>Loading...</p>
+    return <Spinner />
   }
 
   return (

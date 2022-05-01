@@ -18,7 +18,8 @@ import {
   Container,
   Link,
   Icon,
-  ButtonGroup
+  ButtonGroup,
+  Spinner
 } from '@chakra-ui/react'
 import { UnlockIcon, TimeIcon, CheckIcon, ExternalLinkIcon, CalendarIcon, CloseIcon } from '@chakra-ui/icons'
 
@@ -178,7 +179,7 @@ const FacilitadorAsignaciones = () => {
   }
 
   if(loading){
-    return <p>loading</p>
+    return <Spinner />
   }
 
   return (

@@ -24,6 +24,7 @@ import {
   InputGroup,
   InputLeftElement,
   Stack,
+  Spinner,
 } from '@chakra-ui/react'
 import { TimeIcon, CheckIcon, ExternalLinkIcon, CloseIcon, SearchIcon } from '@chakra-ui/icons'
 
@@ -119,7 +120,7 @@ const CumplimientoSolicitudes = () => {
   }
 
   if(loading){
-    return <p>Loading...</p>
+    return <Spinner />
   }
 
   return (

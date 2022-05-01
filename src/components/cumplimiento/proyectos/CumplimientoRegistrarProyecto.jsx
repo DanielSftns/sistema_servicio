@@ -17,7 +17,8 @@ import {
   InputGroup,
   InputLeftElement,
   Stack,
-  Container
+  Container,
+  Spinner
 } from '@chakra-ui/react'
 import { SearchIcon } from '@chakra-ui/icons'
 
@@ -106,7 +107,7 @@ const CumplimientoRegistrarProyecto = () => {
   }
 
   if(loading){
-    return <p>loading...</p>
+    return <Spinner />
   }
 
   return (

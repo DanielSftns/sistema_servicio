@@ -18,7 +18,8 @@ import {
   Text,
   Checkbox,
   useCheckboxGroup,
-  Container
+  Container,
+  Spinner
 } from '@chakra-ui/react'
 
 import { SearchIcon } from '@chakra-ui/icons'
@@ -136,7 +137,7 @@ const FacilitadorRegistrarSeccion = () => {
   }
 
   if(!horarios || !estudiantes || !facilitadores){
-    return <p>loading</p>
+    return <Spinner />
   }
 
   return (

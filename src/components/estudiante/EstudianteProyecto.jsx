@@ -28,6 +28,7 @@ import {
 } from '@chakra-ui/react';
 
 import { ExternalLinkIcon, CheckIcon, TimeIcon } from '@chakra-ui/icons';
+import { formatFecha } from '../../functions/formatFecha';
 
 const EstudianteProyecto = () => {
   const navigate = useNavigate()
@@ -139,7 +140,7 @@ const EstudianteProyecto = () => {
                         archivo.estado !== 'aprobado' && 
                         <Icon as={TimeIcon} mr={8} />
                       }
-                      <Text display='inline-block' fontWeight='bold'>{archivo.tipo_archivo} - {archivo.fecha}</Text>
+                      <Text display='inline-block' fontWeight='bold'>{archivo.tipo_archivo} - {formatFecha(archivo.fecha)}</Text>
                     </Box>
                     <AccordionIcon />
                   </AccordionButton>
@@ -167,7 +168,7 @@ const EstudianteProyecto = () => {
                           </Thead>
                           <Tbody>
                             <Tr verticalAlign='baseline'>
-                              <Td>{archivo.fecha}</Td>
+                              <Td>{formatFecha(archivo.fecha)}</Td>
                               <Td>{archivo.estado}</Td>
                               <Td>
                                 <Link whiteSpace='nowrap' fontWeight='bold' href={archivo.archivo} target='_blank' download={true} isExternal>
@@ -181,7 +182,7 @@ const EstudianteProyecto = () => {
                             {
                               archivo.historial.sort((a,b)=> b.fecha - a.fecha).map((archivo, i) => (
                                 <Tr key={i} verticalAlign='baseline'>
-                                  <Td>{archivo.fecha}</Td>
+                                  <Td>{formatFecha(archivo.fecha)}</Td>
                                   <Td>{archivo.estado}</Td>
                                   <Td>
                                     <Link whiteSpace='nowrap' fontWeight='bold' href={archivo.archivo} target='_blank' download={true} isExternal>

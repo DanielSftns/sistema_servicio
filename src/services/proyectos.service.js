@@ -13,7 +13,7 @@ const registerProyecto = async ({estudiantes, titulo, codigo, especialidad}) => 
   } catch (error) {
     console.error(error)
     let message = 'No se ha podido registrar proyecto'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message
@@ -33,7 +33,7 @@ const getProyectos = async () => {
   } catch (error) {
     console.error(error)
     let message = 'No se ha podido obtener proyectos'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message
@@ -53,7 +53,7 @@ const getMyProyecto = async () => {
   } catch (error) {
     console.error(error)
     let message = 'No se ha podido obtener proyecto'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message
@@ -73,7 +73,7 @@ const getProyecto = async (codigo) => {
   } catch (error) {
     console.error(error)
     let message = 'No se ha podido obtener proyecto'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message
@@ -95,7 +95,7 @@ const subirArchivoAlProyecto = async ({nombre, tipo_archivo, archivo}) => {
   } catch (error) {
     console.error(error)
     let message = 'Error subiendo archivo'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message
@@ -117,7 +117,7 @@ const corregirArchivoProyecto = async ({nombre, tipo_archivo, archivo, proyecto,
   } catch (error) {
     console.error(error)
     let message = 'Error subiendo correccion'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message
@@ -139,7 +139,7 @@ const aprobarArchivoProyecto = async ({tipo_archivo, proyecto, comentario}) => {
   } catch (error) {
     console.error(error)
     let message = 'Error al aprobar archivo'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message
@@ -161,7 +161,7 @@ const avalarProyecto = async (codigo) => {
   } catch (error) {
     console.error(error)
     let message = 'Error al aprobar proyecto'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message

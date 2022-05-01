@@ -52,3 +52,10 @@ body::-webkit-scrollbar-thumb {
 .swal2-styled.swal2-confirm:focus{
   box-shadow: 0 0 0 3px rgb(49 130 206 / 50%) !important;
 }
+
+.nav-link{
+  outline: 0;
+}
+.nav-link.active{
+  box-shadow: 0 2px 0 0 var(--chakra-colors-blue-500);
+}

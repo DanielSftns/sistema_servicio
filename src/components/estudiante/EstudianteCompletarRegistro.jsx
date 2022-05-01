@@ -75,7 +75,10 @@ const CompletarRegistro = () => {
           }
           if(!values.direccion){
             errors.direccion = 'Ingrese su dirección'
+          } else if(values.direccion.length < 10){
+            errors.direccion = 'La dirección debe tener al menos 10 caracteres'
           }
+          
           if(!values.telefono){
             errors.telefono = 'Ingrese su teléfono'
           } else if(!/^\d+$/.test(values.telefono)){

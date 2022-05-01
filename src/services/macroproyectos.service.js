@@ -11,7 +11,7 @@ const getMacroProyectos = async () => {
   } catch (error) {
     console.error(error)
     let message = 'No se ha podido obtener macroproyectos'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message
@@ -31,7 +31,7 @@ const getMacroProyecto = async (codigo) => {
   } catch (error) {
     console.error(error)
     let message = 'No se ha podido obtener macroproyecto'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message
@@ -53,7 +53,7 @@ const registerMacroProyecto = async ({ titulo, codigo }) => {
   } catch (error) {
     console.error(error)
     let message = 'No se ha podido registrar macroproyecto'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message
@@ -75,7 +75,7 @@ const registerGrupoMacroProyecto = async ({ titulo, escuela, estudiantes, tutore
   } catch (error) {
     console.error(error)
     let message = 'No se ha podido registrar grupo'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message
@@ -95,7 +95,7 @@ const getGrupoMacroProyecto = async (codigo) => {
   } catch (error) {
     console.error(error)
     let message = 'No se ha podido obtener grupo de macroproyecto'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message
@@ -117,7 +117,7 @@ const subirArchivoAlGrupo = async ({nombre, tipo_archivo, archivo}) => {
   } catch (error) {
     console.error(error)
     let message = 'Error subiendo archivo'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message
@@ -139,7 +139,7 @@ const corregirArchivoGrupo = async ({nombre, tipo_archivo, archivo, macro_grupo,
   } catch (error) {
     console.error(error)
     let message = 'Error subiendo correccion'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message
@@ -161,7 +161,7 @@ const aprobarArchivoGrupo = async ({tipo_archivo, macro_grupo}) => {
   } catch (error) {
     console.error(error)
     let message = 'Error al aprobar archivo'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message
@@ -183,7 +183,7 @@ const avalarGrupo = async (codigo) => {
   } catch (error) {
     console.error(error)
     let message = 'Error al aprobar proyecto'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message
@@ -205,7 +205,7 @@ const subirArchivoAsignacion = async ({nombre_archivo, macro_grupo, archivo}) =>
   } catch (error) {
     console.error(error)
     let message = 'Error subiendo archivo'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message

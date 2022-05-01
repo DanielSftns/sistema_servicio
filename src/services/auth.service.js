@@ -15,7 +15,7 @@ const login = async ({email, password}) => {
   } catch (error) {
     console.error(error)
     let message = 'Error iniciando sesión'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message
@@ -39,7 +39,7 @@ const register = async ({email, password}) => {
   } catch (error) {
     console.error(error)
     let message = 'Algo ha salido mal por favor intentalo nuevamente'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message
@@ -98,7 +98,7 @@ const editProfile = async (data) => {
   } catch (error) {
     console.error(error)
     let message = 'No se ha podido editar el perfil'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message
@@ -118,7 +118,7 @@ const getProfile = async () => {
   } catch (error) {
     console.error(error)
     let message = 'No se ha podido obtener el perfil'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message

@@ -1,14 +1,14 @@
 import React from 'react';
-import { Link as ReachLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import {
   Flex,
-  Box,
   Button,
   Link,
 } from '@chakra-ui/react'
-import { ArrowForwardIcon, BellIcon } from '@chakra-ui/icons'
+import { ArrowForwardIcon } from '@chakra-ui/icons'
 import { logout } from '../../services/auth.service';
 import { successToast } from '../../functions/toast';
+import Notificaciones from '../shared/Notificaciones';
 
 const FacilitadorHeader = () => {
   const navigate = useNavigate()
@@ -29,15 +29,12 @@ const FacilitadorHeader = () => {
       w='100%'
       fontWeight='600'
     >
-      <Link fontWeight="700" fontSize="2xl" as={ReachLink} to="/">SERVICIO</Link>
+      <Link fontWeight="700" fontSize="2xl" as={NavLink} to="/">SERVICIO</Link>
       <Flex gap={2}>
-        <Link as={ReachLink} to="/facilitador">Seccion</Link>
-        <Link as={ReachLink} to="asignaciones">Asignaciones</Link>
-        <Link as={ReachLink} to="perfil">Mi Perfil</Link>
-        <Button title='notificaciones' variant='link'>
-          <BellIcon />
-          <Box w={2} h={2} rounded='full' bg='red'></Box>
-        </Button>
+        <NavLink className='nav-link' to="seccion">Seccion</NavLink>
+        <NavLink className='nav-link' to="asignaciones">Asignaciones</NavLink>
+        <NavLink className='nav-link' to="perfil">Mi Perfil</NavLink>
+        <Notificaciones />
         <Button onClick={handleLogout} variant='link' rightIcon={<ArrowForwardIcon />}>Salir</Button>
       </Flex>
     </Flex>

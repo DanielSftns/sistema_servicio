@@ -11,7 +11,7 @@ const getAsigsBySeccion = async (seccion) => {
     return res.data.data
   } catch (error) {
     let message = 'No se ha podido obtener asignaciones'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message
@@ -35,7 +35,7 @@ const activarAsignacion = async (seccion, modelo) => {
     return res.data
   } catch (error) {
     let message = 'Error activando asignacion'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message
@@ -58,7 +58,7 @@ const aprobarAsignacion = async (asignacionID) => {
     return res.data
   } catch (error) {
     let message = 'Error aprobando asignacion'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message
@@ -80,7 +80,7 @@ const reprobarAsignacion = async (asignacionID) => {
     return res.data
   } catch (error) {
     let message = 'Error reprobando asignacion'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message
@@ -101,7 +101,7 @@ const getMyAsignaciones = async () => {
     return res.data.data
   } catch (error) {
     let message = 'No se ha podido obtener asignaciones'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message
@@ -125,7 +125,7 @@ const entregarAsignacion = async (asignacionID, archivo, archivo_nombre) => {
     return res.data
   } catch (error) {
     let message = 'Error entregando asignacion'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message

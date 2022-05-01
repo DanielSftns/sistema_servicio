@@ -11,7 +11,7 @@ const registerSeccion = async (data) => {
   } catch (error) {
     console.error(error)
     let message = 'No se ha podido registrar seccion'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message
@@ -30,7 +30,7 @@ const getSecsByFacilitador = async () => {
     return res.data.data
   } catch (error) {
     let message = 'No se ha podido obtener secciones'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message
@@ -50,7 +50,7 @@ const getSecsByEstudiante = async () => {
     return res.data.data
   } catch (error) {
     let message = 'No se ha podido obtener seccion'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message

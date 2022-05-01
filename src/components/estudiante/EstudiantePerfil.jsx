@@ -23,6 +23,8 @@ const EstudiantePerfil = () => {
   const { updateUsuario } = useAuth()
   const [loading, setLoading] = useState(true)
   const [userData, setUserData] = useState()
+  const [photo, setPhoto] = useState()
+  const [newPhoto, setNewPhoto] = useState()
 
   useEffect(()=>{
     const get = async () => {
@@ -30,6 +32,7 @@ const EstudiantePerfil = () => {
       setUserData(resUserData)
       console.log(resUserData)
       updateUsuario(resUserData)
+      setPhoto(resUserData.foto)
       setLoading(false)
     }
 
@@ -59,6 +62,12 @@ const EstudiantePerfil = () => {
     })
   }
 
+  const handleSetPhoto = async (img)=> {
+    const fotoBase64 = await getBase64(img)
+    setPhoto(fotoBase64)
+    setNewPhoto(fotoBase64)
+  }
+
   if(loading){
     return <p>Loading</p>
   }
@@ -76,6 +85,25 @@ const EstudiantePerfil = () => {
               direccion: userData.direccion,
               foto: ''
             }}
+            validate={(values)=>{
+              let errors = {}
+              
+              if(!values.telefono){
+                errors.telefono = 'Ingrese su teléfono'
+              } else if(!/^\d+$/.test(values.telefono)){
+                errors.telefono = 'El teléfono debe ser un número'
+              } else if(values.telefono.length !== 11){
+                errors.telefono = 'El teléfono debe tener 11 dígitos'
+              }
+
+              if(!values.direccion){
+                errors.direccion = 'Ingrese su dirección'
+              } else if(values.direccion.length < 10){
+                errors.direccion = 'La dirección debe tener al menos 10 caracteres'
+              }
+
+              return errors
+            }}
             onSubmit={(values) => {
               const data = {...values}
               if(!data.foto){
@@ -85,13 +113,14 @@ const EstudiantePerfil = () => {
               handleSave(data)
             }}
           >
-            {({setFieldValue})=> (
+            {({values, setFieldValue})=> (
               <Form>
                 <Box textAlign='center'>
                   <label>
-                    <Image cursor='pointer' d='inline-block' borderRadius='full' boxSize='150px' objectFit='cover' src={userData.foto} alt="perfil" />
+                    <Image cursor='pointer' d='inline-block' borderRadius='full' boxSize='150px' objectFit='cover' src={photo} alt="perfil" />
                     <input hidden name='foto' type="file" onChange={({currentTarget}) => {
                       setFieldValue("foto", currentTarget.files[0]);
+                      handleSetPhoto(currentTarget.files[0])
                     }} />
                   </label>
                 </Box>
@@ -116,16 +145,16 @@ const EstudiantePerfil = () => {
                   <FormLabel htmlFor='especialidad'>Especialidad</FormLabel>
                   <Input variant='flushed' value={userData.especialidad_nombre} type='text' />
                 </FormControl>
-                <FormControl>
+                <FormControl errorprop='direccion'>
                   <FormLabel htmlFor='direccion'>Direccion</FormLabel>
                   <Field name='direccion' type="text" />
                 </FormControl>
-                <FormControl>
+                <FormControl errorprop='telefono'>
                   <FormLabel htmlFor='telefono'>Telefono</FormLabel>
                   <Field name='telefono' type="text" />
                 </FormControl>
 
-                <Button disabled={loading} w='100%' size='lg' type='submit'>Guardar</Button>
+                <Button disabled={loading || (values.telefono === userData.telefono && values.direccion === userData.direccion && !newPhoto)} w='100%' size='lg' type='submit'>Guardar</Button>
               </Form>
             )}
           </Formik>

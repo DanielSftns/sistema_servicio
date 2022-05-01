@@ -19,6 +19,7 @@ import { AddIcon } from '@chakra-ui/icons'
 
 import { obtenerMiSolicitud, crearSolicitud } from '../../services/solicitudes.service';
 import getBase64 from '../../functions/getBase64';
+import { formatFecha } from '../../functions/formatFecha';
 
 const EstudianteSolicitud = () => {
   const [solicitud, setSolicitud] = useState()
@@ -154,7 +155,7 @@ const EstudianteSolicitud = () => {
 
             <Heading size='sm'>{solicitud.tipo}</Heading>
             <Text>Estatus: {solicitud.estado}</Text>
-            <Text>Fecha creación: {Date(solicitud.fecha)}</Text>
+            <Text>Fecha creación: {formatFecha(solicitud.fecha)}</Text>
           </Box>
         }
       </Container>

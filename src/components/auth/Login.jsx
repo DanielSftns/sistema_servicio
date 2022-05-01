@@ -29,11 +29,11 @@ const Login = () => {
       let nextPage
       switch(res.rol_name){
         case 'estudiante': {
-          nextPage = res.perfil_completo ? '/estudiante' : '/estudiante/perfil'
+          nextPage = res.perfil_completo ? '/estudiante/seccion' : '/estudiante/perfil'
           break
         }
         case 'facilitador': {
-          nextPage = '/facilitador'
+          nextPage = '/facilitador/seccion'
           break
         }
         case 'tutor etapa cumplimiento': {
@@ -42,7 +42,7 @@ const Login = () => {
         }
 
         default: {
-          nextPage = '/estudiante'
+          nextPage = '/estudiante/seccion'
         }
       }
       successToast({

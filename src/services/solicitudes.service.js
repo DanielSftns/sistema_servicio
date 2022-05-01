@@ -10,7 +10,7 @@ const obtenerMiSolicitud = async () => {
     return res.data.data
   } catch (error) {
     let message = 'No se ha podido obtener solicitud'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message
@@ -32,7 +32,7 @@ const crearSolicitud = async ({archivos, tipo}) => {
     return res.data.data
   } catch (error) {
     let message = 'No se ha podido crear solicitud'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message
@@ -52,7 +52,7 @@ const obtenerSolicitudes = async () => {
     return res.data.data
   } catch (error) {
     let message = 'No se ha podido obtener solicitudes'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message
@@ -74,7 +74,7 @@ const rechazarSolicitud = async ({solicitud_id, descripcion}) => {
     return res.data.data
   } catch (error) {
     let message = 'No se ha podido rechazar solicitud'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message
@@ -102,7 +102,7 @@ const aprobarSolicitudRegisterProyecto = async ({solicitud_id, descripcion, estu
   } catch (error) {
     console.error(error)
     let message = 'No se ha podido registrar proyecto'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message

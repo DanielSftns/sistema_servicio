@@ -1,8 +1,10 @@
 import API from './API'
 
-const registerFacilitador = async (data) => {
+const registerTutor = async ({cedula, nombres, apellidos, escuela, email}) => {
   try {
-    const res = await API.post('crear_facilitador', data)
+    const res = await API.post('crear/tutor/cumplimiento', {
+      cedula, nombres, apellidos, escuela, email
+    })
     if(res.data.error){
       throw new Error(res.data.message)
     }
@@ -10,7 +12,7 @@ const registerFacilitador = async (data) => {
     return res.data
   } catch (error) {
     console.error(error)
-    let message = 'No se ha podido registrar facilitador'
+    let message = 'No se ha podido registrar tutor de cumplimiento'
     if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
@@ -20,9 +22,9 @@ const registerFacilitador = async (data) => {
   }
 }
 
-const getFacilitadores = async () => {
+const getTutores = async () => {
   try {
-    const res = await API.get('facilitadores')
+    const res = await API.get('tutores/cumplimiento')
     if(res.data.error){
       throw new Error(res.data.message)
     }
@@ -30,7 +32,7 @@ const getFacilitadores = async () => {
     return res.data.data
   } catch (error) {
     console.error(error)
-    let message = 'No se ha podido registrar facilitador'
+    let message = 'No se ha podido obtener los tutores de cumplimiento'
     if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
@@ -41,6 +43,6 @@ const getFacilitadores = async () => {
 }
 
 export {
-  registerFacilitador,
-  getFacilitadores
+  registerTutor,
+  getTutores
 }

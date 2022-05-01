@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import { Navigate } from 'react-router-dom';
 import {
   Accordion,
   AccordionItem,
@@ -27,6 +27,11 @@ const EstudianteAsignaciones = () => {
   useEffect(()=>{
     const get = async ()=>{
       const asigns = await getMyAsignaciones()
+      if(asigns.length === 0){
+        errorToast({
+          description: 'Sin asignaciones'
+        })
+      }
       setAsignaciones(asigns)
       setLoading(false)
     }
@@ -59,6 +64,11 @@ const EstudianteAsignaciones = () => {
     return <p>...loading</p>
   }
 
+  if(asignaciones.length === 0){
+    return(
+      <Navigate to='/estudiante/seccion' />
+    )
+  }
   return (
     <>
       <Heading mb={12}>Asignaciones</Heading>

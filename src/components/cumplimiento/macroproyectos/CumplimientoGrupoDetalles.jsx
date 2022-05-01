@@ -32,6 +32,7 @@ import {
 } from '@chakra-ui/react'
 import { ExternalLinkIcon, CheckIcon, TimeIcon } from '@chakra-ui/icons';
 import ModalHorasCumplidas from '../ModalHorasCumplidas';
+import { formatFecha } from '../../../functions/formatFecha';
 
 const CumplimientoGrupoDetalles = () => {
   const paramns = useParams()
@@ -215,7 +216,7 @@ const CumplimientoGrupoDetalles = () => {
                       <Icon as={TimeIcon} mr={8} />
                     }
                     
-                    <Text display='inline-block' fontWeight='bold'>{archivo.tipo_archivo} - {archivo.fecha}</Text>
+                    <Text display='inline-block' fontWeight='bold'>{archivo.tipo_archivo} - {formatFecha(archivo.fecha)}</Text>
                   </Box>
                   <AccordionIcon />
                 </AccordionButton>
@@ -256,7 +257,7 @@ const CumplimientoGrupoDetalles = () => {
                         </Thead>
                         <Tbody>
                           <Tr verticalAlign='baseline'>
-                            <Td>{archivo.fecha}</Td>
+                            <Td>{formatFecha(archivo.fecha)}</Td>
                             <Td>{archivo.estado}</Td>
                             <Td>
                               <Link whiteSpace='nowrap' fontWeight='bold' href={archivo.archivo} target='_blank' download={true} isExternal>
@@ -270,7 +271,7 @@ const CumplimientoGrupoDetalles = () => {
                           {
                             archivo.historial.sort((a,b)=> b.fecha - a.fecha).map((archivo, i) => (
                               <Tr key={i} verticalAlign='baseline'>
-                                <Td>{archivo.fecha}</Td>
+                                <Td>{formatFecha(archivo.fecha)}</Td>
                                 <Td>{archivo.estado}</Td>
                                 <Td>
                                   <Link whiteSpace='nowrap' fontWeight='bold' href={archivo.archivo} target='_blank' download={true} isExternal>

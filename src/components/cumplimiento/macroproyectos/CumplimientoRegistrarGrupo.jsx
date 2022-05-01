@@ -7,6 +7,7 @@ import { SwalModal } from '../../../functions/sweetAlertCommon';
 import { getEstudiantesFaseFormativaAprobada } from '../../../services/estudiante.service';
 import { useNavigate } from 'react-router-dom';
 import { registerGrupoMacroProyecto } from '../../../services/macroproyectos.service';
+import { getTutores } from '../../../services/cumplimiento.service';
 import {
   Heading,
   FormLabel,
@@ -36,8 +37,9 @@ const CumplimientoRegistrarGrupo = () => {
     const getInfo = async ()=> {
       try {
         const estudiantes = await getEstudiantesFaseFormativaAprobada()
+        const tutores = await getTutores()
         setEstudiantes(estudiantes)
-        setTutores(estudiantes)
+        setTutores(tutores)
         setLoading(false)
       } catch (error) {
         errorToast({

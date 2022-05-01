@@ -11,7 +11,7 @@ const getHorarios = async () => {
   } catch (error) {
     console.error(error)
     let message = 'No se ha podido obtener los horarios'
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
       message = error.message

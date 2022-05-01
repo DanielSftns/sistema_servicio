@@ -1,8 +1,10 @@
 import API from './API'
 
-const registerFacilitador = async (data) => {
+const subirInformeCulminacion = async ({archivo, nombre_archivo}) => {
   try {
-    const res = await API.post('crear_facilitador', data)
+    const res = await API.post('informes/crear', {
+      archivo, nombre_archivo
+    })
     if(res.data.error){
       throw new Error(res.data.message)
     }
@@ -10,7 +12,7 @@ const registerFacilitador = async (data) => {
     return res.data
   } catch (error) {
     console.error(error)
-    let message = 'No se ha podido registrar facilitador'
+    let message = 'No se ha podido registrar tutor de cumplimiento'
     if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
@@ -20,17 +22,17 @@ const registerFacilitador = async (data) => {
   }
 }
 
-const getFacilitadores = async () => {
+const getInformeCulminacion = async () => {
   try {
-    const res = await API.get('facilitadores')
+    const res = await API.post('informes')
     if(res.data.error){
       throw new Error(res.data.message)
     }
     
-    return res.data.data
+    return res.data
   } catch (error) {
     console.error(error)
-    let message = 'No se ha podido registrar facilitador'
+    let message = 'No se ha podido obtenr informe de cumplimiento'
     if (error.response && error.response?.status === 400) {
       message = error.response.data.message || error.response.data
     } else if (!error.response) {
@@ -41,6 +43,6 @@ const getFacilitadores = async () => {
 }
 
 export {
-  registerFacilitador,
-  getFacilitadores
+  subirInformeCulminacion,
+  getInformeCulminacion
 }

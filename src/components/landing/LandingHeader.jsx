@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as ReachLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import {
   Flex,
   Box,
@@ -16,14 +16,14 @@ const LandingHeader = () => {
       fontWeight='600'
     >
       <Box fontWeight="700" fontSize="2xl">
-        <Link to="/">SERVICIO</Link>
+        <Link as={NavLink} to="/">SERVICIO</Link>
       </Box>
       <Flex gap={2} >
         <Box>
-          <Link as={ReachLink} to="/login">Iniciar Sesion</Link>
+          <NavLink className='nav-link' to="/login">Iniciar Sesion</NavLink>
         </Box>
         <Box>
-          <Link as={ReachLink} to="/registro">Registrarse</Link>
+          <NavLink className='nav-link' to="/registro">Registrarse</NavLink>
         </Box>
       </Flex>
     </Flex>

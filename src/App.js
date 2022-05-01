@@ -36,6 +36,9 @@ import PerfilCompletoRequerido from './guards/PerfilCompletoRequerido'
 import RequireAuth from './guards/RequireAuth';
 import CumplimientoRegistrarMacroProyecto from './components/cumplimiento/macroproyectos/CumplimientoRegistrarMacroProyecto';
 import CumplimientoRegistrarGrupo from './components/cumplimiento/macroproyectos/CumplimientoRegistrarGrupo';
+import EnFaseFormativa from './guards/EnFaseFormativa';
+import EnFaseCumplimiento from './guards/EnFaseCumplimiento';
+import CumplimientoInforme from './components/cumplimiento/CumplimientoInforme';
 
 function App() {
   return (
@@ -62,10 +65,27 @@ function App() {
                   </PerfilCompletoRequerido>
                 </RequireAuth>
               }>
-                <Route path='asignaciones' element={<EstudianteAsignaciones />} />
-                <Route path='proyecto' element={<EstudianteProyecto />} />
-                <Route path='solicitud' element={<EstudianteSolicitud />} />
-                <Route index element={<EstudianteSeccion />} />
+                <Route path='seccion' element={
+                  <EnFaseFormativa>
+                    <EstudianteSeccion />
+                  </EnFaseFormativa>
+                }/>
+                <Route path='asignaciones' element={
+                  <EnFaseFormativa>
+                    <EstudianteAsignaciones />
+                  </EnFaseFormativa>
+                }/>
+                <Route path='proyecto' element={
+                  <EnFaseCumplimiento>
+                    <EstudianteProyecto />
+                  </EnFaseCumplimiento>
+                }/>
+                <Route path='solicitud' element={
+                  <EnFaseCumplimiento>
+                    <EstudianteSolicitud />
+                  </EnFaseCumplimiento>
+                }/>
+                {/* <Route index element={<EstudianteSeccion />} /> */}
               </Route>
 
               <Route path='/facilitador' element={
@@ -77,7 +97,7 @@ function App() {
                 <Route path='registrar-seccion' element={<FacilitadorRegistrarSeccion />} />
                 <Route path='perfil' element={<Perfil />} />
                 <Route path='aprobar-fase-formativa' element={<FacilitadorAprobarFaseFormativa />} />
-                <Route index element={<FacilitadorSeccion />} />
+                <Route path='seccion' element={<FacilitadorSeccion />} />
               </Route>
 
               
@@ -98,9 +118,14 @@ function App() {
                   <Route path='registrar' element={<CumplimientoRegistrarMacroProyecto />} />
                   <Route index element={<CumplimientoMacroProyectos />} />
                 </Route>
+                <Route path='informe' element={<CumplimientoInforme />} />
                 <Route path='solicitudes' element={<CumplimientoSolicitudes />} />
                 <Route path='perfil' element={<Perfil />} />
               </Route>
+
+              <Route path='*' element={<>
+                <h1>Pagina no encontrada</h1>
+              </>} />
           </Routes>
         </Container>
       </CustomRouter>

@@ -39,7 +39,7 @@ const CumplimientoRegistrarGrupo = () => {
         const estudiantes = await getEstudiantesFaseFormativaAprobada()
         const tutores = await getTutores()
         setEstudiantes(estudiantes)
-        setTutores(tutores)
+        setTutores([tutores])
         setLoading(false)
       } catch (error) {
         errorToast({

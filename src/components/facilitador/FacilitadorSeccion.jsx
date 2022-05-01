@@ -42,15 +42,15 @@ const FacilitadorSeccion = () => {
     return (
       <Box textAlign='center'>
         <Text mb={8}>No tienes secciones a cargo</Text>
-        <Button as={ReactLink} to="registrar-seccion">Registrar seccion</Button>
+        <Button as={ReactLink} to="/profesor/registrar-seccion">Registrar seccion</Button>
       </Box>
     )
   }
 
   return (
     <>
-      <Button as={ReactLink} to="registrar-seccion">Registrar seccion</Button>
-      <Button as={ReactLink} to='aprobar-fase-formativa' ml={8}>Aprobar fase formativa</Button>
+      <Button as={ReactLink} to="/profesor/registrar-seccion">Registrar seccion</Button>
+      <Button as={ReactLink} to='/profesor/aprobar-fase-formativa' ml={8}>Aprobar fase formativa</Button>
       <Heading mb={2}>{seccion.nombre} - {seccion.codigo}</Heading>
       {
         seccion.facilitadores.map((facilitador, i) => (

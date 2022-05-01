@@ -1,15 +1,19 @@
 import React from 'react';
 import { useAuth } from "../contexts/AuthContext";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
-const RequireAuth = ({ children }) => {
+const RequireAuth = () => {
   const { usuario } = useAuth();
 
-  if (!usuario || !usuario.token) {
-    return <Navigate to="/login" />;
+  if (usuario && usuario.token) {
+    return (
+      <>
+        <Outlet />
+      </>
+    );
   }
-
-  return children;
+  
+  return <Navigate to="/login" />;
 }
  
 export default RequireAuth;

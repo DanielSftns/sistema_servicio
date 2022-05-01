@@ -33,6 +33,7 @@ import {
 import { ExternalLinkIcon, CheckIcon, TimeIcon } from '@chakra-ui/icons';
 import ModalHorasCumplidas from '../ModalHorasCumplidas';
 import { formatFecha } from '../../../functions/formatFecha';
+import { useAuth } from '../../../contexts/AuthContext';
 
 const CumplimientoGrupoDetalles = () => {
   const paramns = useParams()
@@ -41,6 +42,8 @@ const CumplimientoGrupoDetalles = () => {
   const [loading, setLoading] = useState(true)
   const [comentario, setComentario] = useState('')
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const { usuario } = useAuth()
+  const rol = usuario.rol_name
 
   useEffect(()=>{
     const get = async ()=> {
@@ -178,10 +181,17 @@ const CumplimientoGrupoDetalles = () => {
         </Badge>
       }
     </Heading>
-    <ButtonGroup spacing={4} isDisabled={loading || proyecto.estado === 'avalado'}>
-      <Button onClick={onOpen}>Asignar horas</Button>
-      <Button onClick={handleAvalarProyecto}>Avalar</Button>
-    </ButtonGroup>
+
+    {
+      rol !== 'tutor academico' && 
+        <ButtonGroup spacing={4} isDisabled={loading || proyecto.estado === 'avalado'}>
+          <Button onClick={onOpen}>Asignar horas</Button>
+          {
+            rol !== 'tutor etapa cumplimiento' && <Button onClick={handleAvalarProyecto}>Avalar</Button>
+          }
+        </ButtonGroup>
+    }
+
     <Box mb={8}>
       <Heading mb={4}>Integrantes</Heading>
       {

@@ -11,21 +11,17 @@ import Register from './components/auth/Register';
 
 import { Container } from '@chakra-ui/react'
 import LandingScreen from './components/landing/LandingScreen';
-import EstudianteScreen from './components/estudiante/EstudianteScreen';
 import EstudiantePerfil from './components/estudiante/EstudiantePerfil';
 import EstudianteSeccion from './components/estudiante/EstudianteSeccion';
 import { AuthProvider } from './contexts/AuthContext'
-import FacilitadorScreen from './components/facilitador/FacilitadorScreen';
 import FacilitadorSeccion from './components/facilitador/FacilitadorSeccion';
 import FacilitadorRegistrarSeccion from './components/facilitador/FacilitadorRegistrarSeccion';
-import Perfil from './components/facilitador/Perfil';
 import FacilitadorAsignaciones from './components/facilitador/FacilitadorAsignaciones';
 import EstudianteAsignaciones from './components/estudiante/EstudianteAsignaciones';
 import FacilitadorAprobarFaseFormativa from './components/facilitador/FacilitadorAprobarFaseFormativa';
 import EstudianteSolicitud from './components/estudiante/EstudianteSolicitud';
 import EstudianteProyecto from './components/estudiante/EstudianteProyecto';
 import CumplimientoSolicitudes from './components/cumplimiento/solicitudes/CumplimientoSolicitudes';
-import CumplimientoScreen from './components/cumplimiento/CumplimientoScreen';
 import CumplimientoProyectos from './components/cumplimiento/proyectos/CumplimientoProyectos';
 import CumplimientoRegistrarProyecto from './components/cumplimiento/proyectos/CumplimientoRegistrarProyecto';
 import CumplimientoProyectoDetalles from './components/cumplimiento/proyectos/CumplimientoProyectoDetalles';
@@ -39,6 +35,13 @@ import CumplimientoRegistrarGrupo from './components/cumplimiento/macroproyectos
 import EnFaseFormativa from './guards/EnFaseFormativa';
 import EnFaseCumplimiento from './guards/EnFaseCumplimiento';
 import CumplimientoInforme from './components/cumplimiento/CumplimientoInforme';
+import NoEstudiante from './guards/NoEstudiante';
+import Estudiante from './guards/Estudiante';
+import NoFacilitador from './guards/NoFacilitador';
+import NoTutorCumplimiento from './guards/NoTutorCumplimiento';
+import CoordinadorInformes from './components/coordinador/CoordinadorInformes';
+import NoTutorAcademico from './guards/NoTutorAcademico';
+
 
 function App() {
   return (
@@ -49,83 +52,109 @@ function App() {
             <Route path='/' element={<LandingScreen /> } />
             <Route path='/login' element={<Login />} />
             <Route path='/registro' element={<Register />} />
-              
-              <Route path='/estudiante' element={
-                <RequireAuth>
-                  <EstudianteScreen />
-                </RequireAuth>
-              }>
+            
+            <Route element={<RequireAuth />}>
+              <Route element={<Estudiante />}>
                 <Route path='perfil' element={<EstudiantePerfil />} />
-              </Route>
+                <Route element={<PerfilCompletoRequerido />}>
+                  <Route element={<EnFaseFormativa />}>
+                    <Route path='seccion' element={<EstudianteSeccion />} />
+                    <Route path='asignaciones' element={<EstudianteAsignaciones />} />
+                  </Route>
 
-              <Route path='/estudiante' element={
-                <RequireAuth>
-                  <PerfilCompletoRequerido>
-                    <EstudianteScreen />
-                  </PerfilCompletoRequerido>
-                </RequireAuth>
-              }>
-                <Route path='seccion' element={
-                  <EnFaseFormativa>
-                    <EstudianteSeccion />
-                  </EnFaseFormativa>
-                }/>
-                <Route path='asignaciones' element={
-                  <EnFaseFormativa>
-                    <EstudianteAsignaciones />
-                  </EnFaseFormativa>
-                }/>
-                <Route path='proyecto' element={
-                  <EnFaseCumplimiento>
-                    <EstudianteProyecto />
-                  </EnFaseCumplimiento>
-                }/>
-                <Route path='solicitud' element={
-                  <EnFaseCumplimiento>
-                    <EstudianteSolicitud />
-                  </EnFaseCumplimiento>
-                }/>
-                {/* <Route index element={<EstudianteSeccion />} /> */}
-              </Route>
-
-              <Route path='/facilitador' element={
-                <RequireAuth>
-                  <FacilitadorScreen />
-                </RequireAuth>
-              }>
-                <Route path='asignaciones' element={<FacilitadorAsignaciones />} />
-                <Route path='registrar-seccion' element={<FacilitadorRegistrarSeccion />} />
-                <Route path='perfil' element={<Perfil />} />
-                <Route path='aprobar-fase-formativa' element={<FacilitadorAprobarFaseFormativa />} />
-                <Route path='seccion' element={<FacilitadorSeccion />} />
-              </Route>
-
-              
-              <Route path='/tutor' element={
-                <RequireAuth>
-                  <CumplimientoScreen />
-                </RequireAuth>
-              }>
-                <Route path='proyectos'>
-                  <Route path='registrar' element={<CumplimientoRegistrarProyecto />} />
-                  <Route path=':proyectoID' element={<CumplimientoProyectoDetalles />} />
-                  <Route index element={<CumplimientoProyectos />} />
+                  <Route element={<EnFaseCumplimiento />}>
+                    <Route path='proyecto' element={<EstudianteProyecto />} />
+                    <Route path='solicitud' element={<EstudianteSolicitud />} />
+                  </Route>
                 </Route>
-                <Route path='macroproyectos' >
-                  <Route path=':proyectoID' element={<CumplimientoMacroProyectoDetalles />} />
-                  <Route path=':proyectoID/crear' element={<CumplimientoRegistrarGrupo />} />
-                  <Route path=':proyectoID/:grupoID' element={<CumplimientoGrupoDetalles />} />
-                  <Route path='registrar' element={<CumplimientoRegistrarMacroProyecto />} />
-                  <Route index element={<CumplimientoMacroProyectos />} />
-                </Route>
-                <Route path='informe' element={<CumplimientoInforme />} />
-                <Route path='solicitudes' element={<CumplimientoSolicitudes />} />
-                <Route path='perfil' element={<Perfil />} />
               </Route>
 
-              <Route path='*' element={<>
-                <h1>Pagina no encontrada</h1>
-              </>} />
+              <Route path='/profesor' element={<NoEstudiante />}>
+                <Route path='perfil' element={<EstudiantePerfil />} />
+
+                <Route path='tutor'>
+                  <Route path='proyectos'>
+                    <Route path=':proyectoID' element={<CumplimientoProyectoDetalles />} />
+                    <Route index element={<CumplimientoProyectos />} />
+                  </Route>
+                  <Route path='macroproyectos' >
+                    <Route path=':proyectoID' element={<CumplimientoMacroProyectoDetalles />} />
+                    <Route path=':proyectoID/:grupoID' element={<CumplimientoGrupoDetalles />} />
+                    <Route index element={<CumplimientoMacroProyectos />} />                
+                  </Route>
+                </Route>
+
+                <Route element={<NoTutorAcademico />}>
+                  <Route path='seccion' element={<FacilitadorSeccion />} />
+                  <Route path='asignaciones' element={<FacilitadorAsignaciones />} />
+                  <Route path='registrar-seccion' element={<FacilitadorRegistrarSeccion />} />
+                  <Route path='aprobar-fase-formativa' element={<FacilitadorAprobarFaseFormativa />} />
+                  
+                  <Route element={<NoFacilitador />}>
+                    <Route path='informe' element={<CumplimientoInforme />} />
+                    <Route path='solicitudes' element={<CumplimientoSolicitudes />} />
+
+                    <Route path='proyectos'>
+                      <Route path='registrar' element={<CumplimientoRegistrarProyecto />} />
+                      <Route path=':proyectoID' element={<CumplimientoProyectoDetalles />} />
+                      <Route index element={<CumplimientoProyectos />} />
+                    </Route>
+                    <Route path='macroproyectos' >
+                      <Route path=':proyectoID' element={<CumplimientoMacroProyectoDetalles />} />
+                      <Route path=':proyectoID/crear' element={<CumplimientoRegistrarGrupo />} />
+                      <Route path=':proyectoID/:grupoID' element={<CumplimientoGrupoDetalles />} />
+                      <Route index element={<CumplimientoMacroProyectos />} />                
+                    </Route>
+
+                    <Route element={<NoTutorCumplimiento />}>
+                      <Route path='informes' element={<CoordinadorInformes />} />
+                      <Route path='macroproyectos/registrar' element={<CumplimientoRegistrarMacroProyecto />} />
+                    </Route>
+                  </Route>
+                </Route>
+              </Route>
+            </Route>
+            
+            <Route path='forbiden' element={<>
+              <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100vh',
+                flexDirection: 'column'
+              }}>
+                <h1 style={{
+                  textAlign: 'center',
+                  fontSize: '5rem',
+                  fontWeight: 'bold'
+                }}>403</h1>
+                <h2 style={{
+                  textAlign: 'center',
+                  fontSize: '2rem',
+                  fontWeight: 'bold',
+                }}>Acceso denegado</h2>
+              </div>
+            </>} />
+            <Route path='*' element={<>
+              <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100vh',
+                flexDirection: 'column'
+              }}>
+                <h1 style={{
+                  textAlign: 'center',
+                  fontSize: '5rem',
+                  fontWeight: 'bold'
+                }}>404</h1>
+                <h2 style={{
+                  textAlign: 'center',
+                  fontSize: '2rem',
+                  fontWeight: 'bold',
+                }}>Pagina no encontrada</h2>
+              </div>
+            </>} />
           </Routes>
         </Container>
       </CustomRouter>

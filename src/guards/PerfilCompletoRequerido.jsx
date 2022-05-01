@@ -1,15 +1,18 @@
 import React from 'react';
 import { useAuth } from "../contexts/AuthContext";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
-const PerfilCompletoRequerido = ({ children }) => {
+const PerfilCompletoRequerido = () => {
   const { usuario } = useAuth();
 
-  if (!usuario.perfil_completo) {
-    return <Navigate to="perfil" />;
+  if (usuario.perfil_completo) {
+    return (
+      <>
+        <Outlet />
+      </>
+    );
   }
-
-  return children;
+  return <Navigate to="/perfil" />;
 }
  
 export default PerfilCompletoRequerido;

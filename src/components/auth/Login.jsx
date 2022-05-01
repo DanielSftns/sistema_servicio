@@ -29,20 +29,36 @@ const Login = () => {
       let nextPage
       switch(res.rol_name){
         case 'estudiante': {
-          nextPage = res.perfil_completo ? '/estudiante/seccion' : '/estudiante/perfil'
+          nextPage = res.perfil_completo ? '/seccion' : '/perfil'
           break
         }
         case 'facilitador': {
-          nextPage = '/facilitador/seccion'
+          nextPage = '/profesor/seccion'
+          break
+        }
+        case 'tutor academico': {
+          nextPage = '/profesor/tutor/proyectos'
           break
         }
         case 'tutor etapa cumplimiento': {
-          nextPage = '/tutor/proyectos'
+          nextPage = '/profesor/proyectos'
+          break
+        }
+        case 'coordinador escuela': {
+          nextPage = '/profesor/proyectos'
+          break
+        }
+        case 'jefe servicio': {
+          nextPage = '/profesor/proyectos'
+          break
+        }
+        case 'coordinador academico': {
+          nextPage = '/profesor/estadisticas'
           break
         }
 
         default: {
-          nextPage = '/estudiante/seccion'
+          nextPage = '/seccion'
         }
       }
       successToast({

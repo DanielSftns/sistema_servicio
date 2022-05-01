@@ -1,15 +1,19 @@
 import React from 'react';
 import { useAuth } from "../contexts/AuthContext";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
-const EnFaseCumplimiento = ({ children }) => {
+const EnFaseCumplimiento = () => {
   const { usuario } = useAuth();
 
-  if (!usuario.fase_formativa) {
-    return <Navigate to="/estudiante/seccion" />;
+  if (usuario.fase_formativa) {
+    return (
+      <>
+        <Outlet />
+      </>
+    );
   }
-
-  return children;
+  
+  return <Navigate to="/estudiante/seccion" />;
 }
  
 export default EnFaseCumplimiento;

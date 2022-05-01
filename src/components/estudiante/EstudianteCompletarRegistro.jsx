@@ -16,16 +16,14 @@ import {
 } from '@chakra-ui/react'
 
 import { AddIcon } from '@chakra-ui/icons'
-import { useNavigate } from 'react-router-dom';
 import getBase64 from '../../functions/getBase64';
 import { useAuth } from '../../contexts/AuthContext';
 import { errorToast, successToast } from '../../functions/toast';
 
 const CompletarRegistro = () => {
   const inputFile = useRef()
-  const navigate = useNavigate()
   const [loading, setLoading] = useState()
-  const {updateUsuario } = useAuth()
+  const { usuario, updateUsuario } = useAuth()
 
   const handleSave = async (data) =>{
     console.log('data', data)
@@ -39,8 +37,6 @@ const CompletarRegistro = () => {
       successToast({
         description: 'Registro completado'
       })
-
-      navigate('/estudiante')
     }).catch(error => {
       errorToast({
         description: error.message,
@@ -54,10 +50,10 @@ const CompletarRegistro = () => {
       <Heading mb={8}>Completa el registro</Heading>
       <Formik
         initialValues={{
-          nombres: '',
-          apellidos: '',
-          cedula: '',
-          especialidad: 'E8',
+          nombres: usuario.nombres || '',
+          apellidos: usuario.apellidos || '',
+          cedula: usuario.cedula || '',
+          especialidad: usuario.especialidad_codigo || '',
           telefono: '',
           sexo: '',
           direccion: '',
@@ -153,6 +149,7 @@ const CompletarRegistro = () => {
             <FormControl>
               <FormLabel htmlFor='especialidad'>Especialidad</FormLabel>
               <Field name='especialidad' component='select'>
+                <option value=''>Seleccione una especialidad</option>
                 <option value='E8'>ingeniería de sistemas</option>
                 <option value='E7'>ingeniería de petróleo</option>
                 <option value='E6'>licenciado en gerencia de recursos humanos</option>

@@ -1,7 +1,7 @@
 import React, { useEffect,useState } from 'react';
 import { getMacroProyectos } from '../../../services/macroproyectos.service';
 import { Link as ReactLink } from 'react-router-dom';
-
+import { useAuth } from '../../../contexts/AuthContext';
 import {
   Heading,
   Box,
@@ -18,6 +18,8 @@ import {
 const CumplimientoMacroProyectos = () => {
   const [proyectos, setProyectos] = useState()
   const [loading, setLoading] = useState(true)
+  const { usuario } = useAuth()
+  const rol = usuario.rol_name
 
   useEffect(()=>{
     const get = async ()=> {
@@ -41,7 +43,9 @@ const CumplimientoMacroProyectos = () => {
     <>
       <Heading mb={8}>Macroproyectos</Heading>
       <Container>
-      <Button mb={8} as={ReactLink} to="registrar">Registrar proyecto</Button>
+        {
+          rol !== 'tutor etapa cumplimiento' && <Button mb={8} as={ReactLink} to="registrar">Registrar macro proyecto</Button>
+        }
 
         <Accordion allowToggle>
           {

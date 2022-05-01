@@ -2,18 +2,18 @@ import React from 'react';
 import { useAuth } from "../contexts/AuthContext";
 import { Navigate, Outlet } from "react-router-dom";
 
-const EnFaseFormativa = () => {
+const NoTutorCumplimiento = () => {
   const { usuario } = useAuth();
 
-  if (!usuario.fase_formativa) {
+  if (usuario.rol_name !== 'tutor etapa cumplimiento') {
     return (
       <>
         <Outlet />
       </>
     );
   }
-  
-  return <Navigate to="/estudiante/proyecto" />;
+
+  return <Navigate to="/forbiden" />;
 }
  
-export default EnFaseFormativa;
+export default NoTutorCumplimiento;

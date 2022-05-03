@@ -13,7 +13,7 @@ const EnFaseCumplimiento = () => {
     );
   }
   
-  return <Navigate to="/estudiante/seccion" />;
+  return <Navigate to="/seccion" />;
 }
  
 export default EnFaseCumplimiento;

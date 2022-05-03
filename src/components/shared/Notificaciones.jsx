@@ -55,13 +55,13 @@ const Notificaciones = () => {
     if(rol === 'estudiante') {
       switch(notificacion.tipo) {
         case 'asignacion':
-          navigate(`/estudiante/asignaciones/`)
+          navigate(`/asignaciones/`)
           break
         case 'proyecto':
-          navigate(`/estudiante/proyecto/`)
+          navigate(`/proyecto/`)
           break
         case 'seccion':
-          navigate(`/estudiante/seccion/`)
+          navigate(`/seccion/`)
           break
         default:
           break

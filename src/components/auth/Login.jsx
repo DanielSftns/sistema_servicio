@@ -56,6 +56,10 @@ const Login = () => {
           nextPage = '/profesor/estadisticas'
           break
         }
+        case 'admin': {
+          nextPage = '/profesor/proyectos'
+          break
+        }
 
         default: {
           nextPage = '/seccion'

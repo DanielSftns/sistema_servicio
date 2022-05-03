@@ -13,7 +13,7 @@ const EnFaseFormativa = () => {
     );
   }
   
-  return <Navigate to="/estudiante/proyecto" />;
+  return <Navigate to="/proyecto" />;
 }
  
 export default EnFaseFormativa;
